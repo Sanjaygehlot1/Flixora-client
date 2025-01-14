@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Logo from './Logo'
 import Input from './Common/Input'
 import Button from './Common/Button'
@@ -14,11 +14,12 @@ function Login() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const loading = useSelector((state)=>state.Auth.Loading)
+    const LoginStatus = useSelector((state)=>state.Auth.Status)
 
     const login = async (data)=>{
         if(data){
             const updated_data = {
-                ...data,
+                password: data.password,
                 username: data.loginmethod,
                 email : data.loginmethod
             }
@@ -26,12 +27,17 @@ function Login() {
             const loginuser = await dispatch(UserLogin(updated_data)).unwrap()
 
             if(loginuser){
-                // navigate("/")
+                navigate("/")
                 console.log(loginuser)
+                console.log(LoginStatus)
                 console.log("logged in ")
             }
         }
     }
+    useEffect(() => {
+     
+    }, [LoginStatus])
+    
 
 if(loading){
     return (<LoginPending text='...Logging you in Please Wait'/>)

@@ -5,9 +5,10 @@ function Button({
   children,
   className="",
   bgColor,
+  onClick = ()=>{}
 }) {
   return (
-   <button className={`h-8 ${className} ${bgColor}`} type={type} >
+   <button className={`h-8 ${className} ${bgColor}`} type={type} onClick={onClick}>
     {children}
    </button>
   )

@@ -5,6 +5,7 @@ function Input({
     label,
     className = "",
     type = "text",
+    onchange=()=>{},
     ...props
 },ref) {
     const id = useId()
@@ -22,6 +23,7 @@ function Input({
                 {...props}
                 ref={ref}
                 id={id}
+                onChange={onchange}
             />
         </div>
     );

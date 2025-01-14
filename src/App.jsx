@@ -1,20 +1,31 @@
 import { ToastContainer } from 'react-toastify'
 import { toast } from 'react-toastify'
 import { Outlet } from 'react-router-dom'
-import Home from './Components/Home'
+import Header from './Components/Common/Header'
+import Footer from './Components/Common/Footer'
+import { useDispatch } from 'react-redux'
+import { GetCurrentUser, UserLogin } from './Store/AuthSlice'
+import { useEffect } from 'react'
 
 
 function App() {
 
+    const dispatch = useDispatch()
+  useEffect( () => {
+    dispatch(GetCurrentUser()).unwrap()
+  }, [])
+  
+
   return (
     <>
-    <ToastContainer/>
-
-   <main>
-    <Home/>
-   </main>
+      <ToastContainer />
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </>
-    
+
   )
 }
 

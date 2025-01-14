@@ -70,7 +70,9 @@ const UserLogin = createAsyncThunk("user_login", async (data) => {
 
 const UserLogOut = createAsyncThunk("user_logout", async () => {
     try {
+        console.log("Hello")
         const LogOutResponse = await AxiosInstance.post("/users/logout")
+        console.log(LogOutResponse)
         toast.success("User Logged Out Successfully", {
             autoClose: 3000,
             position: "bottom-right"
@@ -231,48 +233,52 @@ const AuthSlice = createSlice({
     name: "Auth",
     extraReducers: (reducer) => {
         reducer.addCase(CreateUserAccount.fulfilled, (state) => {
-            state.Loading = false
+            state.Loading = false;
         })
         reducer.addCase(CreateUserAccount.pending, (state) => {
-            state.Loading = true
+            state.Loading = true;
         })
         reducer.addCase(CreateUserAccount.rejected, (state) => {
-            state.Loading = false
+            state.Loading = false;
         })
         reducer.addCase(UserLogin.fulfilled, (state, action) => {
-            state.Loading = false,
-                state.UserData = action.payload,
-                state.Status = true
+            state.Loading = false;
+                state.UserData = action.payload;
+                state.Status = !state.Status;
         })
         reducer.addCase(UserLogin.pending, (state) => {
-            state.Loading = true
-        })
-        reducer.addCase(UserLogin.rejected, (state) => {
-            state.Loading = false
+            state.Loading = true;
+        }) 
+        reducer.addCase(UserLogOut.pending, (state) => {
+            state.Loading = true;
         })
         reducer.addCase(UserLogOut.fulfilled, (state) => {
-            state.Loading = false,
-                state.Status = false,
-                state.UserData = null
-        })
-
-        reducer.addCase(UserLogOut.pending, (state) => {
-            state.Loading = true
+            state.Loading = false;
+                state.Status = false;
+                state.UserData = null;
         })
         reducer.addCase(UserLogOut.rejected, (state) => {
-            state.Loading = false
+            state.Loading = false;
         })
         reducer.addCase(NewAccessToken.fulfilled, (state) => {
-            state.Loading = false
+            state.Loading = false;
         })
         reducer.addCase(NewAccessToken.pending, (state) => {
-            state.Loading = true
+            state.Loading = true;
         })
-        reducer.addCase(GetCurrentUser.fulfilled, (state) => {
-            state.Loading = false
+        reducer.addCase(GetCurrentUser.fulfilled, (state,action) => {
+            state.Loading = false;
+            state.UserData = action.payload;
+            state.Status = true;
         })
-        reducer.addCase(GetCurrentUser.pending, (state) => {
-            state.Loading = true
+        reducer.addCase(GetCurrentUser.pending, (state,action) => {
+            state.Loading = true;
+            state.Status = false;
+        })
+        reducer.addCase(GetCurrentUser.rejected, (state) => {
+            state.Loading = false;
+            state.UserData = null;
+            state.Status = false;
         })
 
 
