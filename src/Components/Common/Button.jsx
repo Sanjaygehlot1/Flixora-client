@@ -5,10 +5,12 @@ function Button({
   children,
   className="",
   bgColor,
+  disabled,
   onClick = ()=>{}
 }) {
   return (
-   <button className={`h-8 ${className} ${bgColor}`} type={type} onClick={onClick}>
+   <button className={`h-8 ${className} ${bgColor}`} type={type} onClick={onClick}
+   disabled={disabled}>
     {children}
    </button>
   )
