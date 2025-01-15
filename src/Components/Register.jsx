@@ -32,7 +32,7 @@ function Register() {
                 const login = await dispatch(UserLogin({ username, password })).unwrap()
                 if (login) {
 
-                    navigate("/login")
+                    navigate("/")
                 }
             }
 

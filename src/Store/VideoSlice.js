@@ -25,7 +25,6 @@ const GetAllVideos = createAsyncThunk("get_all_videos",async (query)=>{
 const WatchVideo = createAsyncThunk("watch_video", async (videoId)=>{
     try {
         if(videoId){
-            console.log(videoId)
             const response = await AxiosInstance.get(`/video/get-video/${videoId.videoId}`)
             return response.data.data
         }

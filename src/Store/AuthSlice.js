@@ -150,7 +150,6 @@ const ChangePassword = createAsyncThunk("change_pass", async (data) => {
 const GetCurrentUser = createAsyncThunk("get_user", async () => {
     try {
         const UserResponse = await AxiosInstance.get("/users/get-user")
-        console.log(UserResponse)
         return UserResponse.data
     } catch (error) {
         console.log(error)
