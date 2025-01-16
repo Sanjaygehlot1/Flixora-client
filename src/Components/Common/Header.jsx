@@ -10,8 +10,10 @@ import { GetAllVideos } from "../../Store/VideoSlice";
 
 function Header() {
   const loginStatus = useSelector((state) => state.Auth.Status);
+  const UserAvatar = useSelector((state) => state.Auth.UserData);
   const { register, handleSubmit } = useForm()
   const dispatch = useDispatch()
+  console.log(UserAvatar)
   const navitems = [
     {
       name: "Register",
@@ -87,14 +89,22 @@ function Header() {
        {
        
         loginStatus ? (
-           
-          <Button
+          <div className="flex items-center gap-4">
+                
+                <Button
               className="px-4 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300"
               bgColor="bg-red-700"
               type="button"
               onClick={logout}>
                 LogOut
           </Button>
+          <img
+                  src={UserAvatar.data.avatar} 
+                  alt="Channel Profile"
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+              </div> 
+          
           
         ) :null
        }

@@ -10,29 +10,47 @@ import Register from './Components/Register.jsx'
 import Login from './Components/Login.jsx'
 import UserInterface from './Components/UserInterface.jsx'
 import Watch_Video from './Components/Videos/Watch_Video.jsx'
+import LikedVideos from './Components/SideNavbar Components/LikedVideos.jsx'
+import Homepage from './Components/SideNavbar Components/Homepage.jsx'
+import MySubscriptions from './Components/SideNavbar Components/MySubscriptions.jsx'
 
 const router = createBrowserRouter([
-  
+  {
+    element:<Login/>,
+    path: "/login"
+  },
+  {
+    element:<Register/>,
+    path: "/register"
+  },
   {
     element: <App/>,
     path:'/',
     children:[
       {
         element:<UserInterface/>,
-        path: "/"
+        path: "/",
+        children:[
+          {
+            element:<Homepage/>,
+            path: "/"
+          },
+          {
+            element: <MySubscriptions/>,
+            path: "/subscriptions"
+          },
+          {
+            element : <LikedVideos/>,
+            path: "/liked-videos"
+          }
+        ]
       },
-      {
-        element:<Login/>,
-        path: "/login"
-      },
-      {
-        element:<Register/>,
-        path: "/register"
-      },
+      
       {
         element:<Watch_Video/>,
         path: "/watch/:videoId"
       },
+      
     ]
   }
 ])

@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosInstance } from "../Axios/AxiosInstance";
 
 const initialState = {
-    isSubscribed : false
+    isSubscribed : false,
+    UserSubscriptions : []
 }
 
 const ToggleSubscription = createAsyncThunk("toggle_subs", async (channelId)=>{
@@ -29,6 +30,24 @@ const CheckSubscription = createAsyncThunk("check_sub",async (channelId)=>{
     }
 })
 
+const GetUserSubscriptions = createAsyncThunk("kitno_ko_subscribe_kiya_h",async (userId)=>{
+    try {
+        if(userId){
+            const SubsResponse = await AxiosInstance.get(`/subscription/subscribed-channels/${userId}`)
+
+            if(SubsResponse){
+                console.log(SubsResponse.data)
+                return SubsResponse.data.data
+            }
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+
+
+})
+
 const SubscriptionSlice = createSlice({
     initialState,
     name: "Subscription",
@@ -40,6 +59,9 @@ const SubscriptionSlice = createSlice({
         reducers.addCase(CheckSubscription.fulfilled,(state,action)=>{
             state.isSubscribed = action.payload
         })
+        reducers.addCase(GetUserSubscriptions.fulfilled,(state,action)=>{
+            state.UserSubscriptions = action.payload
+        })
     }
 
 
@@ -47,7 +69,8 @@ const SubscriptionSlice = createSlice({
 
 export {
     ToggleSubscription,
-    CheckSubscription
+    CheckSubscription,
+    GetUserSubscriptions
 }
 
 export default SubscriptionSlice.reducer

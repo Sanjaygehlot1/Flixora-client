@@ -8,10 +8,7 @@ const initialState = {
 const AddComment = createAsyncThunk("add_comment", async (data) => {
     try {
         if (data) {
-            console.log(data.videoId)
-            console.log(data)
             const Response = await AxiosInstance.post(`/comment/add-comment/${data.videoId}`,data.data)
-            console.log(Response.data)
             return Response.data.data
         }
     } catch (error) {
@@ -23,7 +20,6 @@ const GetAllComments = createAsyncThunk("get_all_comments", async (videoId) => {
     try {
         if (videoId) {
             const Response = await AxiosInstance.get(`/comment/get-comments/${videoId}`)
-            console.log(Response.data)
             return Response.data.data
         }
     } catch (error) {
