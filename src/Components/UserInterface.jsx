@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAllVideos } from '../Store/VideoSlice';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
@@ -6,7 +6,9 @@ import LoginPopUp from './LoginPopUp';
 import { timeAgo } from '../Utilities/TimeConversion';
 import UserInterfaceLoading from '../Utilities/UserInterfaceLoading';
 function UserInterface() {
- 
+  
+  const user = useSelector((state)=>state.Auth.UserData)
+  console.log(user)
   const SideNavItems = [
     {
       name: "Home",
@@ -21,8 +23,8 @@ function UserInterface() {
       path: "/subscriptions"
     },
     {
-      name: "My Content",
-      path: "/content"
+      name: "My Channel",
+      path: `/dashboard`
     },
     {
       name: "History",
@@ -30,7 +32,9 @@ function UserInterface() {
     }
   ]
 
-  
+  useEffect(()=>{
+    
+  },[user])
 
   return (
     <div className="flex bg-black min-h-screen">

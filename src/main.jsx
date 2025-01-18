@@ -14,6 +14,7 @@ import LikedVideos from './Components/SideNavbar Components/LikedVideos.jsx'
 import Homepage from './Components/SideNavbar Components/Homepage.jsx'
 import MySubscriptions from './Components/SideNavbar Components/MySubscriptions.jsx'
 import History from './Components/SideNavbar Components/History.jsx'
+import Dashboard from './Channel/Dashboard.jsx'
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
           {
             element : <History/>,
             path: "/watch-history"
+          },
+          {
+            element : <Dashboard/>,
+            path: "/dashboard/:channel"
           }
         ]
       },

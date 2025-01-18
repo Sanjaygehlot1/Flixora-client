@@ -7,6 +7,7 @@ const initialState = {
     Status: false, // login status
     UserData: null,
     Loading: false,
+    channelData : []
 
 }
 
@@ -105,15 +106,11 @@ const NewAccessToken = createAsyncThunk("new_token", async (data) => {
     }
 })
 
-const GetChannelDetails = createAsyncThunk("channel_details", async (data) => {
+const GetChannelDetails = createAsyncThunk("channel_details", async (username) => {
     try {
-        const ChannelDetailRes = await AxiosInstance.get("/users/get-channel-details", {
-            params: {
-                userId
-            }
-        })
+        const ChannelDetailRes = await AxiosInstance.get(`/users/get-channel-details/${username}`)
 
-        console.log(ChannelDetailRes)
+        console.log(ChannelDetailRes.data)
 
         return ChannelDetailRes.data
     } catch (error) {
@@ -264,6 +261,9 @@ const AuthSlice = createSlice({
         })
         reducer.addCase(NewAccessToken.pending, (state) => {
             state.Loading = true;
+        })
+        reducer.addCase(GetChannelDetails.fulfilled, (state,action) => {
+            state.channelData = action.payload;
         })
         reducer.addCase(GetCurrentUser.fulfilled, (state,action) => {
             state.Loading = false;
