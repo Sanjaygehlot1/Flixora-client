@@ -106,22 +106,7 @@ const NewAccessToken = createAsyncThunk("new_token", async (data) => {
     }
 })
 
-const GetChannelDetails = createAsyncThunk("channel_details", async (username) => {
-    try {
-        const ChannelDetailRes = await AxiosInstance.get(`/users/get-channel-details/${username}`)
 
-        console.log(ChannelDetailRes.data)
-
-        return ChannelDetailRes.data
-    } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
-    }
-})
 
 const ChangePassword = createAsyncThunk("change_pass", async (data) => {
     try {
@@ -262,9 +247,6 @@ const AuthSlice = createSlice({
         reducer.addCase(NewAccessToken.pending, (state) => {
             state.Loading = true;
         })
-        reducer.addCase(GetChannelDetails.fulfilled, (state,action) => {
-            state.channelData = action.payload;
-        })
         reducer.addCase(GetCurrentUser.fulfilled, (state,action) => {
             state.Loading = false;
             state.UserData = action.payload;
@@ -296,7 +278,6 @@ export {
     UpdateUserDetails,
     UserLogOut,
     UserLogin,
-    GetChannelDetails,
     GetCurrentUser,
     NewAccessToken
 }
