@@ -10,18 +10,18 @@ function GetImagePreview({
     label,
     defaultValue = "",
     className,
-    cameraIcon = true,
     cameraSize = 20,
     image
 }) {
     const [preview, setPreview] = useState(null);
+    const [cameraIcon,setcameraIcon] =useState(true)
 
     const handlePreview = (e) => {
         const files = e.target.files;
         console.log(files)
         setPreview(URL.createObjectURL(files[0]));
         console.log(preview)
-        cameraIcon = false 
+        setcameraIcon(false) 
         return files;
     };
     return (

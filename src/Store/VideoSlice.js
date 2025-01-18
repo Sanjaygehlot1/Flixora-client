@@ -4,7 +4,8 @@ import { AxiosInstance } from "../Axios/AxiosInstance";
 const initiaState = {
     Loading : true,
     LikeStatus : false,
-    AllLikedVideos : []
+    AllLikedVideos : [],
+    WatchHistory : []
 }
 
 const GetAllVideos = createAsyncThunk("get_all_videos",async (query)=>{
@@ -75,6 +76,20 @@ const GetLikedVideos = createAsyncThunk("get_all_likedVideos",async ()=>{
     }
 })
 
+const UserHistory = createAsyncThunk("user_history",async ()=>{
+    try {
+        const HistoryResponse = await AxiosInstance.get("/users/watch-history")
+
+        if(HistoryResponse){
+            console.log(HistoryResponse.data.data[0].watchHistory)
+            return HistoryResponse.data.data[0].watchHistory
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+})
+
 const VideoSlice = createSlice({
     initialState: initiaState,
     name: "Video",
@@ -105,6 +120,9 @@ const VideoSlice = createSlice({
        reducer.addCase(GetLikedVideos.fulfilled,(state,action)=>{
         state.AllLikedVideos = action.payload;
        })
+       reducer.addCase(UserHistory.fulfilled,(state,action)=>{
+        state.WatchHistory = action.payload;
+       })
       
     }
 })
@@ -113,7 +131,8 @@ export {
     WatchVideo,
     GetUserVideos,
     LikeVideo,
-    GetLikedVideos
+    GetLikedVideos,
+    UserHistory
 }
 
 export default VideoSlice.reducer

@@ -41,7 +41,7 @@ function Register() {
     }
 
     if (loading) {
-        return (<LoginPending text="...Registering"/>)
+        return (<LoginPending text='Registering...'/>)
     }
     return (
         <>

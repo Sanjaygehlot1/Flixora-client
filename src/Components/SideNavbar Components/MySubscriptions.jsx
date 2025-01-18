@@ -2,36 +2,45 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../Common/Button'
 import { GetUserSubscriptions } from '../../Store/SubscriptionSlice'
-
+import LoginPopUp from '../LoginPopUp'
 function MySubscriptions() {
 
     const MySubs = useSelector((state)=>state.Subscription.UserSubscriptions)
     const CurrentUser = useSelector((state)=>state.Auth.UserData)
+    const LoginStatus = useSelector((state)=>state.Auth.Status)
    console.log(CurrentUser)
    console.log(MySubs)
+   console.log(LoginStatus)
 
     const dispatch = useDispatch()
     useEffect(()=>{
 
         const GetSubscriptions = async ()=>{
             const Response = await dispatch(GetUserSubscriptions(CurrentUser.data._id)).unwrap()
+            console.log(Response)
 
             if(Response){
                 console.log(Response)
             }
         }
         GetSubscriptions()
-    },[CurrentUser,MySubs])
+    },[CurrentUser, LoginStatus])
+
+    if(!LoginStatus){
+        return <LoginPopUp/>
+      }
 
     if(MySubs.length === 0){
         return (
-            <div>
+            <div className='flex w-full justify-center p-6 bg-gray-900 min-h-screen'>
                 <h1 className='font-bold text-lg'>
                     No Subscriptions
                 </h1>
             </div>
         )
     }
+
+    
   return (
     <div className="space-y-4 w-full">
             {MySubs.map((subscriber) => (

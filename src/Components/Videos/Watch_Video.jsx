@@ -146,11 +146,13 @@ function Watch_Video() {
 
 
 
-  if (!videoData) {
-    return (<VideoLoading />)
-  }
+
   if (!LoginStatus) {
     return <LoginPopUp />
+  }
+
+  if (!videoData) {
+    return (<VideoLoading />)
   }
 
   return (

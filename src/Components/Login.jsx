@@ -40,7 +40,7 @@ function Login() {
     
 
 if(loading){
-    return (<LoginPending text='...Logging you in Please Wait'/>)
+    return (<LoginPending text='Logging you In'/>)
 }
 
     return (
