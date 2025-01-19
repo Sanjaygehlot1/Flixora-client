@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetChannelDetails } from '../Store/ChannelSlice'
-import { useParams } from 'react-router-dom'
+import { NavLink, Outlet, useParams } from 'react-router-dom'
 import { GetChannelVideos } from '../Store/ChannelSlice'
 import DashboardSkeleton from './DashboardSkeleton'
 import LoginPopUp from '../Components/LoginPopUp'
@@ -13,13 +13,12 @@ function Dashboard() {
     const channel = useParams()
     console.log(channel)
     const LoginStatus = useSelector((state) => state.Auth.Status)
+    const UserData = useSelector((state) => state.Auth.UserData)
     const channelData = useSelector((state) => state.Channel.channelData)
-    const channelVideos = useSelector((state) => state.Channel.channelVideos)
     useEffect(() => {
         const ChannelDetails = async () => {
             try {
                 await dispatch(GetChannelDetails(channel.channel)).unwrap()
-                console.log(channelData._id)
 
             } catch (error) {
                 console.log(error.message)
@@ -30,15 +29,9 @@ function Dashboard() {
         ChannelDetails()
     }, [])
 
-    useEffect(() => {
-        const videos = async () => {
-            await dispatch(GetChannelVideos(channelData._id)).unwrap()
-        }
-        videos()
-    }, [channelData])
+   
 
     console.log(channelData)
-    console.log(channelVideos)
 
     if (!LoginStatus) {
         return <LoginPopUp />
@@ -74,63 +67,35 @@ function Dashboard() {
                         {channelData.subscribersCount} Subscribers | {channelData.subscribedToCount} Subscribed
                         </p>
                     </div>
-                    <div className="ml-auto">
+                    {UserData.data.username !== channelData.username ? <div className="ml-auto">
                         <button className="bg-red-500 flex-grow text-white px-4 py-2 rounded hover:bg-red-600">Subscribe</button>
-                    </div>
+                    </div> : ""}
+                    
                 </div>
             </div>
 
             <div className="border-t border-gray-700 mt-4">
                 <nav className="flex justify-around text-sm">
-                    <a href="#" className="py-3 px-4 text-red-500 border-b-2 border-red-500">Videos</a>
-                    <a href="#" className="py-3 px-4 text-gray-400 hover:text-white">Playlists</a>
-                    <a href="#" className="py-3 px-4 text-gray-400 hover:text-white">Tweets</a>
-                    <a href="#" className="py-3 px-4 text-gray-400 hover:text-white">Subscribed</a>
+
+                    <NavLink to={`/dashboard/${channelData.username}/videos`} className={({isActive})=>(
+                        isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
+                    )}>Videos</NavLink>
+
+                    <NavLink to={`/dashboard/${channelData.username}/playlists`} className={({isActive})=>(
+                        isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
+                    )}>Playlist</NavLink>
+
+                    <NavLink to={`/dashboard/${channelData.username}/tweets`} className={({isActive})=>(
+                        isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
+                    )}>Tweets</NavLink>
+
+                    <NavLink to={`/dashboard/${channelData.username}/subscribed`} className={({isActive})=>(
+                        isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
+                    )}>Subscribed</NavLink>
                 </nav>
             </div>
 
-            <div className="flex-grow overflow-y-auto p-6">
-                <div className="flex gap-4 mb-4">
-                    <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Latest</button>
-                    <button className="bg-gray-800 text-gray-400 px-4 py-2 rounded hover:bg-gray-700">Popular</button>
-                    <button className="bg-gray-800 text-gray-400 px-4 py-2 rounded hover:bg-gray-700">Oldest</button>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {channelVideos.length !== 0 ? channelVideos.map((video) => (
-                        <div key={video._id} className="flex flex-col bg-gray-800 rounded-lg overflow-hidden">
-                            <div className="relative">
-                                <img
-                                    src={video.thumbnail?.url}
-                                    alt={video.title}
-                                    className="w-full aspect-video object-cover"
-                                />
-                                <span className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-sm px-2 py-1 rounded">
-                                    {Math.round(video.duration) + 's'}
-                                </span>
-                            </div>
-
-                            <div className="p-3 flex flex-col gap-2">
-                                <div className="flex justify-between items-start">
-                                    <h3 className="text-white font-medium line-clamp-2">
-                                        {video.title}
-                                    </h3>
-                                    <button className="text-gray-400 hover:text-white">
-                                    </button>
-                                </div>
-
-                                <div className="text-sm text-gray-400 space-y-1">
-                                    <p>{video.views} views • {timeAgo(video.createdAt)}</p>
-                                </div>
-                            </div>
-                        </div>
-                    )) : (
-                        <div className="h-full flex items-center justify-center">
-                            <h1 className="text-xl text-gray-500">No Videos</h1>
-                        </div>
-                    )}
-                </div>
-            </div>
+           <Outlet context={channelData} />
         </div>
 
 

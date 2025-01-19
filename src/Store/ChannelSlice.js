@@ -3,15 +3,15 @@ import { AxiosInstance } from "../Axios/AxiosInstance";
 
 const initialState = {
     channelData : {},
-    channelVideos : []
+    channelVideos : [],
+    channelPlaylists : [],
+    channelTweets : []
 }
 
 const GetChannelDetails = createAsyncThunk("channel_details", async (username) => {
     try {
-        console.log(username)
         const ChannelDetailRes = await AxiosInstance.get(`/users/get-channel-details/${username}`)
 
-        console.log(ChannelDetailRes.data.data[0])
 
         return ChannelDetailRes.data.data[0]
     } catch (error) {
@@ -22,10 +22,8 @@ const GetChannelDetails = createAsyncThunk("channel_details", async (username) =
 
 const GetChannelVideos = createAsyncThunk("channel_videos", async (channelId)=>{
     try {
-        console.log(channelId)
         const VideoResponse = await AxiosInstance.get(`/dashboard/channel-videos/${channelId}`)
         if(VideoResponse){
-            console.log(VideoResponse.data.data)
             return VideoResponse.data.data
         }
     } catch (error) {
@@ -33,6 +31,35 @@ const GetChannelVideos = createAsyncThunk("channel_videos", async (channelId)=>{
         throw error
     }
 })
+
+const GetChannelPlaylists = createAsyncThunk("channel_playlists",async (channelId)=>{
+    try {
+        const PlaylistResponse = await AxiosInstance.get(`/playlist/get-playlists/${channelId}`)
+
+        if(PlaylistResponse){
+            return PlaylistResponse.data.data
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+})
+const GetChannelTweets = createAsyncThunk("channel_tweets",async (channelId)=>{
+    try {
+        console.log(channelId)
+        const TweetResponse = await AxiosInstance.get(`/tweet/get-tweets/${channelId}`)
+
+        if(TweetResponse){
+            console.log(TweetResponse.data.data)
+            return TweetResponse.data.data
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+})
+
+
 
 const ChannelSlice = createSlice({
     initialState,
@@ -45,6 +72,12 @@ const ChannelSlice = createSlice({
          reducer.addCase(GetChannelVideos.fulfilled, (state,action) => {
                     state.channelVideos = action.payload;
                 })
+         reducer.addCase(GetChannelPlaylists.fulfilled, (state,action) => {
+                    state.channelPlaylists = action.payload;
+                })
+         reducer.addCase(GetChannelTweets.fulfilled, (state,action) => {
+                    state.channelTweets = action.payload;
+                })
     }
 })
 
@@ -52,5 +85,7 @@ export default ChannelSlice.reducer
 
 export {
     GetChannelDetails,
-    GetChannelVideos
+    GetChannelVideos,
+    GetChannelPlaylists,
+    GetChannelTweets
 }

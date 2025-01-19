@@ -15,64 +15,86 @@ import Homepage from './Components/SideNavbar Components/Homepage.jsx'
 import MySubscriptions from './Components/SideNavbar Components/MySubscriptions.jsx'
 import History from './Components/SideNavbar Components/History.jsx'
 import Dashboard from './Channel/Dashboard.jsx'
+import ChannelVideos from './Channel/ChannelVideos.jsx'
+import ChannelPlaylists from './Channel/ChannelPlaylists.jsx'
+import ChannelTweets from './Channel/ChannelTweets.jsx'
+import ChannelSubs from './Channel/ChannelSubs.jsx'
 
 const router = createBrowserRouter([
   {
-    element:<Login/>,
+    element: <Login />,
     path: "/login"
   },
   {
-    element:<Register/>,
+    element: <Register />,
     path: "/register"
   },
   {
-    element: <App/>,
-    path:'/',
-    children:[
+    element: <App />,
+    path: '/',
+    children: [
       {
-        element:<UserInterface/>,
+        element: <UserInterface />,
         path: "/",
-        children:[
+        children: [
           {
-            element:<Homepage/>,
+            element: <Homepage />,
             path: "/"
           },
           {
-            element: <MySubscriptions/>,
+            element: <MySubscriptions />,
             path: "/subscriptions"
           },
           {
-            element : <LikedVideos/>,
+            element: <LikedVideos />,
             path: "/liked-videos"
           },
           {
-            element : <History/>,
+            element: <History />,
             path: "/watch-history"
           },
           {
-            element : <Dashboard/>,
-            path: "/dashboard/:channel"
+            element: <Dashboard />,
+            path: "/dashboard/:channel",
+            children: [
+              {
+                element: <ChannelVideos />,
+                path: "/dashboard/:channel/videos"
+              },
+              {
+                element: <ChannelPlaylists />,
+                path: "/dashboard/:channel/playlists"
+              },
+              {
+                element: <ChannelTweets />,
+                path: "/dashboard/:channel/tweets"
+              },
+              {
+                element: <ChannelSubs />,
+                path: "/dashboard/:channel/subscribed"
+              },
+            ]
           }
         ]
       },
-      
+
       {
-        element:<Watch_Video/>,
+        element: <Watch_Video />,
         path: "/watch/:videoId"
       },
-      
+
     ]
   }
 ])
 
 createRoot(document.getElementById('root')).render(
- 
-    <Provider store={store}>
 
-      <RouterProvider router={router}>
-        
-      </RouterProvider>
+  <Provider store={store}>
 
-    </Provider>
-  
+    <RouterProvider router={router}>
+
+    </RouterProvider>
+
+  </Provider>
+
 )

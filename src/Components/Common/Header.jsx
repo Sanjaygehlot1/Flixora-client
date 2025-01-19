@@ -13,7 +13,6 @@ function Header() {
   const UserAvatar = useSelector((state) => state.Auth.UserData);
   const { register, handleSubmit } = useForm()
   const dispatch = useDispatch()
-  console.log(UserAvatar)
   const navitems = [
     {
       name: "Register",
@@ -39,8 +38,6 @@ function Header() {
       const user = await dispatch(UserLogOut()).unwrap()
 
       if (user) {
-        console.log(user)
-        console.log(loginStatus)
         navigate("/")
       }
     } catch (error) {

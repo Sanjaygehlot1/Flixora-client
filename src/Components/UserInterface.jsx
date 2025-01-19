@@ -8,7 +8,6 @@ import UserInterfaceLoading from '../Utilities/UserInterfaceLoading';
 function UserInterface() {
   
   const user = useSelector((state)=>state.Auth.UserData)
-  console.log(user)
   const SideNavItems = [
     {
       name: "Home",
@@ -24,7 +23,7 @@ function UserInterface() {
     },
     {
       name: "My Channel",
-      path: `/dashboard`
+      path: `/dashboard/${user?.data.username}`
     },
     {
       name: "History",
