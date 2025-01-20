@@ -68,7 +68,7 @@ function ChannelPlaylists() {
    ))
   : (
     <div className="h-full flex items-center justify-center">
-        <h1 className="text-xl text-gray-500">No Videos</h1>
+        <h1 className="text-xl text-gray-500">No Playlist</h1>
     </div>
 )
   )

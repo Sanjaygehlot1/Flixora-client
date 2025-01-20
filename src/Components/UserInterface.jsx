@@ -23,7 +23,7 @@ function UserInterface() {
     },
     {
       name: "My Channel",
-      path: `/dashboard/${user?.data.username}`
+      path: `/dashboard/${user?.data.username}/videos`
     },
     {
       name: "History",

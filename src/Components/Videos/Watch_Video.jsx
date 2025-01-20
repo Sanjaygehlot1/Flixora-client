@@ -145,7 +145,7 @@ function Watch_Video() {
   }, [videoData, CommentState])
 
 
-
+console.log(videoData)
 
   if (!LoginStatus) {
     return <LoginPopUp />

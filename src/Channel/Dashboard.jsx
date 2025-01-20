@@ -11,7 +11,6 @@ import { timeAgo } from '../Utilities/TimeConversion'
 function Dashboard() {
     const dispatch = useDispatch()
     const channel = useParams()
-    console.log(channel)
     const LoginStatus = useSelector((state) => state.Auth.Status)
     const UserData = useSelector((state) => state.Auth.UserData)
     const channelData = useSelector((state) => state.Channel.channelData)
@@ -31,7 +30,6 @@ function Dashboard() {
 
    
 
-    console.log(channelData)
 
     if (!LoginStatus) {
         return <LoginPopUp />

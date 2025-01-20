@@ -71,7 +71,7 @@ function Homepage() {
                 <div className="flex items-center mt-2">
                   {video.owner_details.avatar && (
                     <img
-                    onClick={()=>(navigate(`/dashboard/${video.owner_details.username}`))}
+                    onClick={()=>(navigate(`/dashboard/${video.owner_details.username}/videos`))}
                       src={video.owner_details.avatar}
                       alt="Avatar"
                       className="w-10 h-10 rounded-full"

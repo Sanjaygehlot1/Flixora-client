@@ -9,8 +9,6 @@ function ChannelVideos() {
 
     const ChannelData = useOutletContext()
     const channelVideos = useSelector((state) => state.Channel.channelVideos)
-    console.log(channelVideos)
-    console.log(ChannelData)
 
     const dispatch = useDispatch()
 

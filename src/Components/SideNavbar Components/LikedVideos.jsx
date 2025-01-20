@@ -26,6 +26,8 @@ function LikedVideos() {
     GetVideos()
   }, [LoginStatus])
 
+  console.log(LikedVideos)
+
   if (!LoginStatus) {
     return <LoginPopUp />
   }
@@ -83,6 +85,7 @@ function LikedVideos() {
                       src={video.Owner.avatar}
                       alt="Avatar"
                       className="w-10 h-10 rounded-full"
+                      onClick={()=>{navigate(`/dashboard/${video.Owner.username}/videos`)}}
                     />
                   )}
                   <p className="ml-2 text-sm text-gray-300">{video.Owner.username}</p>

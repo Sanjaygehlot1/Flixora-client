@@ -3,34 +3,36 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '../Common/Button'
 import { GetUserSubscriptions } from '../../Store/SubscriptionSlice'
 import LoginPopUp from '../LoginPopUp'
+import { useNavigate } from 'react-router-dom'
 function MySubscriptions() {
 
-    const MySubs = useSelector((state)=>state.Subscription.UserSubscriptions)
-    const CurrentUser = useSelector((state)=>state.Auth.UserData)
-    const LoginStatus = useSelector((state)=>state.Auth.Status)
-   console.log(CurrentUser)
-   console.log(MySubs)
-   console.log(LoginStatus)
+    const MySubs = useSelector((state) => state.Subscription.UserSubscriptions)
+    const CurrentUser = useSelector((state) => state.Auth.UserData)
+    const LoginStatus = useSelector((state) => state.Auth.Status)
+    console.log(CurrentUser)
+    console.log(MySubs)
+    console.log(LoginStatus)
+    const navigate = useNavigate()
 
     const dispatch = useDispatch()
-    useEffect(()=>{
+    useEffect(() => {
 
-        const GetSubscriptions = async ()=>{
+        const GetSubscriptions = async () => {
             const Response = await dispatch(GetUserSubscriptions(CurrentUser.data._id)).unwrap()
             console.log(Response)
 
-            if(Response){
+            if (Response) {
                 console.log(Response)
             }
         }
         GetSubscriptions()
-    },[CurrentUser, LoginStatus])
+    }, [CurrentUser, LoginStatus])
 
-    if(!LoginStatus){
-        return <LoginPopUp/>
-      }
+    if (!LoginStatus) {
+        return <LoginPopUp />
+    }
 
-    if(MySubs.length === 0){
+    if (MySubs.length === 0) {
         return (
             <div className='flex w-full justify-center p-6 bg-gray-900 min-h-screen'>
                 <h1 className='font-bold text-lg'>
@@ -40,13 +42,17 @@ function MySubscriptions() {
         )
     }
 
-    
-  return (
-    <div className="space-y-4 w-full">
+
+    return (
+        <div className="space-y-4 w-full">
             {MySubs.map((subscriber) => (
                 <div key={subscriber._id} className="bg-gray-800 text-white shadow-md rounded-lg p-4 flex flex-col sm:flex-row items-center  mx-2 mt-2 gap-4">
                     <div>
-                        <img src={subscriber.channel_details.avatar} alt={`${subscriber.channel_details.username}'s avatar`} className="rounded-full w-16 h-16 object-cover mx-auto"/>
+                        <img
+                            src={subscriber.channel_details.avatar}
+                            alt={`${subscriber.channel_details.username}'s avatar`}
+                            onClick={() => { navigate(`/dashboard/${subscriber.channel_details.username}/videos`) }}
+                            className="rounded-full cursor-pointer w-16 h-16 object-cover mx-auto" />
                     </div>
                     <div>
                         <h2 className="font-bold text-xl text-center">
@@ -61,7 +67,7 @@ function MySubscriptions() {
                 </div>
             ))}
         </div>
-  )
+    )
 }
 
 export default MySubscriptions

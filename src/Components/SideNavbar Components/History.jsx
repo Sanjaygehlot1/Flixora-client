@@ -85,6 +85,7 @@ function History() {
                                             src={video.owner.avatar}
                                             alt="Avatar"
                                             className="w-10 h-10 rounded-full"
+                                            onClick={()=>{navigate(`/dashboard/${video.owner.username}/videos`)}}
                                         />
                                     )}
                                     <p className="ml-2 text-sm text-gray-300">{video.owner.username}</p>

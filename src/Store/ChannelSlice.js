@@ -59,6 +59,21 @@ const GetChannelTweets = createAsyncThunk("channel_tweets",async (channelId)=>{
     }
 })
 
+const TweetLike = createAsyncThunk("tweet_like",async (tweetId)=>{
+    try {
+        console.log(tweetId)
+        const TweetResponse = await AxiosInstance.patch(`/like/like-tweet/${tweetId}`)
+
+        if(TweetResponse){
+            console.log(TweetResponse.data.data)
+            return TweetResponse.data.data
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+})
+
 
 
 const ChannelSlice = createSlice({
@@ -87,5 +102,6 @@ export {
     GetChannelDetails,
     GetChannelVideos,
     GetChannelPlaylists,
-    GetChannelTweets
+    GetChannelTweets,
+    TweetLike
 }
