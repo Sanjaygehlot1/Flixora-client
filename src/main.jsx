@@ -12,13 +12,15 @@ import UserInterface from './Components/UserInterface.jsx'
 import Watch_Video from './Components/Videos/Watch_Video.jsx'
 import LikedVideos from './Components/SideNavbar Components/LikedVideos.jsx'
 import Homepage from './Components/SideNavbar Components/Homepage.jsx'
-import MySubscriptions from './Components/SideNavbar Components/MySubscriptions.jsx'
+import MySubscriptions from './Components/SideNavbar Components/Analytics.jsx'
 import History from './Components/SideNavbar Components/History.jsx'
 import Dashboard from './Channel/Dashboard.jsx'
 import ChannelVideos from './Channel/ChannelVideos.jsx'
 import ChannelPlaylists from './Channel/ChannelPlaylists.jsx'
 import ChannelTweets from './Channel/ChannelTweets.jsx'
 import ChannelSubs from './Channel/ChannelSubs.jsx'
+import UploadVideo from './Components/Videos/UploadVideo.jsx'
+import Analytics from './Components/SideNavbar Components/Analytics.jsx'
 
 const router = createBrowserRouter([
   {
@@ -42,8 +44,12 @@ const router = createBrowserRouter([
             path: "/"
           },
           {
-            element: <MySubscriptions />,
-            path: "/subscriptions"
+            element: <Analytics />,
+            path: "/analytics"
+          },
+          {
+            element: <UploadVideo />,
+            path: "/upload-video"
           },
           {
             element: <LikedVideos />,

@@ -65,7 +65,7 @@ function Homepage() {
                 <div>
                   <h2 className="text-sm font-bold truncate">{video.title}</h2>
                   <p className="text-gray-400 text-xs">
-                    {video.views} Views · {timeAgo(video.createdAt)}
+                    {video.views} {video.views === 1 ? "view" : "views"} · {timeAgo(video.createdAt)}
                   </p>
                 </div>
                 <div className="flex items-center mt-2">

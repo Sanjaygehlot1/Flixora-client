@@ -5,6 +5,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import LoginPopUp from './LoginPopUp';
 import { timeAgo } from '../Utilities/TimeConversion';
 import UserInterfaceLoading from '../Utilities/UserInterfaceLoading';
+import { FaCog } from 'react-icons/fa'
 function UserInterface() {
   
   const user = useSelector((state)=>state.Auth.UserData)
@@ -18,8 +19,8 @@ function UserInterface() {
       path: "/liked-videos"
     },
     {
-      name: "My Subscriptions",
-      path: "/subscriptions"
+      name: "Analytics",
+      path: "/analytics"
     },
     {
       name: "My Channel",
@@ -51,6 +52,14 @@ function UserInterface() {
             </NavLink>
           ))}
         </ul>
+        <div className="mt-auto border-t border-gray-700 py-4 px-6">
+                <NavLink
+                    to={`/dashboard/${user?.data.username}/settings`}
+                    className="py-2 px-4 flex items-center text-gray-400 hover:text-white"
+                >
+                    <FaCog className="mr-2" /> Settings
+                </NavLink>
+            </div>
       </div>
 
           <Outlet/>

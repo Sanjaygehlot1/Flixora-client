@@ -25,7 +25,6 @@ const CreateUserAccount = createAsyncThunk("register_user", async (data) => {
 
     try {
         
-        console.log(AxiosInstance.defaults.baseURL)
         const RegisterResponse = await AxiosInstance.post("/users/register", userdata)
         
         toast.success("User Registered Successfully", {

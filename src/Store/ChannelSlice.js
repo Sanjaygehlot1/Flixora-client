@@ -5,7 +5,8 @@ const initialState = {
     channelData : {},
     channelVideos : [],
     channelPlaylists : [],
-    channelTweets : []
+    channelTweets : [],
+    channelStats:  {}
 }
 
 const GetChannelDetails = createAsyncThunk("channel_details", async (username) => {
@@ -74,6 +75,21 @@ const TweetLike = createAsyncThunk("tweet_like",async (tweetId)=>{
     }
 })
 
+const GetChannelStats = createAsyncThunk("channel_stats",async (channelId)=>{
+    try {
+        console.log(channelId)
+        const StatsResponse = await AxiosInstance.get(`/dashboard/channel-stats/${channelId}`)
+
+        if(StatsResponse){
+            console.log(StatsResponse.data.data[0])
+            return StatsResponse.data.data[0]
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+})
+
 
 
 const ChannelSlice = createSlice({
@@ -93,8 +109,13 @@ const ChannelSlice = createSlice({
          reducer.addCase(GetChannelTweets.fulfilled, (state,action) => {
                     state.channelTweets = action.payload;
                 })
+         reducer.addCase(GetChannelStats.fulfilled, (state,action) => {
+                    state.channelStats = action.payload;
+                })
     }
 })
+
+
 
 export default ChannelSlice.reducer
 
@@ -103,5 +124,6 @@ export {
     GetChannelVideos,
     GetChannelPlaylists,
     GetChannelTweets,
-    TweetLike
+    TweetLike,
+    GetChannelStats
 }

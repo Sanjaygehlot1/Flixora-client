@@ -32,6 +32,7 @@ function Watch_Video() {
   const isSubscribed = useSelector((state) => state.Subscription.isSubscribed)
   const CommentState = useSelector((state) => state.Comment.AllComments)
   const LoginStatus = useSelector((state) => state.Auth.Status)
+  const UserData = useSelector((state)=>state.Auth.UserData)
   const [videoData, setvideoData] = useState(null)
   const [userVideos, setuserVideos] = useState([])
   const [VideoComments, setVideoComments] = useState([])
@@ -42,6 +43,7 @@ function Watch_Video() {
   const navigate = useNavigate()
 
   const { register, handleSubmit, reset } = useForm()
+  console.log(UserData)
 
   const video = async () => {
     try {
@@ -214,13 +216,14 @@ console.log(videoData)
                     <path d="M20 3h-1v13h1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM4 16h7l-1.122 3.368A2 2 0 0 0 11.775 22H12l5-5.438V3H6l-3.937 8.649-.063.293V14a2 2 0 0 0 2 2z"></path>
                   </svg>
                 </Button>
+                {UserData.data.username !== videoData.owner_details.username &&
                 <Button
-                  onClick={Subscribe}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${isSubscribed ? "bg-red-600" : "bg-gray-400"} text-white`}
-                  disabled={SubscribeLoading}
-                >
-                  {isSubscribed ? "Subscribed" : "Subscribe"}
-                </Button>
+                onClick={Subscribe}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${isSubscribed ? "bg-red-600" : "bg-gray-400"} text-white`}
+                disabled={SubscribeLoading}
+              >
+                {isSubscribed ? "Subscribed" : "Subscribe"}
+              </Button>}
               </div>
             </div>
 

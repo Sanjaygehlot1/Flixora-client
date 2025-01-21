@@ -28,8 +28,8 @@ function ChannelVideos() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {channelVideos.length !== 0 ? channelVideos.map((video) => (
-                    <Link to={`/watch/${video._id}`}>
-                    <div key={video._id} className="flex flex-col bg-gray-800 rounded-lg overflow-hidden">
+                    <Link to={`/watch/${video._id}`} key={video._id}>
+                    <div  className="flex flex-col bg-gray-800 rounded-lg overflow-hidden">
                         <div className="relative">
                             <img
                                 src={video.thumbnail?.url}

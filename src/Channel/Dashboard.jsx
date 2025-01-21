@@ -6,6 +6,7 @@ import { GetChannelVideos } from '../Store/ChannelSlice'
 import DashboardSkeleton from './DashboardSkeleton'
 import LoginPopUp from '../Components/LoginPopUp'
 import { timeAgo } from '../Utilities/TimeConversion'
+import { FaCog } from 'react-icons/fa'
 
 
 function Dashboard() {
@@ -28,7 +29,7 @@ function Dashboard() {
         ChannelDetails()
     }, [])
 
-   
+
 
 
     if (!LoginStatus) {
@@ -52,48 +53,68 @@ function Dashboard() {
             </div>
 
             <div className="px-6 mt-4">
-                <div className="flex items-center">
+                <div className="flex items-start relative">
                     <img
                         src={channelData.avatar}
                         alt="Profile"
                         className="w-24 h-24 rounded-full border-4 border-gray-900"
                     />
+
                     <div className="ml-4">
                         <h1 className="text-2xl font-bold">{channelData.fullname}</h1>
                         <p className="text-gray-400">@{channelData.username}</p>
                         <p className="text-gray-400">
-                        {channelData.subscribersCount} Subscribers | {channelData.subscribedToCount} Subscribed
+                            {channelData.subscribersCount} Subscribers | {channelData.subscribedToCount} Subscribed
                         </p>
                     </div>
-                    {UserData.data.username !== channelData.username ? <div className="ml-auto">
-                        <button className="bg-red-500 flex-grow text-white px-4 py-2 rounded hover:bg-red-600">Subscribe</button>
-                    </div> : ""}
-                    
+
+                    {UserData.data.username !== channelData.username && (
+                        <div className="ml-auto">
+                            <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                                Subscribe
+                            </button>
+                        </div>
+                    )}
+
+                    {
+                        UserData.data.username === channelData.username && (
+                            <NavLink
+                                to={`/dashboard/${channelData.username}/settings`}
+                                className="absolute bottom-0 right-0 bg-gray-700 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
+                            >
+                                <FaCog className="mr-2" /> Settings
+                            </NavLink>
+                        )
+                    }
                 </div>
             </div>
+
 
             <div className="border-t border-gray-700 mt-4">
                 <nav className="flex justify-around text-sm">
 
-                    <NavLink to={`/dashboard/${channelData.username}/videos`} className={({isActive})=>(
+                    <NavLink to={`/dashboard/${channelData.username}/videos`} className={({ isActive }) => (
                         isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
                     )}>Videos</NavLink>
 
-                    <NavLink to={`/dashboard/${channelData.username}/playlists`} className={({isActive})=>(
+                    <NavLink to={`/dashboard/${channelData.username}/playlists`} className={({ isActive }) => (
                         isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
                     )}>Playlist</NavLink>
 
-                    <NavLink to={`/dashboard/${channelData.username}/tweets`} className={({isActive})=>(
+                    <NavLink to={`/dashboard/${channelData.username}/tweets`} className={({ isActive }) => (
                         isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
                     )}>Tweets</NavLink>
 
-                    <NavLink to={`/dashboard/${channelData.username}/subscribed`} className={({isActive})=>(
+                    <NavLink to={`/dashboard/${channelData.username}/subscribed`} className={({ isActive }) => (
                         isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
                     )}>Subscribed</NavLink>
+
+
                 </nav>
             </div>
 
-           <Outlet context={channelData} />
+            <Outlet context={channelData} />
+
         </div>
 
 

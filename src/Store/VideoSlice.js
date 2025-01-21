@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosInstance } from "../Axios/AxiosInstance";
+import { toast } from "react-toastify";
 
 const initiaState = {
     Loading : true,
@@ -89,6 +90,34 @@ const UserHistory = createAsyncThunk("user_history",async ()=>{
         throw error
     }
 })
+const VideoUpload = createAsyncThunk("upload_video",async (data)=>{
+    try {
+        const VideoData = new  FormData()
+        VideoData.append("title", data.title)
+        VideoData.append("description", data.description)
+        VideoData.append("video", data.video[0])
+        VideoData.append("thumbnail", data.thumbnail[0])
+
+        const UploadResponse = await AxiosInstance.post("/video/upload-video",VideoData)
+
+        if(UploadResponse){
+             toast.success("Video Uploaded Successfully", {
+                        autoClose: 3000,
+                        position: "bottom-right",
+                    
+                    })
+            console.log(UploadResponse.data)
+            return UploadResponse.data.data
+        }
+    } catch (error) {
+        toast.error(error.message, {
+                   autoClose: 3000,
+                   position: "bottom-right",
+                   theme: "colored"
+               })
+               throw error
+    }
+})
 
 const VideoSlice = createSlice({
     initialState: initiaState,
@@ -132,7 +161,8 @@ export {
     GetUserVideos,
     LikeVideo,
     GetLikedVideos,
-    UserHistory
+    UserHistory,
+    VideoUpload
 }
 
 export default VideoSlice.reducer
