@@ -23,7 +23,18 @@ const GetChannelDetails = createAsyncThunk("channel_details", async (username) =
 
 const GetChannelVideos = createAsyncThunk("channel_videos", async (channelId)=>{
     try {
-        const VideoResponse = await AxiosInstance.get(`/dashboard/channel-videos/${channelId}`)
+        const VideoResponse = await AxiosInstance.get(`/dashboard/published-videos/${channelId}`)
+        if(VideoResponse){
+            return VideoResponse.data.data
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+})
+const GetAllVideos = createAsyncThunk("channel_videos", async (channelId)=>{
+    try {
+        const VideoResponse = await AxiosInstance.get(`/dashboard/all-videos/${channelId}`)
         if(VideoResponse){
             return VideoResponse.data.data
         }
@@ -90,6 +101,19 @@ const GetChannelStats = createAsyncThunk("channel_stats",async (channelId)=>{
     }
 })
 
+const TogglePublishStatus = createAsyncThunk("toggle_publish",async (videoId)=>{
+    try {
+        const ToggleResponse = await AxiosInstance.patch(`/video/toggle-publish-status/${videoId}`)
+
+        if(ToggleResponse){
+            console.log(ToggleResponse.data.data)
+            return ToggleResponse.data.data
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error
+    }
+})
 
 
 const ChannelSlice = createSlice({
@@ -125,5 +149,7 @@ export {
     GetChannelPlaylists,
     GetChannelTweets,
     TweetLike,
-    GetChannelStats
+    GetChannelStats,
+    TogglePublishStatus,
+    GetAllVideos
 }

@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaVideo, FaEye, FaList, FaUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetChannelStats, GetChannelVideos } from '../../Store/ChannelSlice';
+import { GetAllVideos, GetChannelStats, TogglePublishStatus } from '../../Store/ChannelSlice';
 import { timeAgo } from '../../Utilities/TimeConversion';
 import { Link } from 'react-router-dom';
 import LoginPopUp from '../LoginPopUp';
+import Button from '../Common/Button';
+import { toast } from 'react-toastify';
+import Loader from '../../Utilities/Loader';
 
 function Analytics() {
 
   const dispatch = useDispatch()
+  const [publishStatus, setpublishStatus] = useState(false)
+  const [PublishingId, setPublishingId] = useState('')
   const UserData = useSelector((state) => state.Auth.UserData)
   const ChannelStats = useSelector((state) => state.Channel.channelStats)
   const ChannelVideos = useSelector((state) => state.Channel.channelVideos)
@@ -19,8 +24,8 @@ function Analytics() {
         if (UserData) {
           const channelId = UserData.data._id
           await dispatch(GetChannelStats(channelId)).unwrap()
-          await dispatch(GetChannelVideos(channelId)).unwrap()
-
+          await dispatch(GetAllVideos(channelId)).unwrap()
+          setPublishingId('')
         }
       } catch (error) {
         console.log(error.message)
@@ -28,10 +33,27 @@ function Analytics() {
       }
     }
     GetStats()
-  }, [UserData])
+  }, [UserData, publishStatus])
 
-  if(!UserData){
-    return <LoginPopUp/>
+
+  const TogglePublish = async (videoId) => {
+    try {
+      setPublishingId(videoId)
+      const PublishStatusRes = await dispatch(TogglePublishStatus(videoId)).unwrap()
+      setpublishStatus(PublishStatusRes)
+    } catch (error) {
+      toast.error(error?.message, {
+        autoClose: 3000,
+        position: "bottom-right",
+        theme: "colored"
+      })
+      console.log(error.message)
+      throw error
+    }
+  }
+
+  if (!UserData) {
+    return <LoginPopUp />
   }
 
 
@@ -81,7 +103,7 @@ function Analytics() {
               </tr>
             </thead>
             <tbody>
-              {ChannelVideos.length ?  ChannelVideos.map((video) => (
+              {ChannelVideos.length ? ChannelVideos.map((video) => (
                 <tr key={video._id} className="border-t border-gray-700 hover:text-red-500">
                   <td className="py-2">
                     <Link to={`/watch/${video._id}`}>
@@ -91,17 +113,36 @@ function Analytics() {
                   <td className="py-2">{video.isPublished ? 'Published' : 'Unpublished'}</td>
                   <td className="py-2">{video.createdAt.split('T')[0].trim()}</td>
                   <td className="py-2">{video.views}</td>
-                  <td className="py-2">
-                    <button className="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-700">
-                      {video.isPublished ? 'Unpublish' : 'Publish'}
-                    </button>
+                  <td  className="py-2">
+                    <Button
+                    
+                      onClick={() => {
+                        TogglePublish(video._id);
+                      }}
+                      className={`${video.isPublished
+                          ? "bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-700"
+                          : "bg-red-500 text-white py-1 px-4 rounded hover:bg-red-700"
+                        }`}
+                    >
+                       {PublishingId === video._id && <Loader />}
+                        {PublishingId === video._id
+                          ? ""
+                          : video.isPublished
+                          ? "Unpublish"
+                          : "Publish"}
+                    </Button>
+                  </td>
+
+                </tr>
+              )) : (
+                <tr>
+                  <td>
+                    <div className="h-full flex items-center ">
+                      <h1 className="text-xl text-gray-500">No Videos</h1>
+                    </div>
                   </td>
                 </tr>
-              ))  : (
-                <div className="h-full flex items-center ">
-                    <h1 className="text-xl text-gray-500">No Videos</h1>
-                </div>
-            )}
+              )}
             </tbody>
           </table>
         </div>
