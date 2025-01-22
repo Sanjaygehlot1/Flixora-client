@@ -25,7 +25,7 @@ function Homepage() {
 
 
   return (
-    <div className='p-6 bg-gray-900 min-h-screen'>
+    <div className='p-6 bg-gray-900 w-full min-h-screen'>
 
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-white">Your Feed</h1>
@@ -33,7 +33,7 @@ function Homepage() {
 
       <div
         key={Math.random()}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        className="grid xs:grid-cols-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
         {Allvideos.length !== 0 ? (
           Allvideos.map((video) => (

@@ -38,12 +38,14 @@ function Watch_Video() {
   const [VideoComments, setVideoComments] = useState([])
   const [SubscribeLoading, setSubscribeLoading] = useState(false)
   const [CommentLoading, setCommentLoading] = useState(false)
+  const [LikeLoading, setLikeLoading] = useState(false)
   const dispatch = useDispatch()
   const videoId = useParams()
   const navigate = useNavigate()
 
   const { register, handleSubmit, reset } = useForm()
   console.log(UserData)
+  console.log(userVideos)
 
   const video = async () => {
     try {
@@ -55,6 +57,7 @@ function Watch_Video() {
 
       const UserVideoResponse = await dispatch(GetUserVideos(videoResponse.owner_details._id)).unwrap()
 
+      console.log(UserVideoResponse)
       if (UserVideoResponse) {
         setuserVideos(UserVideoResponse.data)
       }
@@ -99,10 +102,13 @@ function Watch_Video() {
 
   const handleVideoLike = async () => {
     try {
+      setLikeLoading(true)
       await dispatch(LikeVideo(videoId)).unwrap()
       video()
+      setLikeLoading(false)
 
     } catch (error) {
+      setLikeLoading(false)
       console.log(error.message)
       throw error
     }
@@ -172,9 +178,10 @@ console.log(videoData)
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center gap-4">
                 <img
+                onClick={()=>(navigate(`/dashboard/${videoData.owner_details.username}/videos`))}
                   src={videoData.owner_details.avatar}
                   alt="Channel Profile"
-                  className="w-12 h-12 rounded-full object-cover"
+                  className="w-12 h-12 cursor-pointer rounded-full object-cover"
                 />
                 <div>
                   <p className="text-white text-lg font-bold">{videoData.owner_details.username}</p>
@@ -184,6 +191,7 @@ console.log(videoData)
 
               <div className="flex items-center gap-4">
                 <Button
+                disabled={LikeLoading}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${videoData.LikedbyMe ? "text-red-600" : ""}`}
                   onClick={handleVideoLike}
                 >

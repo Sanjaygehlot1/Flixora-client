@@ -46,12 +46,10 @@ function UploadVideo() {
                                 Thumbnail
                             </label>
                             <div className="flex items-center justify-center w-full h-48 bg-gray-700 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-400">
-                                <div className="flex flex-col items-center">
-                                    <FaCloudUploadAlt className="text-gray-400 text-4xl cursor-pointer" />
-                                    <span className="text-sm text-gray-400 mt-2">Click to upload</span>
-                                </div>
+                                
                                 <input
                                     type="file"
+                                    className="w-full"
                                     id="thumbnail"
                                     accept="image/*"
                                     {...register("thumbnail", {
@@ -69,11 +67,9 @@ function UploadVideo() {
                                 Video File
                             </label>
                             <div className="flex items-center justify-center w-full h-48 bg-gray-700 border-2 border-dashed border-gray-600 rounded-lg hover:border-gray-400">
-                                <div className="flex flex-col items-center">
-                                    <FaCloudUploadAlt className="text-gray-400 text-4xl cursor-pointer" />
-                                    <span className="text-sm text-gray-400 mt-2">Click to upload</span>
-                                </div>
+                                
                                 <input
+                                className="w-full"
                                     type="file"
                                     id="video"
                                     accept="video/*"
@@ -96,6 +92,7 @@ function UploadVideo() {
                             <input
                                 type="text"
                                 id="title"
+                                
                                 placeholder="Enter video title"
                                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
                                 {...register("title", {

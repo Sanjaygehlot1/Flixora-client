@@ -12,7 +12,7 @@ import UserInterface from './Components/UserInterface.jsx'
 import Watch_Video from './Components/Videos/Watch_Video.jsx'
 import LikedVideos from './Components/SideNavbar Components/LikedVideos.jsx'
 import Homepage from './Components/SideNavbar Components/Homepage.jsx'
-import MySubscriptions from './Components/SideNavbar Components/Analytics.jsx'
+import MySubscriptions from './Channel/MySubscriptions.jsx'
 import History from './Components/SideNavbar Components/History.jsx'
 import Dashboard from './Channel/Dashboard.jsx'
 import ChannelVideos from './Channel/ChannelVideos.jsx'
@@ -76,7 +76,7 @@ const router = createBrowserRouter([
                 path: "/dashboard/:channel/tweets"
               },
               {
-                element: <ChannelSubs />,
+                element: <MySubscriptions />,
                 path: "/dashboard/:channel/subscribed"
               },
             ]

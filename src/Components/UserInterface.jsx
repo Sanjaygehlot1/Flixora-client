@@ -9,6 +9,7 @@ import { FaCog } from 'react-icons/fa'
 function UserInterface() {
   
   const user = useSelector((state)=>state.Auth.UserData)
+  console.log(user)
   const SideNavItems = [
     {
       name: "Home",

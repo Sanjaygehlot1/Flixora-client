@@ -20,7 +20,7 @@ function ChannelVideos() {
     }, [ChannelData])
     return (
         <div className="flex-grow overflow-y-auto p-6">
-            <div className="flex gap-4 mb-4">
+            <div className="flex gap-4 flex-wrap mb-4">
                 <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Latest</button>
                 <button className="bg-gray-800 text-gray-400 px-4 py-2 rounded hover:bg-gray-700">Popular</button>
                 <button className="bg-gray-800 text-gray-400 px-4 py-2 rounded hover:bg-gray-700">Oldest</button>

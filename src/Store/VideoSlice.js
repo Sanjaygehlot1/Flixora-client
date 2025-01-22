@@ -41,7 +41,7 @@ const GetUserVideos = createAsyncThunk("get_user_all_videos",async(userId)=>{
     try {
         if(userId){
 
-            const Response = await AxiosInstance.get(`/dashboard/channel-videos/${userId}`)
+            const Response = await AxiosInstance.get(`/dashboard/published-videos/${userId}`)
     
             return Response.data
         }

@@ -54,9 +54,9 @@ const UserLogin = createAsyncThunk("user_login", async (data) => {
             position: "bottom-right"
         })
 
-        console.log(LoginResponse)
+        console.log(LoginResponse.data.data)
 
-        return LoginResponse.data
+        return LoginResponse.data.data
 
     } catch (error) {
         toast.error(error.message, {

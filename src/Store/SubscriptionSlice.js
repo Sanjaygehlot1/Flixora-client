@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosInstance } from "../Axios/AxiosInstance";
-
+import { toast } from "react-toastify";
 const initialState = {
-    isSubscribed : false,
-    UserSubscriptions : []
+    isSubscribed: false,
+    UserSubscriptions: []
 }
 
-const ToggleSubscription = createAsyncThunk("toggle_subs", async (channelId)=>{
+const ToggleSubscription = createAsyncThunk("toggle_subs", async (channelId) => {
     try {
         const Response = await AxiosInstance.patch(`/subscription/toggle-subs/${channelId}`)
-
+        toast.success(Response.data.data.subscribed ? "Channel Subscribed Successfully" : "Channel Unsubscribed Successfully", {
+            autoClose: 3000,
+            position: "bottom-right"
+        })
         return Response.data.data.subscribed
     } catch (error) {
 
@@ -18,7 +21,7 @@ const ToggleSubscription = createAsyncThunk("toggle_subs", async (channelId)=>{
     }
 })
 
-const CheckSubscription = createAsyncThunk("check_sub",async (channelId)=>{
+const CheckSubscription = createAsyncThunk("check_sub", async (channelId) => {
     try {
         const response = await AxiosInstance.get(`/subscription/check-sub/${channelId}`)
 
@@ -30,13 +33,13 @@ const CheckSubscription = createAsyncThunk("check_sub",async (channelId)=>{
     }
 })
 
-const GetUserSubscriptions = createAsyncThunk("kitno_ko_subscribe_kiya_h",async (userId)=>{
+const GetUserSubscriptions = createAsyncThunk("kitno_ko_subscribe_kiya_h", async (userId) => {
     try {
-        if(userId){
+        if (userId) {
             const SubsResponse = await AxiosInstance.get(`/subscription/subscribed-channels/${userId}`)
 
-            if(SubsResponse){
-                console.log(SubsResponse.data)
+            if (SubsResponse) {
+
                 return SubsResponse.data.data
             }
         }
@@ -51,15 +54,15 @@ const GetUserSubscriptions = createAsyncThunk("kitno_ko_subscribe_kiya_h",async 
 const SubscriptionSlice = createSlice({
     initialState,
     name: "Subscription",
-    reducers:{},
-    extraReducers:(reducers)=>{
-        reducers.addCase(ToggleSubscription.fulfilled,(state,action)=>{
+    reducers: {},
+    extraReducers: (reducers) => {
+        reducers.addCase(ToggleSubscription.fulfilled, (state, action) => {
             state.isSubscribed = action.payload
         })
-        reducers.addCase(CheckSubscription.fulfilled,(state,action)=>{
+        reducers.addCase(CheckSubscription.fulfilled, (state, action) => {
             state.isSubscribed = action.payload
         })
-        reducers.addCase(GetUserSubscriptions.fulfilled,(state,action)=>{
+        reducers.addCase(GetUserSubscriptions.fulfilled, (state, action) => {
             state.UserSubscriptions = action.payload
         })
     }

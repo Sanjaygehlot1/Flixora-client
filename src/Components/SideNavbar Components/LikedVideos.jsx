@@ -18,6 +18,7 @@ function LikedVideos() {
     const GetVideos = async () => {
       try {
         await dispatch(GetLikedVideos()).unwrap()
+        console.log(LoginStatus)
       } catch (error) {
         console.log(error.message)
         throw error
@@ -44,11 +45,11 @@ function LikedVideos() {
 
  
   return (
-    <div className="p-6 bg-gray-900 min-h-screen">
+    <div className="p-6 bg-gray-900 w-full min-h-screen">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-white">Liked Videos</h1>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid xs:grid-cols-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {LikedVideos.length !== 0 ? (
           LikedVideos.map((video) => (
             <div

@@ -7,11 +7,15 @@ import DashboardSkeleton from './DashboardSkeleton'
 import LoginPopUp from '../Components/LoginPopUp'
 import { timeAgo } from '../Utilities/TimeConversion'
 import { FaCog } from 'react-icons/fa'
-
+import Button from '../Components/Common/Button'
+import { ToggleSubscription } from '../Store/SubscriptionSlice'
 
 function Dashboard() {
     const dispatch = useDispatch()
     const channel = useParams()
+    const [SubscribeLoading, setSubscribeLoading] = useState(false)
+    const isSubscribed = useSelector((state) => state.Subscription.isSubscribed)
+
     const LoginStatus = useSelector((state) => state.Auth.Status)
     const UserData = useSelector((state) => state.Auth.UserData)
     const channelData = useSelector((state) => state.Channel.channelData)
@@ -29,6 +33,21 @@ function Dashboard() {
         ChannelDetails()
     }, [])
 
+    console.log(channelData)
+    const Subscribe = async () => {
+        try {
+
+            setSubscribeLoading(true)
+            await dispatch(ToggleSubscription(channelData._id)).unwrap();
+            console.log(isSubscribed)
+            setSubscribeLoading(false)
+
+
+        } catch (error) {
+            setSubscribeLoading(false)
+            console.error("Error toggling subscription:", error);
+        }
+    };
 
 
 
@@ -53,7 +72,7 @@ function Dashboard() {
             </div>
 
             <div className="px-6 mt-4">
-                <div className="flex items-start relative">
+                <div className="flex flex-wrap items-start relative">
                     <img
                         src={channelData.avatar}
                         alt="Profile"
@@ -70,9 +89,12 @@ function Dashboard() {
 
                     {UserData.data.username !== channelData.username && (
                         <div className="ml-auto">
-                            <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                                Subscribe
-                            </button>
+                            <Button
+                                disabled={SubscribeLoading}
+                                onClick={Subscribe}
+                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                                {isSubscribed ? "Subscribed" : "Subscribe"}
+                            </Button>
                         </div>
                     )}
 
@@ -80,7 +102,7 @@ function Dashboard() {
                         UserData.data.username === channelData.username && (
                             <NavLink
                                 to={`/dashboard/${channelData.username}/settings`}
-                                className="absolute bottom-0 right-0 bg-gray-700 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
+                                className="absolute max-2xs:hidden bottom-0 right-0 bg-gray-700 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
                             >
                                 <FaCog className="mr-2" /> Settings
                             </NavLink>
@@ -91,7 +113,7 @@ function Dashboard() {
 
 
             <div className="border-t border-gray-700 mt-4">
-                <nav className="flex justify-around text-sm">
+                <nav className="flex justify-around flex-wrap text-sm">
 
                     <NavLink to={`/dashboard/${channelData.username}/videos`} className={({ isActive }) => (
                         isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
