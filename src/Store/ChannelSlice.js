@@ -5,7 +5,6 @@ const initialState = {
     channelData : {},
     channelVideos : [],
     channelPlaylists : [],
-    channelTweets : [],
     channelStats:  {}
 }
 
@@ -50,35 +49,6 @@ const GetChannelPlaylists = createAsyncThunk("channel_playlists",async (channelI
 
         if(PlaylistResponse){
             return PlaylistResponse.data.data
-        }
-    } catch (error) {
-        console.log(error.message)
-        throw error
-    }
-})
-const GetChannelTweets = createAsyncThunk("channel_tweets",async (channelId)=>{
-    try {
-        console.log(channelId)
-        const TweetResponse = await AxiosInstance.get(`/tweet/get-tweets/${channelId}`)
-
-        if(TweetResponse){
-            console.log(TweetResponse.data.data)
-            return TweetResponse.data.data
-        }
-    } catch (error) {
-        console.log(error.message)
-        throw error
-    }
-})
-
-const TweetLike = createAsyncThunk("tweet_like",async (tweetId)=>{
-    try {
-        console.log(tweetId)
-        const TweetResponse = await AxiosInstance.patch(`/like/like-tweet/${tweetId}`)
-
-        if(TweetResponse){
-            console.log(TweetResponse.data.data)
-            return TweetResponse.data.data
         }
     } catch (error) {
         console.log(error.message)
@@ -130,9 +100,7 @@ const ChannelSlice = createSlice({
          reducer.addCase(GetChannelPlaylists.fulfilled, (state,action) => {
                     state.channelPlaylists = action.payload;
                 })
-         reducer.addCase(GetChannelTweets.fulfilled, (state,action) => {
-                    state.channelTweets = action.payload;
-                })
+         
          reducer.addCase(GetChannelStats.fulfilled, (state,action) => {
                     state.channelStats = action.payload;
                 })
@@ -147,8 +115,6 @@ export {
     GetChannelDetails,
     GetChannelVideos,
     GetChannelPlaylists,
-    GetChannelTweets,
-    TweetLike,
     GetChannelStats,
     TogglePublishStatus,
     GetAllVideos

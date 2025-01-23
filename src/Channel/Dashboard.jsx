@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GetChannelDetails } from '../Store/ChannelSlice'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
-import { GetChannelVideos } from '../Store/ChannelSlice'
 import DashboardSkeleton from './DashboardSkeleton'
 import LoginPopUp from '../Components/LoginPopUp'
-import { timeAgo } from '../Utilities/TimeConversion'
 import { FaCog } from 'react-icons/fa'
 import Button from '../Components/Common/Button'
 import { ToggleSubscription } from '../Store/SubscriptionSlice'
@@ -39,7 +37,11 @@ function Dashboard() {
 
             setSubscribeLoading(true)
             await dispatch(ToggleSubscription(channelData._id)).unwrap();
+           
+          const channel =  await dispatch(GetChannelDetails(channelData.username)).unwrap();
+
             console.log(isSubscribed)
+            console.log(channel)
             setSubscribeLoading(false)
 
 
@@ -92,8 +94,8 @@ function Dashboard() {
                             <Button
                                 disabled={SubscribeLoading}
                                 onClick={Subscribe}
-                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                                {isSubscribed ? "Subscribed" : "Subscribe"}
+                                className={`${channelData.isSubscribed ? "bg-red-500 text-white px-4 rounded hover:bg-red-600" : "bg-gray-400 text-white px-4 rounded hover:bg-gray-500"}`}>
+                                {channelData.isSubscribed ? "Subscribed" : "Subscribe"}
                             </Button>
                         </div>
                     )}

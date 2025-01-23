@@ -1,7 +1,7 @@
 import { useEffect , useState} from 'react'
 import { GetUserSubscriptions } from '../Store/SubscriptionSlice'
 import LoginPopUp from '../Components/LoginPopUp'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../Components/Common/Button'
 import { ToggleSubscription } from '../Store/SubscriptionSlice'
@@ -16,17 +16,16 @@ function MySubscriptions() {
     console.log(MySubs)
     console.log(LoginStatus)
     const navigate = useNavigate()
+    const ChannelData = useOutletContext()
+    console.log(ChannelData)
 
     const dispatch = useDispatch()
     useEffect(() => {
 
         const GetSubscriptions = async () => {
-            const Response = await dispatch(GetUserSubscriptions(CurrentUser.data._id)).unwrap()
-            console.log(Response)
+           
+             await dispatch(GetUserSubscriptions(ChannelData._id)).unwrap()
 
-            if (Response) {
-                console.log(Response)
-            }
         }
         GetSubscriptions()
     }, [CurrentUser, LoginStatus])
