@@ -21,6 +21,9 @@ import ChannelTweets from './Channel/ChannelTweets.jsx'
 import ChannelSubs from './Channel/ChannelSubs.jsx'
 import UploadVideo from './Components/Videos/UploadVideo.jsx'
 import Analytics from './Components/SideNavbar Components/Analytics.jsx'
+import Settings from './Components/SideNavbar Components/Settings.jsx'
+import UpdateDetails from './Components/SideNavbar Components/UpdateDetails.jsx'
+import UpdatePassword from './Components/SideNavbar Components/UpdatePassword.jsx'
 
 const router = createBrowserRouter([
   {
@@ -58,6 +61,20 @@ const router = createBrowserRouter([
           {
             element: <History />,
             path: "/watch-history"
+          },
+          {
+            element: <Settings/>,
+            path: '/settings',
+            children:[
+              {
+                element: <UpdateDetails/>,
+                path: '/settings/update-details'
+              },
+              {
+                element: <UpdatePassword/>,
+                path: '/settings/update-password'
+              }
+            ]
           },
           {
             element: <Dashboard />,

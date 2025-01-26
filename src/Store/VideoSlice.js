@@ -90,6 +90,29 @@ const UserHistory = createAsyncThunk("user_history",async ()=>{
         throw error
     }
 })
+const VideoDelete = createAsyncThunk("delete_video",async (videoId)=>{
+    try {
+        const DeleteResponse = await AxiosInstance.get(`/video/delete-video/${videoId}`)
+
+        if(DeleteResponse){
+            toast.success("Video Deleted Successfully", {
+                autoClose: 3000,
+                position: "bottom-right",
+            
+            })
+            console.log(DeleteResponse.data.data)
+            return DeleteResponse.data.data
+        }
+    } catch (error) {
+        toast.error(error.message, {
+            autoClose: 3000,
+            position: "bottom-right",
+            theme: "colored"
+        })
+        console.log(error.message)
+        throw error
+    }
+})
 const VideoUpload = createAsyncThunk("upload_video",async (data)=>{
     try {
         const VideoData = new  FormData()
@@ -108,6 +131,40 @@ const VideoUpload = createAsyncThunk("upload_video",async (data)=>{
                     })
             console.log(UploadResponse.data)
             return UploadResponse.data.data
+        }
+    } catch (error) {
+        toast.error(error.message, {
+                   autoClose: 3000,
+                   position: "bottom-right",
+                   theme: "colored"
+               })
+               throw error
+    }
+})
+const UpdateVideoDetails = createAsyncThunk("update_video",async (data)=>{
+    try {
+        console.log(data)
+        const VideoData = new  FormData()
+        if(data.title){
+            VideoData.append("title", data.title)
+        }
+        if(data.description){
+            VideoData.append("description", data.description)
+        }
+        if(data.thumbnail[0]){
+            VideoData.append("thumbnail", data.thumbnail[0])
+        }
+        console.log(VideoData)
+        const UpdateResponse = await AxiosInstance.patch(`/video/update-video/${data.videoId}`,VideoData)
+
+        if(UpdateResponse){
+             toast.success("Video Details Updated Successfully", {
+                        autoClose: 3000,
+                        position: "bottom-right",
+                    
+                    })
+            console.log(UpdateResponse.data)
+            return UpdateResponse.data.data
         }
     } catch (error) {
         toast.error(error.message, {
@@ -162,7 +219,9 @@ export {
     LikeVideo,
     GetLikedVideos,
     UserHistory,
-    VideoUpload
+    VideoUpload,
+    VideoDelete,
+    UpdateVideoDetails
 }
 
 export default VideoSlice.reducer

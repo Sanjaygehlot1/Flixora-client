@@ -87,7 +87,7 @@ if(loading){
 
                     <Button
                         type="submit"
-                        className=" w-full   rounded hover:bg-red-700 text-lg text-white"
+                        className=" w-full py-1 rounded hover:bg-red-700 text-lg text-white"
                         bgColor="bg-red-500"
                     >
                         Login

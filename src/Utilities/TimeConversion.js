@@ -50,8 +50,31 @@ function timeAgo(dateString) {
     const years = Math.floor(months / 12);
     return `${years} years ago`;
   }
+
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    if (seconds < 60) {
+      if(seconds>10){
+        return `00:${seconds}`
+      }
+        return `00:0${seconds}`;
+    } else if (minutes < 60) {
+        return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    } else {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours}:${remainingMinutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+}
+
+
   
   
 
   
-  export {timeAgo}
+  export {
+    timeAgo,
+    formatTime
+  }

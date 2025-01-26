@@ -2,7 +2,6 @@ import React, { useEffect, useState,useMemo } from 'react';
 import { FaVideo, FaEye, FaList, FaUser } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetAllVideos, GetChannelStats, TogglePublishStatus } from '../../Store/ChannelSlice';
-import { timeAgo } from '../../Utilities/TimeConversion';
 import { Link } from 'react-router-dom';
 import LoginPopUp from '../LoginPopUp';
 import Button from '../Common/Button';
@@ -68,7 +67,7 @@ function Analytics() {
 
 
   return (
-    <div className="w-full min-h-screen p-6 bg-gray-900 text-white">
+    <div className="w-full min-h-screen max-2xs:p-0 p-6 bg-gray-900 text-white">
       
       <div className="container mx-auto">
       
@@ -119,8 +118,8 @@ function Analytics() {
             <tr>
               <th className="py-2">Video Title (Click To Navigate)</th>
               <th className="py-2">Publish Status</th>
-              <th className="py-2">Date Uploaded</th>
-              <th className="py-2">Total Views</th>
+              <th className="py-2 max-2xs:hidden">Date Uploaded</th>
+              <th className="py-2 max-2xs:hidden">Total Views</th>
               <th className="py-2">Toggle Publish</th>
             </tr>
           </thead>
@@ -133,8 +132,8 @@ function Analytics() {
                   </Link>
                 </td>
                 <td className="py-2">{video.isPublished ? 'Published' : 'Unpublished'}</td>
-                <td className="py-2">{video.createdAt.split('T')[0].trim()}</td>
-                <td className="py-2">{video.views}</td>
+                <td className="py-2 max-2xs:hidden">{video.createdAt.split('T')[0].trim()}</td>
+                <td className="py-2 max-2xs:hidden">{video.views}</td>
                 <td className="py-2">
                   <Button
 
@@ -142,8 +141,8 @@ function Analytics() {
                       TogglePublish(video._id);
                     }}
                     className={`${video.isPublished
-                      ? "bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-700"
-                      : "bg-red-500 text-white py-1 px-4 rounded hover:bg-red-700"
+                      ? "bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-700"
+                      : "bg-red-500 text-white py-1 px-2 rounded hover:bg-red-700"
                       }`}
                   >
                     {PublishingId === video._id && <Loader />}

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosInstance } from "../Axios/AxiosInstance";
+import { toast } from "react-toastify";
 const initialState = {
     channelTweets: [],
 }
@@ -61,6 +62,10 @@ const Delete = createAsyncThunk("delete_tweet",async (tweetId)=>{
         if(tweetId){
             const res = await AxiosInstance.delete(`/tweet/delete-tweet/${tweetId}`)
             if(res.data){
+                 toast.success("Tweet Deleted Successfully", {
+                            autoClose: 3000,
+                            position: "bottom-right"
+                        })
                 console.log(res.data.data)
                 return res.data.data
             }

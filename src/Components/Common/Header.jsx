@@ -89,7 +89,7 @@ function Header() {
           <div className="flex items-center gap-4">
                 
                 <Button
-              className="px-4 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300"
+              className="px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300"
               bgColor="bg-red-700"
               type="button"
               onClick={logout}>

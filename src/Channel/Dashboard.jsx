@@ -103,7 +103,7 @@ function Dashboard() {
                     {
                         UserData.data.username === channelData.username && (
                             <NavLink
-                                to={`/dashboard/${channelData.username}/settings`}
+                                to={`/settings/update-details`}
                                 className="absolute max-2xs:hidden bottom-0 right-0 bg-gray-700 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
                             >
                                 <FaCog className="mr-2" /> Settings

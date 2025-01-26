@@ -5,7 +5,7 @@ import { AddTweet, Delete, GetChannelTweets, TweetLike, UpdateTweet } from '../S
 import { useSelector } from 'react-redux';
 import { timeAgo } from '../Utilities/TimeConversion';
 import Button from '../Components/Common/Button';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { FaEllipsisH } from 'react-icons/fa';
 import Loader from '../Utilities/Loader.jsx';
 
@@ -17,8 +17,12 @@ function ChannelTweets() {
   const [LikeStatus, setLikeStatus] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [editTweetId, setEditTweetId] = useState(null);
+  const [DeleteTweetId, setDeleteTweetId] = useState(null);
   const [editContent, setEditContent] = useState('');
   const [EditProgress, setEditProgress] = useState(false);
+  const [DeleteProgress, setDeleteProgress] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
 
   const toggleDropdown = (tweetId) => {
     if (dropdownOpen === tweetId) {
@@ -27,6 +31,18 @@ function ChannelTweets() {
       setDropdownOpen(tweetId);
     }
   };
+
+
+  const openModal = (tweet) => {
+    setIsOpen(true)
+    setDeleteTweetId(tweet._id)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+    setDeleteTweetId(null)
+  }
+
+  
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -65,9 +81,13 @@ function ChannelTweets() {
 
   const DeleteTweet = async (tweetId) => {
     try {
+      setDeleteProgress(true)
       await dispatch(Delete(tweetId)).unwrap();
       await dispatch(GetChannelTweets(ChannelData._id)).unwrap();
+      setDeleteProgress(false)
+      closeModal()
     } catch (error) {
+      setDeleteProgress(false)
       console.error(error.message);
     }
   };
@@ -170,7 +190,7 @@ function ChannelTweets() {
                           </li>
                           <li
                             className="px-4 py-2 hover:bg-gray-600 cursor-pointer"
-                            onClick={() => DeleteTweet(tweet._id)}
+                            onClick={()=> openModal(tweet)}
                           >
                             Delete
                           </li>
@@ -195,78 +215,108 @@ function ChannelTweets() {
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${tweet.Likes_details.some((like) => (
                     like.likedBy === User.data._id
                   )) ? "text-red-600" : ""
-                  }`}
-                onClick={() => {
-                  LikeTweet(tweet._id)
-                }}
-                disabled={LikeStatus}
+                    }`}
+                  onClick={() => {
+                    LikeTweet(tweet._id)
+                  }}
+                  disabled={LikeStatus}
 
                 >
-                <svg
-                  stroke="currentColor"
-                  fill="currentColor"
-                  strokeWidth="0"
-                  viewBox="0 0 24 24"
-                  className="cursor-pointer"
-                  height="25"
-                  width="25"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"></path>
-                </svg>
-                {tweet.Likes_count}
-              </Button>
-              <Button
-                className="flex items-center gap-2 px-4 py-2 rounded-lg transition"
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 24 24"
+                    className="cursor-pointer"
+                    height="25"
+                    width="25"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2zM20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2z"></path>
+                  </svg>
+                  {tweet.Likes_count}
+                </Button>
+                <Button
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition"
 
-              >
-                <svg
-                  stroke="currentColor"
-                  fill="currentColor"
-                  strokeWidth="0"
-                  viewBox="0 0 24 24"
-                  height="25"
-                  width="25"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M20 3h-1v13h1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM4 16h7l-1.122 3.368A2 2 0 0 0 11.775 22H12l5-5.438V3H6l-3.937 8.649-.063.293V14a2 2 0 0 0 2 2z"></path>
-                </svg>
-              </Button>
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 24 24"
+                    height="25"
+                    width="25"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M20 3h-1v13h1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM4 16h7l-1.122 3.368A2 2 0 0 0 11.775 22H12l5-5.438V3H6l-3.937 8.649-.063.293V14a2 2 0 0 0 2 2z"></path>
+                  </svg>
+                </Button>
               </div>
             </div>
-            
-      ))}
-    </div>
-  ) : (
-    <div className="h-full flex items-center justify-center">
-      <h1 className="text-xl text-gray-500">No Tweets</h1>
-    </div>
-  )
-}
 
-{
-  editTweetId && (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-96">
-        <h2 className="text-lg font-bold text-white mb-4">Edit Tweet</h2>
-        <textarea
-          value={editContent}
-          onChange={(e) => setEditContent(e.target.value)}
-          rows="4"
-          className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-        ></textarea>
-        <div className="flex justify-end gap-2 mt-4">
-          <Button className="bg-gray-500 hover:bg-gray-600 px-4  rounded-lg" onClick={closeEditModal}>
-            Cancel
-          </Button>
-          <Button className="bg-red-500 hover:bg-red-600 px-4 rounded-lg" onClick={handleEditSubmit}>
-            {!EditProgress ? "Save" : <Loader />}
-          </Button>
+          ))}
         </div>
-      </div>
-    </div>
-  )
-}
+      ) : (
+        <div className="h-full bg-gray-800 flex items-center justify-center">
+          <h1 className="text-xl text-gray-500">No Tweets</h1>
+        </div>
+      )
+      }
+
+      {
+        editTweetId && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-96">
+              <h2 className="text-lg font-bold text-white mb-4">Edit Tweet</h2>
+              <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+                rows="4"
+                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+              ></textarea>
+              <div className="flex justify-end gap-2 mt-4">
+                <Button className="bg-gray-500 hover:bg-gray-600 px-4  rounded-lg" onClick={closeEditModal}>
+                  Cancel
+                </Button>
+                <Button className="bg-red-500 hover:bg-red-600 px-4 rounded-lg" onClick={handleEditSubmit}>
+                  {!EditProgress ? "Save" : <Loader />}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )
+      }
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-gray-800 rounded-2xl shadow-lg w-96 p-6">
+            <h2 className="text-xl font-semibold text-white">
+              Confirm Delete
+            </h2>
+            <p className="text-white mt-2">
+              Are you sure you want to delete this tweet? This action cannot be
+              undone.
+            </p>
+
+            <div className="mt-6 flex justify-end space-x-4">
+              <Button
+                onClick={closeModal}
+                className="bg-gray-200 text-gray-700 rounded-lg px-2 py-1  hover:bg-gray-300"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={()=>{
+                  DeleteTweet(DeleteTweetId)
+                }}
+                className="bg-red-600 text-white hover:bg-red-700 rounded-lg px-2 py-1 "
+              >
+                {!DeleteProgress ? "Delete" : <Loader />}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div >
   );
 }

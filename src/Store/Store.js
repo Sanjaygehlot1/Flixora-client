@@ -5,6 +5,7 @@ import SubscriptionSlice from './SubscriptionSlice.js'
 import CommentSlice from './CommentSlice.js'
 import ChannelSlice from './ChannelSlice.js'
 import TweetSlice from './TweetSlice.js'
+import PlaylistSlice from './PlaylistSlice.js'
 const store = configureStore({
     reducer:{
         Auth : AuthSlice,
@@ -12,7 +13,8 @@ const store = configureStore({
         Subscription : SubscriptionSlice,
         Comment : CommentSlice,
         Channel : ChannelSlice,
-        Tweet : TweetSlice
+        Tweet : TweetSlice,
+        Playlist : PlaylistSlice
     }
 })
 

@@ -109,6 +109,7 @@ const NewAccessToken = createAsyncThunk("new_token", async (data) => {
 
 const ChangePassword = createAsyncThunk("change_pass", async (data) => {
     try {
+        console.log(data)
         const ChangePassResponse = await AxiosInstance.patch("/users/change-pass", data)
         toast.success("Password Changed Successfully", {
             autoClose: 3000,

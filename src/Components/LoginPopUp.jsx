@@ -14,7 +14,7 @@ function LoginPopUp() {
         </p>
         <Link to="/login">
             <Button
-                className="bg-red-500 w-full my-2 px-4 font-bold text-lg rounded"
+                className="bg-red-500 w-full my-2 py-1 px-4 font-bold text-lg rounded"
                 textColor="text-black"
             >
                 Login
@@ -22,7 +22,7 @@ function LoginPopUp() {
         </Link>
         <Link to="/register">
             <Button
-                className="bg-red-500 w-full  px-4 font-bold text-lg rounded"
+                className="bg-red-500 w-full  px-4 py-1 font-bold text-lg rounded"
                 textColor="text-black"
             >
                 Signup

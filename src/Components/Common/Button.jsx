@@ -9,7 +9,7 @@ function Button({
   onClick = ()=>{}
 }) {
   return (
-   <button className={`h-8 ${className} ${bgColor}`} type={type} onClick={onClick}
+   <button className={`${className} ${bgColor}`} type={type} onClick={onClick}
    disabled={disabled}>
     {children}
    </button>
