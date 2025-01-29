@@ -48,6 +48,10 @@ const AddTweet = createAsyncThunk("post_tweet",async (data)=>{
         const Response = await AxiosInstance.post("/tweet/add-tweet",TweetData)
 
         if(Response){
+            toast.success("Tweet Posted Successfully", {
+                autoClose: 3000,
+                position: "bottom-right"
+            })
             console.log(Response.data.data)
             return Response.data.data
         }

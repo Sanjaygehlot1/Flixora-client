@@ -28,7 +28,7 @@ function UpdateDetails() {
     
   }
   return (
-    <div className="w-full max-w-sm mx-auto bg-gray-800  border-gray-500 border text-white shadow-lg rounded-lg p-8">
+    <div className="w-full max-w-sm mx-auto bg-gray-900  border-gray-500 border text-white shadow-lg rounded-lg p-8">
       <h2 className="text-2xl font-semibold mb-6 text-center">Update Details</h2>
       <form onSubmit={handleSubmit(ChangeDetails)}>
         <div className="mb-6">

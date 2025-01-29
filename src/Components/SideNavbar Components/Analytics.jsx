@@ -71,10 +71,10 @@ function Analytics() {
       
       <div className="container mx-auto">
       
-      <div className="flex justify-end mb-6">
+      <div className="flex items-center  justify-end mb-5">
         <NavLink
           to={`/upload-video`}
-          className="bg-gray-700 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
+          className="bg-gray-700 max-2xs:mt-3 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
         >
           <FiUpload
           className="mr-2"/> Upload Video

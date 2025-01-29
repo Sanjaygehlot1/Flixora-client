@@ -163,7 +163,7 @@ const UpdateUserDetails = createAsyncThunk("update_details", async (data) => {
 
 const UpdateAvatar = createAsyncThunk("update_avatar", async (data) => {
     const userdata = new FormData()
-
+    console.log(data)
     userdata.append("avatar", data.avatar[0])
 
     try {
@@ -187,11 +187,11 @@ const UpdateAvatar = createAsyncThunk("update_avatar", async (data) => {
 
 const UpdateCoverImage = createAsyncThunk("update_coverImage", async (data) => {
     const userdata = new FormData()
-
+    console.log(data)
     userdata.append("coverImage", data.coverImage[0])
 
     try {
-        const Response = await AxiosInstance.patch("/users/update-avatar", userdata)
+        const Response = await AxiosInstance.patch("/users/update-coverimage", userdata)
 
         toast.success("CoverImage Updated Successfully", {
             autoClose: 3000,

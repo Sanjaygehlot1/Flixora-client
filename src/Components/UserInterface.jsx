@@ -75,8 +75,8 @@ function UserInterface() {
         <Outlet />
       </div>
 
-      <div className="md:hidden fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex justify-around items-center border-t border-gray-700">
-        <ul className="flex w-full justify-around space-x-4">
+      <div className="md:hidden fixed z-20 bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex justify-around items-center border-t border-gray-700">
+        <ul className="flex  w-full justify-around space-x-4">
           {SideNavItems.map((item) => (
             <NavLink
               key={item.name}

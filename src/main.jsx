@@ -12,18 +12,19 @@ import UserInterface from './Components/UserInterface.jsx'
 import Watch_Video from './Components/Videos/Watch_Video.jsx'
 import LikedVideos from './Components/SideNavbar Components/LikedVideos.jsx'
 import Homepage from './Components/SideNavbar Components/Homepage.jsx'
-import MySubscriptions from './Channel/MySubscriptions.jsx'
+import MySubscriptions from '../src/Components/Channel/MySubscriptions.jsx'
 import History from './Components/SideNavbar Components/History.jsx'
-import Dashboard from './Channel/Dashboard.jsx'
-import ChannelVideos from './Channel/ChannelVideos.jsx'
-import ChannelPlaylists from './Channel/ChannelPlaylists.jsx'
-import ChannelTweets from './Channel/ChannelTweets.jsx'
-import ChannelSubs from './Channel/ChannelSubs.jsx'
+import Dashboard from '../src/Components/Channel/Dashboard.jsx'
+import ChannelVideos from '../src/Components/Channel/ChannelVideos.jsx'
+import ChannelPlaylists from '../src/Components/Channel/ChannelPlaylists.jsx'
+import ChannelTweets from '../src/Components/Channel/ChannelTweets.jsx'
 import UploadVideo from './Components/Videos/UploadVideo.jsx'
 import Analytics from './Components/SideNavbar Components/Analytics.jsx'
 import Settings from './Components/SideNavbar Components/Settings.jsx'
 import UpdateDetails from './Components/SideNavbar Components/UpdateDetails.jsx'
 import UpdatePassword from './Components/SideNavbar Components/UpdatePassword.jsx'
+import UpdateProfile from './Components/SideNavbar Components/UpdateProfile.jsx'
+import HomePage from './Components/Playlists/HomePage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
               {
                 element: <UpdatePassword/>,
                 path: '/settings/update-password'
+              },
+              {
+                element: <UpdateProfile/>,
+                path: '/settings/update-profile'
               }
             ]
           },
@@ -100,7 +105,10 @@ const router = createBrowserRouter([
           }
         ]
       },
-
+      {
+        element: <HomePage/>,
+        path : '/playlist/:playlistId'
+      },
       {
         element: <Watch_Video />,
         path: "/watch/:videoId"
@@ -108,6 +116,7 @@ const router = createBrowserRouter([
 
     ]
   }
+  
 ])
 
 createRoot(document.getElementById('root')).render(

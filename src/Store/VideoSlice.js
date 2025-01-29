@@ -6,7 +6,8 @@ const initiaState = {
     Loading : true,
     LikeStatus : false,
     AllLikedVideos : [],
-    WatchHistory : []
+    WatchHistory : [],
+    UserPublishedVideos: []
 }
 
 const GetAllVideos = createAsyncThunk("get_all_videos",async (query)=>{
@@ -43,7 +44,7 @@ const GetUserVideos = createAsyncThunk("get_user_all_videos",async(userId)=>{
 
             const Response = await AxiosInstance.get(`/dashboard/published-videos/${userId}`)
     
-            return Response.data
+            return Response.data.data
         }
     } catch (error) {
         console.log(error.message)
@@ -197,8 +198,9 @@ const VideoSlice = createSlice({
        reducer.addCase(GetUserVideos.pending,(state)=>{
         state.Loading = true;
        })
-       reducer.addCase(GetUserVideos.fulfilled,(state)=>{
+       reducer.addCase(GetUserVideos.fulfilled,(state,action)=>{
         state.Loading = false;
+        state.UserPublishedVideos = action.payload;
        })
        reducer.addCase(LikeVideo.fulfilled,(state,action)=>{
         state.LikeStatus = action.payload;

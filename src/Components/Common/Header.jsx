@@ -67,7 +67,7 @@ function Header() {
         </form>
       </div>
 
-      <div className="flex  flex-wrap space-x-4 mt-4 sm:mt-0">
+      <div className="flex max-2xs:w-full  flex-wrap space-x-4 mt-4 sm:mt-0">
        {
         navitems.map((option)=>{
           
@@ -86,7 +86,7 @@ function Header() {
        {
        
         loginStatus ? (
-          <div className="flex items-center gap-4">
+          <div className="flex items-center max-2xs:w-full  max-2xs:justify-end gap-4">
                 
                 <Button
               className="px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300"

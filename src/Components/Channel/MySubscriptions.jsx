@@ -1,10 +1,10 @@
 import { useEffect , useState} from 'react'
-import { GetUserSubscriptions } from '../Store/SubscriptionSlice'
-import LoginPopUp from '../Components/LoginPopUp'
+import { GetUserSubscriptions } from '../../Store/SubscriptionSlice'
+import LoginPopUp from '../LoginPopUp'
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import Button from '../Components/Common/Button'
-import { ToggleSubscription } from '../Store/SubscriptionSlice'
+import Button from '../Common/Button'
+import { ToggleSubscription } from '../../Store/SubscriptionSlice'
 function MySubscriptions() {
 
     const MySubs = useSelector((state) => state.Subscription.UserSubscriptions)

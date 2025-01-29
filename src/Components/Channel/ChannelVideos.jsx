@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import Loader from '../Utilities/Loader'
-import { GetChannelVideos } from '../Store/ChannelSlice'
+import Loader from '../../Utilities/Loader'
+import { GetChannelVideos } from '../../Store/ChannelSlice'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
-import { timeAgo } from '../Utilities/TimeConversion'
+import { timeAgo } from '../../Utilities/TimeConversion'
 import { Link } from 'react-router-dom'
 import { FiTrash2 } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
-import Button from '../Components/Common/Button'
-import Input from '../Components/Common/Input'
-import { UpdateVideoDetails, VideoDelete, WatchVideo } from '../Store/VideoSlice'
+import Button from '../Common/Button'
+import Input from '../Common/Input'
+import { UpdateVideoDetails, VideoDelete, WatchVideo } from '../../Store/VideoSlice'
 import { useForm } from 'react-hook-form'
 function ChannelVideos() {
 
@@ -20,7 +20,7 @@ function ChannelVideos() {
     const [Progress, setProgress] = useState(false);
     const [isEditable, setisEditable] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const {handleSubmit,register,formState: {errors}, setValue}= useForm()
+    const { handleSubmit, register, formState: { errors }, setValue } = useForm()
     const dispatch = useDispatch()
 
     const openModal = (video) => {
@@ -50,7 +50,7 @@ function ChannelVideos() {
             if (data) {
                 console.log(data)
                 setProgress(true)
-                await dispatch(UpdateVideoDetails({...data,videoId : VideoId})).unwrap()
+                await dispatch(UpdateVideoDetails({ ...data, videoId: VideoId })).unwrap()
                 await dispatch(GetChannelVideos(ChannelData._id)).unwrap()
                 setProgress(false)
                 setisEditable(false)
@@ -62,19 +62,19 @@ function ChannelVideos() {
         }
     }
 
-    useEffect(()=>{
-       const response = async ()=>{
-        if(isEditable){
-            console.log(VideoId)
-            const data = await dispatch(WatchVideo({videoId : VideoId})).unwrap()
-            console.log(data)
-            setValue("title",data.title)
-            setValue("description",data.description)
-            setValue("thumbnail",data.thumbnail)
-           }
-       }
-       response()
-    },[isEditable])
+    useEffect(() => {
+        const response = async () => {
+            if (isEditable) {
+                console.log(VideoId)
+                const data = await dispatch(WatchVideo({ videoId: VideoId })).unwrap()
+                console.log(data)
+                setValue("title", data.title)
+                setValue("description", data.description)
+                setValue("thumbnail", data.thumbnail)
+            }
+        }
+        response()
+    }, [isEditable])
 
     useEffect(() => {
         const videos = async () => {
@@ -102,7 +102,7 @@ function ChannelVideos() {
                                     onClick={() => {
                                         setVideoId(video._id)
                                         setisEditable(true)
-                                    } }
+                                    }}
                                     className="bg-gray-700  text-gray-300 p-2 rounded-full hover:bg-blue-600 hover:text-white"
                                 >
                                     <FiEdit size={18} />
@@ -193,6 +193,7 @@ function ChannelVideos() {
                                     placeholder="Enter video title"
                                     {...register("title")}
                                 />
+                                {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>}
                             </div>
 
                             <div className="mb-4">
@@ -206,6 +207,7 @@ function ChannelVideos() {
                                     {...register("description")}
 
                                 ></textarea>
+                                {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                             </div>
 
                             <div className="mb-4">
@@ -225,7 +227,7 @@ function ChannelVideos() {
                                 <Button
                                     type="button"
                                     className="bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-600 focus:ring-4 focus:ring-gray-500"
-                                    onClick={()=> setisEditable(false)}
+                                    onClick={() => setisEditable(false)}
                                 >
                                     Cancel
                                 </Button>
@@ -233,7 +235,7 @@ function ChannelVideos() {
                                     type="submit"
                                     className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-500"
                                 >
-                                    {Progress ? <Loader/> : "Update"}
+                                    {Progress ? <Loader /> : "Update"}
                                 </Button>
                             </div>
                         </form>

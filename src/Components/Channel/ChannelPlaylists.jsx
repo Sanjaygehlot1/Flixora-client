@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useOutletContext } from 'react-router-dom'
-import { CreatePlaylist, GetChannelPlaylists } from '../Store/PlaylistSlice.js'
+import { useNavigate, useOutletContext } from 'react-router-dom'
+import { CreatePlaylist, GetChannelPlaylists } from '../../Store/PlaylistSlice.js'
 import { useSelector } from 'react-redux'
 import ChannelPlaylistSkeleton from './ChannelPlaylistSkeleton'
-import Button from '../Components/Common/Button.jsx'
+import Button from '../Common/Button.jsx'
 import { useForm } from 'react-hook-form'
 import { FaEllipsisH } from 'react-icons/fa'
 
@@ -18,26 +18,24 @@ function ChannelPlaylists() {
   const [isOpen, setisOpen] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm()
   const [dropdownOpen, setDropdownOpen] = useState(null);
-    const [editTweetId, setEditTweetId] = useState(null);
-    const [editContent, setEditContent] = useState('');
-    const [EditProgress, setEditProgress] = useState(false);
+  const navigate = useNavigate()
 
-    const toggleDropdown = (tweetId) => {
-      if (dropdownOpen === tweetId) {
-        setDropdownOpen(null);
-      } else {
-        setDropdownOpen(tweetId);
-      }
-    };
-    const openEditModal = (tweet) => {
-      setEditTweetId(tweet._id);
-      setEditContent(tweet.content);
-    };
-  
-    const closeEditModal = () => {
-      setEditTweetId(null);
-      setEditContent('');
-    };
+  const toggleDropdown = (tweetId) => {
+    if (dropdownOpen === tweetId) {
+      setDropdownOpen(null);
+    } else {
+      setDropdownOpen(tweetId);
+    }
+  };
+  const openEditModal = (tweet) => {
+    setEditTweetId(tweet._id);
+    setEditContent(tweet.content);
+  };
+
+  const closeEditModal = () => {
+    setEditTweetId(null);
+    setEditContent('');
+  };
   useEffect(() => {
     const Playlists = async () => {
       try {
@@ -86,46 +84,21 @@ function ChannelPlaylists() {
           PlaylistsData.map((playlist, index) => (
             <div
               key={playlist._id}
-              className="relative bg-gray-800 text-gray-100 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105"
+              className="relative bg-gray-800 text-gray-100 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 cursor-pointer"
               onMouseEnter={() => setIsHovered(index)}
               onMouseLeave={() => setIsHovered(null)}
+              onClick={()=>navigate(`/playlist/${playlist._id}`)}
             >
               <img
                 src="https://gratisography.com/wp-content/uploads/2024/10/gratisography-cool-cat-1035x780.jpg"
                 alt={playlist.name}
                 className="w-full h-40 object-cover"
               />
-              {playlist.owner === User.data._id && (
-                                <div className="relative">
-                                  <FaEllipsisH
-                                    className="cursor-pointer text-gray-400 hover:text-gray-100"
-                                    onClick={() => toggleDropdown(tweet._id)}
-                                  />
-                                  {dropdownOpen === tweet._id && (
-                                    <div className="absolute right-0 mt-2 w-32 bg-gray-700 rounded-lg shadow-lg z-10">
-                                      <ul className="py-1">
-                                        <li
-                                          className="px-4 py-2 hover:bg-gray-600 cursor-pointer"
-                                          onClick={() => openEditModal(tweet)}
-                                        >
-                                          Edit
-                                        </li>
-                                        <li
-                                          className="px-4 py-2 hover:bg-gray-600 cursor-pointer"
-                                          onClick={() => DeleteTweet(tweet._id)}
-                                        >
-                                          Delete
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  )}
-                                </div>
-                              )}
+              
 
               <div
-                className={`absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-opacity ${
-                  isHovered === index ? "opacity-100" : "opacity-0"
-                }`}
+                className={`absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-opacity ${isHovered === index ? "opacity-100" : "opacity-0"
+                  }`}
               >
                 <button
                   className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-lg font-semibold shadow-md"

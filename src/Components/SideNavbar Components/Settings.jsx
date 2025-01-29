@@ -13,6 +13,10 @@ function Settings() {
         {
             name: "Update Password",
             path : "/settings/update-password"
+        },
+        {
+            name: "Update Profile",
+            path : "/settings/update-profile"
         }
     ]
     if(!LoginStatus){

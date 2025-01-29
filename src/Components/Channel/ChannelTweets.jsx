@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useOutletContext } from 'react-router-dom';
-import { AddTweet, Delete, GetChannelTweets, TweetLike, UpdateTweet } from '../Store/TweetSlice.js';
+import { AddTweet, Delete, GetChannelTweets, TweetLike, UpdateTweet } from '../../Store/TweetSlice.js';
 import { useSelector } from 'react-redux';
-import { timeAgo } from '../Utilities/TimeConversion';
-import Button from '../Components/Common/Button';
+import { timeAgo } from '../../Utilities/TimeConversion.js';
+import Button from '../Common/Button.jsx';
 import { set, useForm } from 'react-hook-form';
 import { FaEllipsisH } from 'react-icons/fa';
-import Loader from '../Utilities/Loader.jsx';
+import Loader from '../../Utilities/Loader.jsx';
 
 function ChannelTweets() {
   const Tweets = useSelector((state) => state.Tweet.channelTweets);
@@ -21,6 +21,7 @@ function ChannelTweets() {
   const [editContent, setEditContent] = useState('');
   const [EditProgress, setEditProgress] = useState(false);
   const [DeleteProgress, setDeleteProgress] = useState(false);
+  const [UploadProgress, setUploadProgress] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
 
@@ -42,7 +43,7 @@ function ChannelTweets() {
     setDeleteTweetId(null)
   }
 
-  
+
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -72,9 +73,12 @@ function ChannelTweets() {
 
   const PostTweet = async (data) => {
     try {
+      setUploadProgress(true)
       await dispatch(AddTweet(data)).unwrap();
       await dispatch(GetChannelTweets(ChannelData._id)).unwrap();
+      setUploadProgress(false)
     } catch (error) {
+      setUploadProgress(false)
       console.error(error.message);
     }
   };
@@ -147,8 +151,8 @@ function ChannelTweets() {
               <div className="text-red-500">{errors.image.message}</div>
             )}
           </div>
-          <Button type="submit" className="bg-red-500  hover:bg-red-600 px-9 mb-4 rounded-md">
-            Post
+          <Button type="submit" className="bg-red-500 font-bold text-lg hover:bg-red-600 py-1 px-9 mb-4 rounded-md">
+          {!UploadProgress ? "Post" : <Loader />}
           </Button>
         </div>
       </form>
@@ -190,7 +194,7 @@ function ChannelTweets() {
                           </li>
                           <li
                             className="px-4 py-2 hover:bg-gray-600 cursor-pointer"
-                            onClick={()=> openModal(tweet)}
+                            onClick={() => openModal(tweet)}
                           >
                             Delete
                           </li>
@@ -306,7 +310,7 @@ function ChannelTweets() {
                 Cancel
               </Button>
               <Button
-                onClick={()=>{
+                onClick={() => {
                   DeleteTweet(DeleteTweetId)
                 }}
                 className="bg-red-600 text-white hover:bg-red-700 rounded-lg px-2 py-1 "

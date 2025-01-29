@@ -6,26 +6,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetCurrentUser } from './Store/AuthSlice';
 import { useEffect, useCallback } from 'react';
 import Loader from './Utilities/Loader';
+import HomePageSkeleton from './HomePageSkeleton';
 
 function App() {
     const dispatch = useDispatch();
 
-    // Access user data and loading state from Redux store
     const { UserData, Loading } = useSelector((state) => state.Auth);
-  console.log(UserData)
-  console.log(Loading)
+    console.log(UserData)
+    console.log(Loading)
 
-    // Wrap GetCurrentUser dispatch in useCallback
     const fetchCurrentUser = useCallback(async () => {
         try {
-           const data = await dispatch(GetCurrentUser()).unwrap();
-           console.log(data)
+            const data = await dispatch(GetCurrentUser()).unwrap();
+            console.log(data)
         } catch (error) {
             console.error('Failed to fetch user details:', error);
         }
     }, [dispatch]);
 
-    // Fetch user details on app initialization
     useEffect(() => {
         if (!UserData) {
             fetchCurrentUser();
@@ -33,9 +31,8 @@ function App() {
         }
     }, [fetchCurrentUser, UserData]);
 
-    // Show a loader while user data is being fetched
     if (Loading) {
-        return <Loader />;
+        return <HomePageSkeleton/>;
     }
 
     return (

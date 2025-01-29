@@ -61,7 +61,7 @@ function Register() {
                                     control={control}
                                     className="w-full h-28 object-cover border-none border-slate-900"
                                 />
-                                <div className="text-sm absolute right-2 bottom-2 hover:text-purple-500 cursor-default">
+                                <div className="text-sm absolute right-2 bottom-2 hover:text-red-500 cursor-default">
                                     Cover Image
                                 </div>
                             </div>

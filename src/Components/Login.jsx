@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import Logo from './Logo'
 import Input from './Common/Input'
 import Button from './Common/Button'
@@ -7,26 +7,29 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { UserLogin } from '../Store/AuthSlice'
 import LoginPending from './LoginPending'
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 
 function Login() {
-    const { register, handleSubmit, formState: {errors} } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm()
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const loading = useSelector((state)=>state.Auth.Loading)
-    const LoginStatus = useSelector((state)=>state.Auth.Status)
+    const loading = useSelector((state) => state.Auth.Loading)
+    const LoginStatus = useSelector((state) => state.Auth.Status)
+    const [showPass, setshowPass] = useState(false)
 
-    const login = async (data)=>{
-        if(data){
+    const login = async (data) => {
+        if (data) {
             const updated_data = {
                 password: data.password,
                 username: data.loginmethod,
-                email : data.loginmethod
+                email: data.loginmethod
             }
-            
+
             const loginuser = await dispatch(UserLogin(updated_data)).unwrap()
 
-            if(loginuser){
+            if (loginuser) {
                 navigate("/")
                 console.log(loginuser)
                 console.log(LoginStatus)
@@ -35,13 +38,13 @@ function Login() {
         }
     }
     useEffect(() => {
-     
-    }, [LoginStatus])
-    
 
-if(loading){
-    return (<LoginPending text='Logging you In'/>)
-}
+    }, [LoginStatus])
+
+
+    if (loading) {
+        return (<LoginPending text='Logging you In' />)
+    }
 
     return (
         <div className="w-full h-screen bg-black text-white p-3 flex justify-center items-start">
@@ -63,27 +66,30 @@ if(loading){
                             })}
                         />
                         {errors.loginmethod && (
-                        <span className="text-red-500 text-sm">{errors.loginmethod.message}</span>
+                            <span className="text-red-500 text-sm">{errors.loginmethod.message}</span>
 
                         )}
                     </div>
 
-                    <div>
-                        <label className="block mb-1">Password:</label>
+                    <div className="mb-4 relative">
                         <Input
-                            type="password"
+                            type={showPass ? "text" : "password"}
                             placeholder="Enter Password"
-                            className="w-full p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-700"
+                            className="w-full p-2 pr-10 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-700"
                             {...register("password", {
                                 required: "Password is Required",
+                                minLength: {"Password should be atleast 6 characters": 6}
                             })}
-
                         />
-                        {errors.password && (
-                        <span className="text-red-500 text-sm">{errors.password.message}</span>
-
-                        )}
+                        <div
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                            onClick={() => setshowPass(!showPass)}
+                        >
+                            {showPass ? <FaEyeSlash /> : <FaEye />}
+                        </div>
+                        {errors.password && (<div className="text-red-500 text-sm">{errors.password.message}</div>)}
                     </div>
+
 
                     <Button
                         type="submit"
@@ -95,11 +101,11 @@ if(loading){
 
                     <p className="text-center text-sm">
                         Don&apos;t have an account?{" "}
-                       <Link
-                       to={"/register"} className='text-red-600'>
-                        Signup
-                       
-                       </Link>
+                        <Link
+                            to={"/register"} className='text-red-600'>
+                            Signup
+
+                        </Link>
                     </p>
                 </form>
             </div>

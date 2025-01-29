@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { GetChannelDetails } from '../Store/ChannelSlice'
+import { GetChannelDetails } from '../../Store/ChannelSlice'
 import { NavLink, Outlet, useParams } from 'react-router-dom'
 import DashboardSkeleton from './DashboardSkeleton'
-import LoginPopUp from '../Components/LoginPopUp'
+import LoginPopUp from '../LoginPopUp'
 import { FaCog } from 'react-icons/fa'
-import Button from '../Components/Common/Button'
-import { ToggleSubscription } from '../Store/SubscriptionSlice'
+import Button from '../Common/Button'
+import { ToggleSubscription } from '../../Store/SubscriptionSlice'
 
 function Dashboard() {
     const dispatch = useDispatch()
@@ -70,7 +70,6 @@ function Dashboard() {
                     alt="Cover Image"
                     className="w-full h-full border-4 border-gray-900"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             </div>
 
             <div className="px-6 mt-4">
