@@ -21,7 +21,6 @@ function Homepage() {
     videos();
   }, []);
   
-  console.log(Allvideos);
 
   return (
     <div className='p-6 bg-gray-900  w-full min-h-screen'>
@@ -31,12 +30,12 @@ function Homepage() {
 
       <div
         key={Math.random()}
-        className="grid xs:grid-cols-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto "> 
+        className="grid grid-cols-1 sm:grid-cols-2 mt-8 lg:grid-cols-3 gap-6 "> 
         {Allvideos.length !== 0 ? (
           Allvideos.map((video) => (
             <div
               key={video._id}
-              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform text-white flex flex-col cursor-pointer"
+              className=" bg-gray-900  border border-gray-700 border-b-2 rounded-lg overflow-hidden  text-white flex flex-col cursor-pointer"
               style={{ width: "100%", height: "300px" }}
             >
               <div className="relative" style={{ height: "65%" }}>

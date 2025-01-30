@@ -8,18 +8,16 @@ const DeleteVideoPopup = ({ onDelete, onCancel }) => {
   const closeModal = () => setIsOpen(false);
 
   const handleDelete = () => {
-    onDelete(); // Call the parent-provided delete function
+    onDelete(); 
     closeModal();
   };
 
   return (
     <>
-      {/* Trigger Button */}
       <Button onClick={openModal} className="bg-red-600 text-white">
         Delete Video
       </Button>
 
-      {/* Modal */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-2xl shadow-lg w-96 p-6">

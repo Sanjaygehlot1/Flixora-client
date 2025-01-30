@@ -7,6 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { UserLogOut } from "../../Store/AuthSlice";
 import { GetAllVideos } from "../../Store/VideoSlice";
+import { IoMdLogOut } from "react-icons/io";
+import { IoMdLogIn } from "react-icons/io";
+import { VscAccount } from "react-icons/vsc";
+
 
 function Header() {
   const loginStatus = useSelector((state) => state.Auth.Status);
@@ -18,11 +22,13 @@ function Header() {
       name: "Register",
       path: "/register",
       Status: !loginStatus,
+      icon : <VscAccount className="text-xl" />
     },
     {
       name: "Login",
       path: "/login",
       Status: !loginStatus,
+      icon : <IoMdLogIn className="text-xl" />
     }
   ];
   const navigate = useNavigate()
@@ -74,10 +80,10 @@ function Header() {
          return option.Status ? (
             <Link to={option.path} key={option.path}> 
             <Button
-                className="px-4 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300"
+                className=" px-4 py-1 flex items-center gap-2 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300"
                 bgColor="bg-red-700"
                 type="button">
-              {option.name}
+              {option.icon}{option.name}
             </Button>
             </Link>
           ): null
@@ -89,11 +95,11 @@ function Header() {
           <div className="flex items-center max-2xs:w-full  max-2xs:justify-end gap-4">
                 
                 <Button
-              className="px-4 py-1 bg-red-500 hover:bg-red-700 text-white rounded-md transition duration-300"
+              className="px-4 py-1 bg-red-500 flex items-center gap-2 hover:bg-red-700 text-white rounded-md transition duration-300"
               bgColor="bg-red-700"
               type="button"
               onClick={logout}>
-                LogOut
+                <IoMdLogOut className="text-xl" />Logout
           </Button>
           <img
                   src={UserAvatar.data.avatar} 

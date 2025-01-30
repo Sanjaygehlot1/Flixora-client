@@ -21,7 +21,6 @@ const GetAllComments = createAsyncThunk("get_all_comments", async (videoId) => {
     try {
         if (videoId) {
             const Response = await AxiosInstance.get(`/comment/get-comments/${videoId}`)
-            console.log(Response.data.data) 
             return Response.data.data.docs
         }
     } catch (error) {

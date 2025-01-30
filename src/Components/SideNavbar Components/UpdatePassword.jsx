@@ -19,7 +19,6 @@ function UpdatePassword() {
   const ChangePass = async (data) => {
     try {
       if (data) {
-        console.log(data)
         setLoading(true)
         await dispatch(ChangePassword(data)).unwrap()
         setLoading(false)

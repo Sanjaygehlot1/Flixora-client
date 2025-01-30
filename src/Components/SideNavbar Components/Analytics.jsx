@@ -22,12 +22,10 @@ function Analytics() {
   const memoizedChannelVideos = useMemo(() => ChannelVideos, [ChannelVideos]);
 
 
-  console.log(ChannelVideos)
   useEffect(() => {
     const GetStats = async () => {
       try {
         if (UserData) {
-          console.log(UserData)
           const channelId = UserData.data._id
           await dispatch(GetChannelStats(channelId)).unwrap()
           await dispatch(GetAllVideos(channelId)).unwrap()
@@ -74,7 +72,7 @@ function Analytics() {
       <div className="flex items-center  justify-end mb-5">
         <NavLink
           to={`/upload-video`}
-          className="bg-gray-700 max-2xs:mt-3 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
+          className="bg-gray-800 max-2xs:mt-3 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-700"
         >
           <FiUpload
           className="mr-2"/> Upload Video
@@ -82,28 +80,28 @@ function Analytics() {
       </div>
         
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-        <div className="bg-gray-800 p-4  overflow-hidden  hover:scale-105 transition-transform rounded-lg shadow-lg flex items-center">
+        <div className=" bg-gray-900  border border-gray-700 border-b-4 p-4  overflow-hidden  hover:scale-105 transition-transform rounded-lg shadow-lg flex items-center">
           <FaVideo className="text-blue-500 w-12 h-12" />
           <div className="ml-4">
             <h4 className="text-xl font-semibold">Videos</h4>
             <p className="text-gray-400">{ChannelStats.TotalVideos}</p>
           </div>
         </div>
-        <div className="bg-gray-800 p-4 rounded-lg overflow-hidden  hover:scale-105 transition-transform shadow-lg flex items-center">
+        <div className=" bg-gray-900  border border-gray-700 border-b-4  p-4 rounded-lg overflow-hidden  hover:scale-105 transition-transform shadow-lg flex items-center">
           <FaEye className="text-green-500 w-12 h-12" />
           <div className="ml-4">
             <h4 className="text-xl font-semibold">Views</h4>
             <p className="text-gray-400">{ChannelStats.TotalViews}</p>
           </div>
         </div>
-        <div className="bg-gray-800 p-4 rounded-lg overflow-hidden  hover:scale-105 transition-transform shadow-lg flex items-center">
+        <div className=" bg-gray-900  border border-gray-700 border-b-4  p-4 rounded-lg overflow-hidden  hover:scale-105 transition-transform shadow-lg flex items-center">
           <FaList className="text-yellow-500 w-12 h-12" />
           <div className="ml-4">
             <h4 className="text-xl font-semibold">Playlists</h4>
             <p className="text-gray-400">{ChannelStats.Totalplaylists}</p>
           </div>
         </div>
-        <div className="bg-gray-800 p-4 rounded-lg overflow-hidden  hover:scale-105 transition-transform shadow-lg flex items-center">
+        <div className=" bg-gray-900  border border-gray-700 border-b-4 p-4 rounded-lg overflow-hidden  hover:scale-105 transition-transform shadow-lg flex items-center">
           <FaUser className="text-purple-500 w-12 h-12" />
           <div className="ml-4">
             <h4 className="text-xl font-semibold">Subscribers</h4>
@@ -112,7 +110,7 @@ function Analytics() {
         </div>
       </div>
 
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+      <div className=" bg-gray-900  border border-gray-700 border-b-8 rounded-lg overflow-hidden p-6  shadow-lg">
         <table className="w-full text-left text-gray-300 overflow-x-auto">
           <thead>
             <tr>

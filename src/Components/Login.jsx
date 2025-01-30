@@ -31,9 +31,7 @@ function Login() {
 
             if (loginuser) {
                 navigate("/")
-                console.log(loginuser)
-                console.log(LoginStatus)
-                console.log("logged in ")
+               
             }
         }
     }

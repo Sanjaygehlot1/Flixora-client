@@ -21,7 +21,6 @@ const GetChannelPlaylists = createAsyncThunk("channel_playlists", async (channel
 })
 const CreatePlaylist = createAsyncThunk("create_playlist", async (data) => {
     try {
-        console.log(data)
         const PlaylistResponse = await AxiosInstance.post(`/playlist/create-playlist`, data)
 
         if (PlaylistResponse) {
@@ -39,7 +38,7 @@ const CreatePlaylist = createAsyncThunk("create_playlist", async (data) => {
 
 const UpdatePlaylist = createAsyncThunk("update_playlist", async (data) => {
     try {
-        const PlaylistResponse = await AxiosInstance.patch(`/update-playlist/${data.playlistId}`, { Newname: data.data.updatedName, Newdescription: data.data.updatedDescription })
+        const PlaylistResponse = await AxiosInstance.patch(`/playlist/update-playlist/${data.playlistId}`, { Newname: data.data.updatedName, Newdescription: data.data.updatedDescription })
 
         if (PlaylistResponse) {
             toast.success("Playlist Updated Successfully", {
@@ -55,7 +54,7 @@ const UpdatePlaylist = createAsyncThunk("update_playlist", async (data) => {
 })
 const DeletePlaylist = createAsyncThunk("delete_playlist", async (playlistId) => {
     try {
-        const DeleteResponse = await AxiosInstance.delete(`/delete-playlist/${playlistId}`)
+        const DeleteResponse = await AxiosInstance.delete(`/playlist/delete-playlist/${playlistId}`)
 
         if (DeleteResponse) {
             toast.success("Playlist Deleted Successfully", {
@@ -72,9 +71,7 @@ const DeletePlaylist = createAsyncThunk("delete_playlist", async (playlistId) =>
 const GetPlaylistById = createAsyncThunk("get_playlist", async ({playlistId}) => {
     try {
         if (playlistId) {
-            console.log(playlistId)
             const Response = await AxiosInstance.get(`/playlist/get-playlist-by-id/${playlistId}`)
-            console.log(Response.data.data[0])
             return Response.data.data[0]
         }
     } catch (error) {
@@ -86,7 +83,7 @@ const AddVideoToPlaylist = createAsyncThunk("add_video", async (data) => {
     try {
         if (data) {
 
-            const Response = await AxiosInstance.post(`/add/v/playlist/${data.playlistId}/${data.videoId}`)
+            const Response = await AxiosInstance.post(`/playlist/add/v/playlist/${data.playlistId}/${data.videoId}`)
 
             if (Response) {
                 toast.success("Video Added Successfully", {
@@ -104,8 +101,7 @@ const AddVideoToPlaylist = createAsyncThunk("add_video", async (data) => {
 const RemoveVideoFromPlaylist = createAsyncThunk("remove_video", async (data) => {
     try {
         if (data) {
-            console.log(data)
-            const Response = await AxiosInstance.delete(`playlist/delete/v/playlist/${data.playlistId}/${data.videoId}`)
+            const Response = await AxiosInstance.delete(`/playlist/delete/v/playlist/${data.playlistId}/${data.videoId}`)
 
             if (Response) {
                 toast.success("Video Removed Successfully", {

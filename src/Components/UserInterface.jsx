@@ -8,7 +8,6 @@ import { BiSolidLike } from 'react-icons/bi';
 
 function UserInterface() {
   const user = useSelector((state) => state.Auth.UserData);
-  console.log(user);
 
   const SideNavItems = [
     {

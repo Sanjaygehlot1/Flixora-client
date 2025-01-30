@@ -31,7 +31,6 @@ const CreateUserAccount = createAsyncThunk("register_user", async (data) => {
             autoClose: 3000,
             position: "bottom-right"
         })
-        console.log(RegisterResponse.data)
 
         return RegisterResponse.data;
 
@@ -54,7 +53,6 @@ const UserLogin = createAsyncThunk("user_login", async (data) => {
             position: "bottom-right"
         })
 
-        console.log(LoginResponse.data.data)
 
         return LoginResponse.data.data
 
@@ -70,9 +68,7 @@ const UserLogin = createAsyncThunk("user_login", async (data) => {
 
 const UserLogOut = createAsyncThunk("user_logout", async () => {
     try {
-        console.log("Hello")
         const LogOutResponse = await AxiosInstance.post("/users/logout")
-        console.log(LogOutResponse)
         toast.success("User Logged Out Successfully", {
             autoClose: 3000,
             position: "bottom-right"
@@ -92,7 +88,6 @@ const NewAccessToken = createAsyncThunk("new_token", async (data) => {
     try {
         const NewTokenResponse = await AxiosInstance.post("/users/new-token", data)
 
-        console.log(NewTokenResponse)
 
         return NewTokenResponse.data
     } catch (error) {
@@ -109,14 +104,12 @@ const NewAccessToken = createAsyncThunk("new_token", async (data) => {
 
 const ChangePassword = createAsyncThunk("change_pass", async (data) => {
     try {
-        console.log(data)
         const ChangePassResponse = await AxiosInstance.patch("/users/change-pass", data)
         toast.success("Password Changed Successfully", {
             autoClose: 3000,
             position: "bottom-right"
         })
 
-        console.log(ChangePassResponse)
 
         return ChangePassResponse.data
     } catch (error) {
@@ -148,7 +141,6 @@ const UpdateUserDetails = createAsyncThunk("update_details", async (data) => {
             position: "bottom-right"
         })
 
-        console.log(UpdatedDetailsResponse)
 
         return UpdatedDetailsResponse.data
     } catch (error) {
@@ -163,7 +155,6 @@ const UpdateUserDetails = createAsyncThunk("update_details", async (data) => {
 
 const UpdateAvatar = createAsyncThunk("update_avatar", async (data) => {
     const userdata = new FormData()
-    console.log(data)
     userdata.append("avatar", data.avatar[0])
 
     try {
@@ -187,7 +178,6 @@ const UpdateAvatar = createAsyncThunk("update_avatar", async (data) => {
 
 const UpdateCoverImage = createAsyncThunk("update_coverImage", async (data) => {
     const userdata = new FormData()
-    console.log(data)
     userdata.append("coverImage", data.coverImage[0])
 
     try {
@@ -268,7 +258,6 @@ const AuthSlice = createSlice({
 
 })
 
-// export { AuthSlice }
 
 export {
     ChangePassword,

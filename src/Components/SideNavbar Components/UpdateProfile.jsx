@@ -15,7 +15,6 @@ function UpdateProfile() {
         try {
             if(data){
                 setProgress(true)
-                console.log(data)
                 if(data.avatar[0]){
                     await dispatch(UpdateAvatar(data)).unwrap()
                     await dispatch(GetCurrentUser()).unwrap()

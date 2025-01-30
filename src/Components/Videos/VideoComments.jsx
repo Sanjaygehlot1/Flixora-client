@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { AddComment, CommentDelete, EditComment, GetAllComments } from '../../Store/CommentSlice'
 import { useDispatch } from 'react-redux'
 import Button from '../Common/Button'
@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import Input from '../Common/Input'
+import { MdDeleteSweep } from "react-icons/md";
+import { TbEdit } from "react-icons/tb";
 import { timeAgo } from '../../Utilities/TimeConversion'
 
 function VideoComments() {
@@ -42,8 +44,6 @@ function VideoComments() {
 
     const Comment = async (data) => {
         try {
-            console.log(data.content)
-            console.log(videoId)
             await dispatch(AddComment({ videoId: videoId.videoId, data: data })).unwrap()
             AllComments()
 
@@ -55,8 +55,8 @@ function VideoComments() {
     const DeleteComment = async (commentId) => {
         try {
             await dispatch(CommentDelete(commentId)).unwrap()
-            AllComments()
             setOpenDeletePopup(false)
+            AllComments()
         } catch (error) {
             setOpenDeletePopup(false)
             console.log(error.message)
@@ -66,7 +66,7 @@ function VideoComments() {
 
     const UpdateComment = async (commentId) => {
         try {
-            await dispatch(EditComment({commentId : commentId , NewContent : newContent})).unwrap()
+            await dispatch(EditComment({ commentId: commentId, NewContent: newContent })).unwrap()
             setOpenEditPopup(false)
             setnewContent("")
             AllComments()
@@ -75,7 +75,6 @@ function VideoComments() {
             throw error
         }
     }
-    console.log(Comments)
     return (
         <div className="bg-gray-900 p-3 rounded-lg shadow-md">
             <h4 className="text-xl font-semibold mb-4 text-white">Comments</h4>
@@ -136,24 +135,26 @@ function VideoComments() {
                                 </div>
 
                                 {
-                                  comment.comment_owner.username === CurrentUser.data.username ? (
-                                    <div>
-                                        <Button onClick={()=>{
-                                            setOpenDeletePopup(true)
-                                            setcommentId(comment._id)
-                                                                 
-                                        }}>
-                                            Delete
-                                        </Button>
-                                        <Button  onClick={()=>{
-                                            setOpenEditPopup(true)
-                                            setcommentId(comment._id)
-                                                                 
-                                        }}>
-                                            Edit
-                                        </Button>
-                                    </div>
-                                  ) : ""  
+                                    comment.comment_owner.username === CurrentUser.data.username ? (
+                                        <div >
+                                            <Button onClick={() => {
+                                                setOpenDeletePopup(true)
+                                                setcommentId(comment._id)
+
+                                            }}
+                                                className='py-1 px-2 text-lg bg-red-600 hover:bg-red-700 rounded-lg'>
+                                                <MdDeleteSweep />
+                                            </Button>
+                                            <Button onClick={() => {
+                                                setOpenEditPopup(true)
+                                                setcommentId(comment._id)
+
+                                            }}
+                                                className='py-1 px-2 text-lg bg-blue-600 hover:bg-blue-700 rounded-lg'>
+                                                <TbEdit />
+                                            </Button>
+                                        </div>
+                                    ) : ""
                                 }
                             </div>
                         ))}
@@ -190,7 +191,7 @@ function VideoComments() {
                                 }}
                                 className="bg-red-600 text-white hover:bg-red-700 rounded-lg px-2 py-1 "
                             >
-                                  {LoadingStatus ? <Loader/> : "Delete" }                            
+                                {LoadingStatus ? <Loader /> : "Delete"}
                             </Button>
                         </div>
                     </div>
@@ -215,7 +216,8 @@ function VideoComments() {
                                 onClick={() => UpdateComment(commentId)}
                                 className="text-red-500 hover:text-red-700"
                             >
-                               {LoadingStatus ? <Loader/> : "Update" }                            </Button>
+                                {LoadingStatus ? <Loader /> : "Update"}
+                            </Button>
                         </div>
                     </div>
                 </div>

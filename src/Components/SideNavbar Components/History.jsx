@@ -5,11 +5,10 @@ import UserInterfaceLoading from '../../Utilities/UserInterfaceLoading'
 import { useNavigate } from 'react-router-dom'
 import { timeAgo } from '../../Utilities/TimeConversion'
 import LoginPopUp from '../LoginPopUp'
-
+import { formatTime } from '../../Utilities/TimeConversion'
 function History() {
     const WatchHistory = useSelector((state) => state.Video.WatchHistory)
     const LoginStatus = useSelector((state) => state.Auth.Status)
-    console.log(WatchHistory)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect(() => {
@@ -17,9 +16,7 @@ function History() {
             try {
                 const Response = await dispatch(UserHistory()).unwrap()
 
-                if (Response) {
-                    console.log(Response)
-                }
+            
             } catch (error) {
                 console.log(error.message)
                 throw error
@@ -28,19 +25,19 @@ function History() {
         History()
     }, [])
 
-    if(!LoginStatus){
-        return <LoginPopUp/>
+    if (!LoginStatus) {
+        return <LoginPopUp />
     }
 
-    if(WatchHistory.length === 0){
+    if (WatchHistory.length === 0) {
         return (
-          <div className='flex w-full justify-center p-6 bg-gray-900 min-h-screen'>
-              <h1 className='font-bold text-lg'>
-                  All your Watched Videos will be shown here
-              </h1>
-          </div>
-      )
-      }
+            <div className='flex w-full justify-center p-6 bg-gray-900 min-h-screen'>
+                <h1 className='font-bold text-lg'>
+                    All your Watched Videos will be shown here
+                </h1>
+            </div>
+        )
+    }
 
 
     return (
@@ -53,7 +50,7 @@ function History() {
                     WatchHistory.map((video) => (
                         <div
                             key={video.videoId}
-                            className="bg-gray-800 rounded-lg overflow-hidden text-white flex flex-col cursor-pointer shadow-lg hover:scale-105 transition-transform"
+                            className=" bg-gray-900  border border-gray-700 border-b-2  rounded-lg overflow-hidden text-white flex flex-col cursor-pointer"
                             style={{ height: "300px" }}
                         >
                             <div className="relative" style={{ height: "65%" }}>
@@ -68,7 +65,7 @@ function History() {
                                     />
                                 )}
                                 <span className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-xs text-white px-2 py-1 rounded">
-                                    {Math.round(video.duration)}s
+                                    {formatTime(Math.round(video.duration))}
                                 </span>
                             </div>
 
@@ -85,7 +82,7 @@ function History() {
                                             src={video.owner.avatar}
                                             alt="Avatar"
                                             className="w-10 h-10 rounded-full"
-                                            onClick={()=>{navigate(`/dashboard/${video.owner.username}/videos`)}}
+                                            onClick={() => { navigate(`/dashboard/${video.owner.username}/videos`) }}
                                         />
                                     )}
                                     <p className="ml-2 text-sm text-gray-300">{video.owner.username}</p>

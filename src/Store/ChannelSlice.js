@@ -58,11 +58,9 @@ const GetChannelPlaylists = createAsyncThunk("channel_playlists",async (channelI
 
 const GetChannelStats = createAsyncThunk("channel_stats",async (channelId)=>{
     try {
-        console.log(channelId)
         const StatsResponse = await AxiosInstance.get(`/dashboard/channel-stats/${channelId}`)
 
         if(StatsResponse){
-            console.log(StatsResponse.data.data[0])
             return StatsResponse.data.data[0]
         }
     } catch (error) {
@@ -76,7 +74,6 @@ const TogglePublishStatus = createAsyncThunk("toggle_publish",async (videoId)=>{
         const ToggleResponse = await AxiosInstance.patch(`/video/toggle-publish-status/${videoId}`)
 
         if(ToggleResponse){
-            console.log(ToggleResponse.data.data)
             return ToggleResponse.data.data
         }
     } catch (error) {

@@ -45,7 +45,7 @@ function ChannelTweets() {
 
 
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } ,reset } = useForm();
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -77,6 +77,7 @@ function ChannelTweets() {
       await dispatch(AddTweet(data)).unwrap();
       await dispatch(GetChannelTweets(ChannelData._id)).unwrap();
       setUploadProgress(false)
+      reset()
     } catch (error) {
       setUploadProgress(false)
       console.error(error.message);
@@ -162,17 +163,17 @@ function ChannelTweets() {
           {Tweets.map((tweet) => (
             <div
               key={tweet._id}
-              className="bg-gray-800 overflow-hidden hover:scale-105 transition-transform text-gray-100 rounded-lg shadow-md p-4"
+              className=" bg-gray-900  border border-gray-700 border-b-4  overflow-hidden h-fit text-gray-100 rounded-lg shadow-md p-4"
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
+                <div className="flex flex-col items-start gap-1">
                   <img
                     src={User.data.avatar}
                     alt={User.data.username}
                     className="w-10 h-10 rounded-full mr-3"
                   />
                   <div>
-                    <h4 className="font-bold text-sm">{tweet.content}</h4>
+                    <h4 className="font-bold  text-sm">{tweet.content}</h4>
                     <p className="text-xs text-gray-400">{timeAgo(tweet.createdAt)}</p>
                   </div>
                 </div>
@@ -271,19 +272,19 @@ function ChannelTweets() {
       {
         editTweetId && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-96">
+            <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-96">
               <h2 className="text-lg font-bold text-white mb-4">Edit Tweet</h2>
               <textarea
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
                 rows="4"
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
               ></textarea>
               <div className="flex justify-end gap-2 mt-4">
-                <Button className="bg-gray-500 hover:bg-gray-600 px-4  rounded-lg" onClick={closeEditModal}>
+                <Button className="bg-gray-700 hover:bg-gray-600 py-1 px-4  rounded-lg" onClick={closeEditModal}>
                   Cancel
                 </Button>
-                <Button className="bg-red-500 hover:bg-red-600 px-4 rounded-lg" onClick={handleEditSubmit}>
+                <Button className="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-lg" onClick={handleEditSubmit}>
                   {!EditProgress ? "Save" : <Loader />}
                 </Button>
               </div>
@@ -293,7 +294,7 @@ function ChannelTweets() {
       }
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-gray-800 rounded-2xl shadow-lg w-96 p-6">
+          <div className="bg-gray-900 rounded-2xl shadow-lg w-96 p-6">
             <h2 className="text-xl font-semibold text-white">
               Confirm Delete
             </h2>
@@ -305,7 +306,7 @@ function ChannelTweets() {
             <div className="mt-6 flex justify-end space-x-4">
               <Button
                 onClick={closeModal}
-                className="bg-gray-200 text-gray-700 rounded-lg px-2 py-1  hover:bg-gray-300"
+                className="bg-gray-600 text-white rounded-lg px-2 py-1  hover:bg-gray-700"
               >
                 Cancel
               </Button>

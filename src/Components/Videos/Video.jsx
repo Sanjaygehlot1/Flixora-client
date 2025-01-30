@@ -1,11 +1,14 @@
 
-import {  useSelector,useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import React, { useEffect, useState } from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
-import {  GetUserVideos,  LikeVideo,WatchVideo} from '../../Store/VideoSlice'
+import { useNavigate, useParams } from 'react-router-dom'
+import {  LikeVideo, WatchVideo } from '../../Store/VideoSlice'
 import VideoLoading from '../../Utilities/VideoLoading'
-import {  CheckSubscription,ToggleSubscription} from '../../Store/SubscriptionSlice'
+import { CheckSubscription, ToggleSubscription } from '../../Store/SubscriptionSlice'
+import { AddVideoToPlaylist } from '../../Store/PlaylistSlice'
+import { CgPlayListAdd } from 'react-icons/cg'
 import Button from '../Common/Button'
+import PlaylistPopup from '../Playlists/PlaylistPopup'
 
 function Video() {
 
@@ -13,11 +16,12 @@ function Video() {
     const isSubscribed = useSelector((state) => state.Subscription.isSubscribed)
     const UserData = useSelector((state) => state.Auth.UserData)
     const [videoData, setvideoData] = useState(null)
+    const [OpenPlaylistPopup, setOpenPlaylistPopup] = useState(false)
     const videoId = useParams()
     const [SubscribeLoading, setSubscribeLoading] = useState(false)
     const dispatch = useDispatch()
 
-   
+
     const Subscribe = async () => {
         try {
             const isCurrentlySubscribed = isSubscribed;
@@ -52,19 +56,21 @@ function Video() {
 
     const handleVideoLike = async () => {
         try {
-            
+
             await dispatch(LikeVideo(videoId)).unwrap()
             const videoResponse = await dispatch(WatchVideo(videoId)).unwrap();
 
-                if (videoResponse) {
-                    setvideoData(videoResponse);
-                }
+            if (videoResponse) {
+                setvideoData(videoResponse);
+            }
 
         } catch (error) {
             console.log(error.message)
             throw error
         }
     }
+
+   
     useEffect(() => {
         const video = async () => {
             try {
@@ -74,7 +80,7 @@ function Video() {
                     setvideoData(videoResponse);
                 }
 
-                
+
             } catch (error) {
                 console.log(error.message);
                 throw error;
@@ -87,8 +93,8 @@ function Video() {
 
     if (!videoData) {
         return (<VideoLoading />)
-      }
-   
+    }
+
     return (
         <div>
             <div className="aspect-w-16 aspect-h-9 mb-6">
@@ -166,18 +172,29 @@ function Video() {
                                 {isSubscribed ? "Subscribed" : "Subscribe"}
                             </Button>
                         )}
+
                     </div>
                 </div>
 
-                <div className="w-full">
-                    <div className="bg-gray-800 gap-2 p-2 w-full mt-2 rounded-md shadow-md">
+                <div className="w-full ">
+                    <div className="bg-gray-800 gap-2 p-2 w-full mt-2 rounded-md shadow-md flex items-center justify-between">
+                        <div>
                         <p className="text-lg font-bold mb-1 text-gray-300">Description</p>
                         <p className="text-sm font-normal text-gray-300">
                             {videoData.description}
                         </p>
+                        </div>
+                        <Button
+                            onClick={()=>setOpenPlaylistPopup(true)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg transition bg-blue-500 text-white"
+                        >
+                             <CgPlayListAdd className="text-xl" />
+                        </Button>
                     </div>
+                   
                 </div>
             </div>
+            {<PlaylistPopup isOpen={OpenPlaylistPopup} onClose={()=>setOpenPlaylistPopup(false)} videoId={videoId.videoId} />}
         </div>
     )
 }

@@ -31,7 +31,6 @@ function Dashboard() {
         ChannelDetails()
     }, [])
 
-    console.log(channelData)
     const Subscribe = async () => {
         try {
 
@@ -40,8 +39,6 @@ function Dashboard() {
            
           const channel =  await dispatch(GetChannelDetails(channelData.username)).unwrap();
 
-            console.log(isSubscribed)
-            console.log(channel)
             setSubscribeLoading(false)
 
 
@@ -93,7 +90,7 @@ function Dashboard() {
                             <Button
                                 disabled={SubscribeLoading}
                                 onClick={Subscribe}
-                                className={`${channelData.isSubscribed ? "bg-red-500 text-white px-4 rounded hover:bg-red-600" : "bg-gray-400 text-white px-4 rounded hover:bg-gray-500"}`}>
+                                className={`${channelData.isSubscribed ? "bg-red-500 text-white mt-1 px-3 py-1 rounded hover:bg-red-600" : "bg-gray-400 text-white px-3 mt-1 py-1 rounded hover:bg-gray-500"}`}>
                                 {channelData.isSubscribed ? "Subscribed" : "Subscribe"}
                             </Button>
                         </div>
@@ -103,7 +100,7 @@ function Dashboard() {
                         UserData.data.username === channelData.username && (
                             <NavLink
                                 to={`/settings/update-details`}
-                                className="absolute max-2xs:hidden bottom-0 right-0 bg-gray-700 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-600"
+                                className="absolute max-2xs:hidden bottom-0 right-0 bg-gray-800 text-white px-4 py-2 rounded-full flex items-center shadow-md hover:bg-gray-700"
                             >
                                 <FaCog className="mr-2" /> Settings
                             </NavLink>
@@ -120,9 +117,11 @@ function Dashboard() {
                         isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
                     )}>Videos</NavLink>
 
-                    <NavLink to={`/dashboard/${channelData.username}/playlists`} className={({ isActive }) => (
-                        isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
-                    )}>Playlist</NavLink>
+                    {UserData.data.username === channelData.username && (
+                        <NavLink to={`/dashboard/${channelData.username}/playlists`} className={({ isActive }) => (
+                            isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"
+                        )}>Playlist</NavLink>
+                    )}
 
                     <NavLink to={`/dashboard/${channelData.username}/tweets`} className={({ isActive }) => (
                         isActive ? "py-3 px-4 text-red-500 border-b-2 border-red-500" : "py-3 px-4 text-gray-400 hover:text-white"

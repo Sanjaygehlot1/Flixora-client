@@ -18,9 +18,7 @@ function GetImagePreview({
 
     const handlePreview = (e) => {
         const files = e.target.files;
-        console.log(files)
         setPreview(URL.createObjectURL(files[0]));
-        console.log(preview)
         setcameraIcon(false) 
         return files;
     };

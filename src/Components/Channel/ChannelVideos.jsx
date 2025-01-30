@@ -5,24 +5,29 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { useOutletContext } from 'react-router-dom'
 import { timeAgo } from '../../Utilities/TimeConversion'
+import { formatTime } from '../../Utilities/TimeConversion'
 import { Link } from 'react-router-dom'
-import { FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiTrash2 } from "react-icons/fi";
 import { FiEdit } from "react-icons/fi";
 import Button from '../Common/Button'
 import Input from '../Common/Input'
 import { UpdateVideoDetails, VideoDelete, WatchVideo } from '../../Store/VideoSlice'
 import { useForm } from 'react-hook-form'
+import PlaylistPopup from '../Playlists/PlaylistPopup'
 function ChannelVideos() {
 
     const ChannelData = useOutletContext()
     const channelVideos = useSelector((state) => state.Channel.channelVideos)
+    const CurrentUser = useSelector((state) => state.Auth.UserData)
     const [VideoId, setVideoId] = useState(null);
     const [Progress, setProgress] = useState(false);
     const [isEditable, setisEditable] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [OpenPlaylistPopup, setOpenPlaylistPopup] = useState(false)
     const { handleSubmit, register, formState: { errors }, setValue } = useForm()
     const dispatch = useDispatch()
-
+    console.log(channelVideos)
+    console.log(ChannelData)
     const openModal = (video) => {
         setIsOpen(true)
         setVideoId(video._id)
@@ -48,7 +53,6 @@ function ChannelVideos() {
     const EditVideo = async (data) => {
         try {
             if (data) {
-                console.log(data)
                 setProgress(true)
                 await dispatch(UpdateVideoDetails({ ...data, videoId: VideoId })).unwrap()
                 await dispatch(GetChannelVideos(ChannelData._id)).unwrap()
@@ -65,9 +69,7 @@ function ChannelVideos() {
     useEffect(() => {
         const response = async () => {
             if (isEditable) {
-                console.log(VideoId)
                 const data = await dispatch(WatchVideo({ videoId: VideoId })).unwrap()
-                console.log(data)
                 setValue("title", data.title)
                 setValue("description", data.description)
                 setValue("thumbnail", data.thumbnail)
@@ -90,30 +92,41 @@ function ChannelVideos() {
                 <button className="bg-gray-800 text-gray-400 px-4 py-2 rounded hover:bg-gray-700">Oldest</button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 mb-8 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {channelVideos.length !== 0 ? (
                     channelVideos.map((video) => (
                         <div
                             key={video._id}
-                            className="flex flex-col bg-gray-800 rounded-lg overflow-hidden relative"
+                            className="flex flex-col bg-gray-900 rounded-md border border-gray-700 border-b-2 overflow-hidden relative"
                         >
-                            <div className="absolute z-10 bg-gray-700 rounded-full top-2 right-2 flex space-x-2">
+                            {ChannelData._id === CurrentUser.data._id && (
+                                <div className="absolute z-10 bg-gray-700 rounded-full top-2 right-2 flex space-x-2">
                                 <Button
                                     onClick={() => {
                                         setVideoId(video._id)
                                         setisEditable(true)
                                     }}
-                                    className="bg-gray-700  text-gray-300 p-2 rounded-full hover:bg-blue-600 hover:text-white"
+                                    className="bg-gray-700  text-gray-300 p-2 rounded-full hover:bg-blue-600 hover:text-black"
                                 >
                                     <FiEdit size={18} />
                                 </Button>
                                 <Button
                                     onClick={() => openModal(video)}
-                                    className="bg-gray-700 text-gray-300 p-2 rounded-full hover:bg-red-600"
+                                    className="bg-gray-700 text-gray-300 p-2 rounded-full hover:bg-red-600 hover:text-black"
                                 >
                                     <FiTrash2 size={18} />
                                 </Button>
+                                <Button
+                                    onClick={() => {
+                                        setOpenPlaylistPopup(true)
+                                        setVideoId(video._id)
+                                    }}
+                                    className="bg-gray-700 text-gray-300 p-2 rounded-full hover:bg-yellow-500 hover:text-black"
+                                >
+                                    <FiPlus size={18} />
+                                </Button>
                             </div>
+                            )}
 
                             <Link to={`/watch/${video._id}`}>
                                 <div className="relative">
@@ -123,7 +136,7 @@ function ChannelVideos() {
                                         className="w-full aspect-video object-cover"
                                     />
                                     <span className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white text-sm px-2 py-1 rounded">
-                                        {Math.round(video.duration) + "s"}
+                                       {formatTime(Math.round(video.duration))}
                                     </span>
                                 </div>
                             </Link>
@@ -147,9 +160,12 @@ function ChannelVideos() {
                 )}
 
             </div>
+
+            {<PlaylistPopup isOpen={OpenPlaylistPopup} onClose={()=>setOpenPlaylistPopup(false)} videoId={VideoId} />}
+
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-gray-800 rounded-2xl shadow-lg w-96 p-6">
+                    <div className="bg-gray-900 rounded-2xl shadow-lg w-96 p-6">
                         <h2 className="text-xl font-semibold text-white">
                             Confirm Delete
                         </h2>
@@ -161,7 +177,7 @@ function ChannelVideos() {
                         <div className="mt-6 flex justify-end space-x-4">
                             <Button
                                 onClick={closeModal}
-                                className="bg-gray-200 text-gray-700 rounded-lg px-2 py-1  hover:bg-gray-300"
+                                className="bg-gray-600 text-white rounded-lg px-2 py-1  hover:bg-gray-700"
                             >
                                 Cancel
                             </Button>
@@ -179,7 +195,7 @@ function ChannelVideos() {
             )}
             {isEditable && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-                    <div className="bg-gray-800 rounded-xl shadow-lg w-full max-w-md p-6">
+                    <div className="bg-gray-900 rounded-xl shadow-lg w-full max-w-md p-6">
                         <h2 className="text-2xl font-bold text-white mb-4">Update Video Details</h2>
 
                         <form onSubmit={handleSubmit(EditVideo)}>
@@ -226,7 +242,7 @@ function ChannelVideos() {
                             <div className="flex gap-1 justify-end">
                                 <Button
                                     type="button"
-                                    className="bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-600 focus:ring-4 focus:ring-gray-500"
+                                    className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:ring-4 focus:ring-gray-600"
                                     onClick={() => setisEditable(false)}
                                 >
                                     Cancel

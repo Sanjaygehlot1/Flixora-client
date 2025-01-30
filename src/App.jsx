@@ -12,13 +12,10 @@ function App() {
     const dispatch = useDispatch();
 
     const { UserData, Loading } = useSelector((state) => state.Auth);
-    console.log(UserData)
-    console.log(Loading)
 
     const fetchCurrentUser = useCallback(async () => {
         try {
             const data = await dispatch(GetCurrentUser()).unwrap();
-            console.log(data)
         } catch (error) {
             console.error('Failed to fetch user details:', error);
         }
@@ -27,7 +24,6 @@ function App() {
     useEffect(() => {
         if (!UserData) {
             fetchCurrentUser();
-            console.log("useEffect Used")
         }
     }, [fetchCurrentUser, UserData]);
 

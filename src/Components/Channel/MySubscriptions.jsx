@@ -1,4 +1,4 @@
-import { useEffect , useState} from 'react'
+import { useEffect, useState } from 'react'
 import { GetUserSubscriptions } from '../../Store/SubscriptionSlice'
 import LoginPopUp from '../LoginPopUp'
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom'
@@ -12,19 +12,15 @@ function MySubscriptions() {
     const LoginStatus = useSelector((state) => state.Auth.Status)
     const [SubscribeLoading, setSubscribeLoading] = useState(false)
 
-    console.log(CurrentUser)
-    console.log(MySubs)
-    console.log(LoginStatus)
     const navigate = useNavigate()
     const ChannelData = useOutletContext()
-    console.log(ChannelData)
 
     const dispatch = useDispatch()
     useEffect(() => {
 
         const GetSubscriptions = async () => {
-           
-             await dispatch(GetUserSubscriptions(ChannelData._id)).unwrap()
+
+            await dispatch(GetUserSubscriptions(ChannelData._id)).unwrap()
 
         }
         GetSubscriptions()
@@ -37,8 +33,8 @@ function MySubscriptions() {
             await dispatch(ToggleSubscription(channelId)).unwrap();
             setSubscribeLoading(false)
             await dispatch(GetUserSubscriptions(CurrentUser.data._id)).unwrap()
-            
-            
+
+
         } catch (error) {
             setSubscribeLoading(false)
             console.error("Error toggling subscription:", error);
@@ -73,11 +69,12 @@ function MySubscriptions() {
                     <div>
                         <h2 className="font-bold text-xl text-center">{subscription.channel_details.username}</h2>
                     </div>
-                    <div className="flex justify-end  w-full">
+                    {ChannelData._id === CurrentUser.data._id && (
+                        <div className="flex justify-end  w-full">
                         <Button
                             bgColor={'bg-red-600'}
                             className='px-2  rounded-lg'
-                            onClick={()=>{
+                            onClick={() => {
                                 Subscribe(subscription.channel_details._id)
                             }}
                             disabled={SubscribeLoading}>
@@ -85,6 +82,7 @@ function MySubscriptions() {
                             Unsubscribe
                         </Button>
                     </div>
+                    )}
                 </div>
             ))
             }

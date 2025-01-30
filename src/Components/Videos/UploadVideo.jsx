@@ -21,7 +21,6 @@ function UploadVideo() {
             if (data) {
                 setvideoData(data)
                 setuploading(true)
-                console.log(data)
                 await dispatch(VideoUpload(data)).unwrap()
                 reset()
                 setuploading(false)
@@ -36,10 +35,10 @@ function UploadVideo() {
 
     return (
         <div className="w-full min-h-screen bg-gray-900 text-white p-6 flex justify-center items-center">
-            <div className="w-full max-w-5xl bg-gray-800 p-8 rounded-lg shadow-lg">
+            <div className="w-full max-w-5xl bg-gray-900  rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold mb-6 text-center">Upload Video</h2>
 
-                <form onSubmit={handleSubmit(Upload)} className="space-y-8">
+                <form onSubmit={handleSubmit(Upload)}>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium mb-2" htmlFor="thumbnail">
@@ -84,7 +83,7 @@ function UploadVideo() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+                    <div className="grid grid-cols-1 mt-1 lg:grid-cols-1 gap-6">
                         <div>
                             <label className="block text-sm font-medium mb-2" htmlFor="title">
                                 Title
@@ -125,7 +124,7 @@ function UploadVideo() {
 
                     <button
                         type="submit"
-                        className="w-full py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                        className="w-full mb-9 py-3 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
                     >
                         Upload Video
                     </button>

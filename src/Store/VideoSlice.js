@@ -56,7 +56,6 @@ const LikeVideo = createAsyncThunk("like_video",async(videoId)=>{
     try {
         if(videoId){
             const LikeResponse = await AxiosInstance.patch(`/like/like-video/${videoId.videoId}`)
-                console.log(LikeResponse.data.data.liked)
             return LikeResponse.data.data.liked
         }
     } catch (error) {
@@ -69,7 +68,6 @@ const GetLikedVideos = createAsyncThunk("get_all_likedVideos",async ()=>{
     try {
         const Response = await AxiosInstance.get("/like/get-liked-videos")
         if(Response){
-            console.log(Response)
             return Response.data.data
         }
     } catch (error) {
@@ -83,7 +81,6 @@ const UserHistory = createAsyncThunk("user_history",async ()=>{
         const HistoryResponse = await AxiosInstance.get("/users/watch-history")
 
         if(HistoryResponse){
-            console.log(HistoryResponse.data.data[0].watchHistory)
             return HistoryResponse.data.data[0].watchHistory
         }
     } catch (error) {
@@ -101,7 +98,6 @@ const VideoDelete = createAsyncThunk("delete_video",async (videoId)=>{
                 position: "bottom-right",
             
             })
-            console.log(DeleteResponse.data.data)
             return DeleteResponse.data.data
         }
     } catch (error) {
@@ -130,7 +126,6 @@ const VideoUpload = createAsyncThunk("upload_video",async (data)=>{
                         position: "bottom-right",
                     
                     })
-            console.log(UploadResponse.data)
             return UploadResponse.data.data
         }
     } catch (error) {
@@ -144,7 +139,6 @@ const VideoUpload = createAsyncThunk("upload_video",async (data)=>{
 })
 const UpdateVideoDetails = createAsyncThunk("update_video",async (data)=>{
     try {
-        console.log(data)
         const VideoData = new  FormData()
         if(data.title){
             VideoData.append("title", data.title)
@@ -155,7 +149,6 @@ const UpdateVideoDetails = createAsyncThunk("update_video",async (data)=>{
         if(data.thumbnail[0]){
             VideoData.append("thumbnail", data.thumbnail[0])
         }
-        console.log(VideoData)
         const UpdateResponse = await AxiosInstance.patch(`/video/update-video/${data.videoId}`,VideoData)
 
         if(UpdateResponse){
@@ -164,7 +157,6 @@ const UpdateVideoDetails = createAsyncThunk("update_video",async (data)=>{
                         position: "bottom-right",
                     
                     })
-            console.log(UpdateResponse.data)
             return UpdateResponse.data.data
         }
     } catch (error) {

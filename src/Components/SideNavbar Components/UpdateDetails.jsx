@@ -15,7 +15,6 @@ function UpdateDetails() {
   const ChangeDetails = async (data) => {
     try {
       if (data) {
-        console.log(data)
         setLoading(true)
         await dispatch(UpdateUserDetails(data)).unwrap()
         setLoading(false)

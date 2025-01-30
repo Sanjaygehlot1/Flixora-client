@@ -9,11 +9,9 @@ const initialState = {
 
 const GetChannelTweets = createAsyncThunk("channel_tweets", async (channelId) => {
     try {
-        console.log(channelId)
         const TweetResponse = await AxiosInstance.get(`/tweet/get-tweets/${channelId}`)
 
         if (TweetResponse) {
-            console.log(TweetResponse.data.data)
             return TweetResponse.data.data
         }
     } catch (error) {
@@ -24,11 +22,9 @@ const GetChannelTweets = createAsyncThunk("channel_tweets", async (channelId) =>
 
 const TweetLike = createAsyncThunk("tweet_like", async (tweetId) => {
     try {
-        console.log(tweetId)
         const TweetResponse = await AxiosInstance.patch(`/like/like-tweet/${tweetId}`)
 
         if (TweetResponse) {
-            console.log(TweetResponse.data.data)
             return TweetResponse.data.data
         }
     } catch (error) {
@@ -40,7 +36,6 @@ const TweetLike = createAsyncThunk("tweet_like", async (tweetId) => {
 const AddTweet = createAsyncThunk("post_tweet",async (data)=>{
     try {
         const TweetData = new FormData()
-        console.log(data)
         TweetData.append("content",data.content)
         if(data.image){
             TweetData.append("image",data.image[0])
@@ -52,7 +47,6 @@ const AddTweet = createAsyncThunk("post_tweet",async (data)=>{
                 autoClose: 3000,
                 position: "bottom-right"
             })
-            console.log(Response.data.data)
             return Response.data.data
         }
     } catch (error) {
@@ -70,7 +64,6 @@ const Delete = createAsyncThunk("delete_tweet",async (tweetId)=>{
                             autoClose: 3000,
                             position: "bottom-right"
                         })
-                console.log(res.data.data)
                 return res.data.data
             }
         }
@@ -82,10 +75,8 @@ const Delete = createAsyncThunk("delete_tweet",async (tweetId)=>{
 const UpdateTweet = createAsyncThunk("update",async (data)=>{
     try {
         if(data){
-            console.log(data)
             const res = await AxiosInstance.patch(`/tweet/update-tweet/${data.tweetId}`,{NewContent : data.NewContent})
             if(res.data){
-                console.log(res.data.data)
                 return res.data.data
             }
         }

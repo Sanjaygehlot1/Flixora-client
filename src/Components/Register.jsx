@@ -27,7 +27,6 @@ function Register() {
                 const username = data?.username
                 const password = data?.password
 
-                // console.log(data)
 
                 const login = await dispatch(UserLogin({ username, password })).unwrap()
                 if (login) {
