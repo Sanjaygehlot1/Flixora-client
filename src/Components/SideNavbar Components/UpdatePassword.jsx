@@ -7,12 +7,13 @@ import Button from '../Common/Button';
 import Input from '../Common/Input';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-
+import { useSelector } from 'react-redux';
 function UpdatePassword() {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const dispatch = useDispatch()
   const [Loading, setLoading] = useState(false)
+  const error = useSelector((state) => state.Auth.error)
   const [showNewPass, setshowNewPass] = useState(false)
   const [showOldPass, setshowOldPass] = useState(false)
 
@@ -33,6 +34,9 @@ function UpdatePassword() {
   return (
     <div className="w-full max-w-sm mx-auto border-gray-500 border bg-gray-900 text-white shadow-lg rounded-lg p-8">
       <h2 className="text-2xl font-semibold mb-6 text-center">Update Password</h2>
+       <h1 className="text-center">
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+      </h1>
       <form onSubmit={handleSubmit(ChangePass)}>
 
         <div className="mb-6 relative">

@@ -5,13 +5,14 @@ import { UpdateUserDetails } from '../../Store/AuthSlice';
 import Loader from '../../Utilities/Loader';
 import Button from '../Common/Button';
 import Input from '../Common/Input';
-
+import { useSelector } from 'react-redux';
 function UpdateDetails() {
 
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const dispatch = useDispatch()
   const [Loading, setLoading] = useState(false)
+  const error = useSelector((state) => state.Auth.error)
   const ChangeDetails = async (data) => {
     try {
       if (data) {
@@ -29,6 +30,9 @@ function UpdateDetails() {
   return (
     <div className="w-full max-w-sm mx-auto bg-gray-900  border-gray-500 border text-white shadow-lg rounded-lg p-8">
       <h2 className="text-2xl font-semibold mb-6 text-center">Update Details</h2>
+      <h1 className="text-center">
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+      </h1>
       <form onSubmit={handleSubmit(ChangeDetails)}>
         <div className="mb-6">
           <label htmlFor="name" className="block font-medium mb-2">

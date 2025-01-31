@@ -5,37 +5,39 @@ import { useForm } from 'react-hook-form'
 import Button from '../Common/Button'
 import { GetCurrentUser, UpdateAvatar, UpdateCoverImage } from '../../Store/AuthSlice'
 import { useState } from 'react'
+import { useSelector } from "react-redux";
 import Loader from '../../Utilities/Loader'
 
 function UpdateProfile() {
     const { register,handleSubmit ,reset} = useForm()
     const [Progress, setProgress] = useState(false)
+    const error = useSelector((state) => state.Auth.error)
     const dispatch = useDispatch()
     const Update = async (data)=>{
         try {
-            if(data){
                 setProgress(true)
-                if(data.avatar[0]){
+          
                     await dispatch(UpdateAvatar(data)).unwrap()
                     await dispatch(GetCurrentUser()).unwrap()
-                }
-                if(data.coverImage[0]){
+                
                     await dispatch(UpdateCoverImage(data)).unwrap()
-                }
+                
                 reset()
                 setProgress(false)
-            }
+            
         } catch (error) {
             setProgress(false)
             reset()
-            console.log(error)
-            throw error
+            
         }
     }
 
   return (
     <div className="w-full max-w-sm mx-auto border-gray-500 border bg-gray-900 text-white shadow-lg rounded-lg p-8">
     <h2 className="text-2xl font-semibold mb-6 text-center">Update Profile</h2>
+    <h1 className="text-center">
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+      </h1>
     <form onSubmit={handleSubmit(Update)}>
       <div className="mb-6">
         <label

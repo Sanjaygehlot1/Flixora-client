@@ -10,10 +10,11 @@ import { GetUserVideos } from '../../Store/VideoSlice'
 function Watch_Video() {
   const LoginStatus = useSelector((state) => state.Auth.Status)
   const UserData = useSelector((state) => state.Auth.UserData)
+  const videoData = useSelector((state) => state.Video.videoData)
   const userVideos = useSelector((state) => state.Video.UserPublishedVideos)
   const dispatch = useDispatch()
 
- 
+ console.log(videoData)
   if (!LoginStatus) {
     return <LoginPopUp />
   }
@@ -22,7 +23,8 @@ function Watch_Video() {
     const fetchUserVideos = async()=>{
       try {
         if(UserData.data._id){
-          await dispatch(GetUserVideos(UserData.data._id)).unwrap()
+
+          await dispatch(GetUserVideos(videoData.owner_details._id)).unwrap()
         }
       } catch (error) {
         console.log(error.message)
@@ -30,7 +32,7 @@ function Watch_Video() {
     }
   }
   fetchUserVideos()
-  },[UserData])
+  },[UserData,videoData])
 
   
 

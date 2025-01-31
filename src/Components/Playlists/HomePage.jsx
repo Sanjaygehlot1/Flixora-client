@@ -142,7 +142,7 @@ function HomePage() {
                 </div>
               )) :
                 (<div className="flex items-center justify-center h-64">
-                  <h2 className="text-2xl">No Videos Found</h2>
+                  <h2 className="md:text-2xl text-md ">No Videos Found</h2>
                 </div>)}
             </div>
           </div>
@@ -172,7 +172,7 @@ function HomePage() {
                 onClick={() => Delete()}
                 className="bg-red-600 px-2 py-1 rounded-md text-white hover:bg-red-700"
               >
-                Delete
+                {LoadingStatus ? <Loader /> : "Delete"}
               </Button>
             </div>
           </div>
@@ -194,7 +194,7 @@ function HomePage() {
                   className="w-full mt-1 p-2 bg-gray-800 text-white rounded-lg focus:ring-red-500 focus:border-red-500"
                   placeholder="Enter video title"
                   {...register("updatedName", {
-                    maxLength: { value: 50, message: "Title should not exceed 50 characters" },
+                    maxLength: { value: 30, message: "Title should not exceed 50 characters" },
                     minLength: { value: 5, message: "Title should be atleast 5 characters" },
 
                   })}
@@ -211,7 +211,7 @@ function HomePage() {
                   className="w-full mt-1 p-2 bg-gray-800 text-white rounded-lg focus:ring-red-500 focus:border-red-500"
                   placeholder="Enter video description"
                   {...register("updatedDescription", {
-                    maxLength: { value: 500, message: "Description should not exceed 500 characters" },
+                    maxLength: { value: 400, message: "Description should not exceed 500 characters" },
                     minLength: { value: 10, message: "Description should be atleast 10 characters" }
                   })}
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import UserInterfaceLoading from '../../Utilities/UserInterfaceLoading'
 import { GetLikedVideos } from '../../Store/VideoSlice'
-import { timeAgo } from '../../Utilities/TimeConversion'
+import { formatTime, timeAgo } from '../../Utilities/TimeConversion'
 import { useNavigate } from 'react-router-dom'
 import LoginPopUp from '../LoginPopUp'
 
@@ -66,7 +66,7 @@ function LikedVideos() {
                   />
                 )}
                 <span className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-xs text-white px-2 py-1 rounded">
-                  {Math.round(video.result.duration)}s
+                  {formatTime(Math.round(video.result.duration))}
                 </span>
               </div>
 

@@ -5,7 +5,8 @@ const initialState = {
     channelData : {},
     channelVideos : [],
     channelPlaylists : [],
-    channelStats:  {}
+    channelStats:  {},
+    Loading: false
 }
 
 const GetChannelDetails = createAsyncThunk("channel_details", async (username) => {
@@ -24,6 +25,7 @@ const GetChannelVideos = createAsyncThunk("channel_videos", async (channelId)=>{
     try {
         const VideoResponse = await AxiosInstance.get(`/dashboard/published-videos/${channelId}`)
         if(VideoResponse){
+            console.log(VideoResponse.data.data)    
             return VideoResponse.data.data
         }
     } catch (error) {
@@ -93,9 +95,14 @@ const ChannelSlice = createSlice({
                 })
          reducer.addCase(GetChannelVideos.fulfilled, (state,action) => {
                     state.channelVideos = action.payload;
+                    state.Loading = false
+                })
+         reducer.addCase(GetChannelPlaylists.pending, (state,action) => {
+                    state.Loading = true;
                 })
          reducer.addCase(GetChannelPlaylists.fulfilled, (state,action) => {
                     state.channelPlaylists = action.payload;
+                    state.Loading = false
                 })
          
          reducer.addCase(GetChannelStats.fulfilled, (state,action) => {

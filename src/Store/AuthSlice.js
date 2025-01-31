@@ -2,16 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosInstance } from "../Axios/AxiosInstance";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
-
 const initialState = {
     Status: false, // login status
     UserData: null,
     Loading: false,
-    channelData : []
+    channelData: [],
+    error: null
 
 }
 
-const CreateUserAccount = createAsyncThunk("register_user", async (data) => {
+const CreateUserAccount = createAsyncThunk("register_user", async (data, { rejectWithValue }) => {
     const userdata = new FormData()
     userdata.append("username", data.username)
     userdata.append("email", data.email)
@@ -24,9 +24,9 @@ const CreateUserAccount = createAsyncThunk("register_user", async (data) => {
     }
 
     try {
-        
+
         const RegisterResponse = await AxiosInstance.post("/users/register", userdata)
-        
+
         toast.success("User Registered Successfully", {
             autoClose: 3000,
             position: "bottom-right"
@@ -35,38 +35,24 @@ const CreateUserAccount = createAsyncThunk("register_user", async (data) => {
         return RegisterResponse.data;
 
     } catch (error) {
-        toast.error(error?.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        console.log(error)
-        throw error
+        return rejectWithValue(error.response.data)
+
     }
 })
 
-const UserLogin = createAsyncThunk("user_login", async (data) => {
+const UserLogin = createAsyncThunk("user_login", async (data, { rejectWithValue }) => {
     try {
         const LoginResponse = await AxiosInstance.post("/users/login", data)
-        toast.success("User Logged In Successfully", {
-            autoClose: 3000,
-            position: "bottom-right"
-        })
-
 
         return LoginResponse.data.data
 
     } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
+
+        return rejectWithValue(error.response.data)
     }
 })
 
-const UserLogOut = createAsyncThunk("user_logout", async () => {
+const UserLogOut = createAsyncThunk("user_logout", async (data, { rejectWithValue }) => {
     try {
         const LogOutResponse = await AxiosInstance.post("/users/logout")
         toast.success("User Logged Out Successfully", {
@@ -75,34 +61,26 @@ const UserLogOut = createAsyncThunk("user_logout", async () => {
         })
         return LogOutResponse.data
     } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
+        return rejectWithValue(error.response.data)
+
     }
 })
 
-const NewAccessToken = createAsyncThunk("new_token", async (data) => {
+const NewAccessToken = createAsyncThunk("new_token", async (data, { rejectWithValue }) => {
     try {
         const NewTokenResponse = await AxiosInstance.post("/users/new-token", data)
 
 
         return NewTokenResponse.data
     } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
+        return rejectWithValue(error.response.data)
+
     }
 })
 
 
 
-const ChangePassword = createAsyncThunk("change_pass", async (data) => {
+const ChangePassword = createAsyncThunk("change_pass", async (data, { rejectWithValue }) => {
     try {
         const ChangePassResponse = await AxiosInstance.patch("/users/change-pass", data)
         toast.success("Password Changed Successfully", {
@@ -113,26 +91,22 @@ const ChangePassword = createAsyncThunk("change_pass", async (data) => {
 
         return ChangePassResponse.data
     } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
+        return rejectWithValue(error.response.data)
+
     }
 })
 
-const GetCurrentUser = createAsyncThunk("get_user", async () => {
+const GetCurrentUser = createAsyncThunk("get_user", async (data, { rejectWithValue }) => {
     try {
         const UserResponse = await AxiosInstance.get("/users/get-user")
         return UserResponse.data
     } catch (error) {
-        console.log(error)
-        throw error.message
+        return rejectWithValue(error.response.data)
+
     }
 })
 
-const UpdateUserDetails = createAsyncThunk("update_details", async (data) => {
+const UpdateUserDetails = createAsyncThunk("update_details", async (data, { rejectWithValue }) => {
     try {
         const UpdatedDetailsResponse = await AxiosInstance.post("/users/update-details", data)
 
@@ -144,16 +118,12 @@ const UpdateUserDetails = createAsyncThunk("update_details", async (data) => {
 
         return UpdatedDetailsResponse.data
     } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
+        return rejectWithValue(error.response.data)
+
     }
 })
 
-const UpdateAvatar = createAsyncThunk("update_avatar", async (data) => {
+const UpdateAvatar = createAsyncThunk("update_avatar", async (data, { rejectWithValue }) => {
     const userdata = new FormData()
     userdata.append("avatar", data.avatar[0])
 
@@ -167,16 +137,12 @@ const UpdateAvatar = createAsyncThunk("update_avatar", async (data) => {
 
         return Response.data
     } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
+        return rejectWithValue(error.response.data)
+
     }
 })
 
-const UpdateCoverImage = createAsyncThunk("update_coverImage", async (data) => {
+const UpdateCoverImage = createAsyncThunk("update_coverImage", async (data, { rejectWithValue }) => {
     const userdata = new FormData()
     userdata.append("coverImage", data.coverImage[0])
 
@@ -190,12 +156,8 @@ const UpdateCoverImage = createAsyncThunk("update_coverImage", async (data) => {
 
         return Response.data
     } catch (error) {
-        toast.error(error.message, {
-            autoClose: 3000,
-            position: "bottom-right",
-            theme: "colored"
-        })
-        throw error
+        return rejectWithValue(error.response.data)
+
     }
 })
 
@@ -209,27 +171,33 @@ const AuthSlice = createSlice({
         reducer.addCase(CreateUserAccount.pending, (state) => {
             state.Loading = true;
         })
-        reducer.addCase(CreateUserAccount.rejected, (state) => {
+        reducer.addCase(CreateUserAccount.rejected, (state, action) => {
             state.Loading = false;
-        })
-        reducer.addCase(UserLogin.fulfilled, (state, action) => {
-            state.Loading = false;
-                state.UserData = action.payload;
-                state.Status = !state.Status;
+            state.error = action.payload?.message || "An error occured"
         })
         reducer.addCase(UserLogin.pending, (state) => {
             state.Loading = true;
-        }) 
+        })
+        reducer.addCase(UserLogin.rejected, (state, action) => {
+            state.Loading = false;
+            state.error = action.payload?.message || "An error occured"
+        })
+        reducer.addCase(UserLogin.fulfilled, (state, action) => {
+            state.Loading = false;
+            state.UserData = action.payload;
+            state.Status = !state.Status;
+        })
         reducer.addCase(UserLogOut.pending, (state) => {
             state.Loading = true;
         })
         reducer.addCase(UserLogOut.fulfilled, (state) => {
             state.Loading = false;
-                state.Status = false;
-                state.UserData = null;
+            state.Status = false;
+            state.UserData = null;
         })
-        reducer.addCase(UserLogOut.rejected, (state) => {
+        reducer.addCase(UserLogOut.rejected, (state, action) => {
             state.Loading = false;
+            state.error = action.payload?.message || "An error occured"
         })
         reducer.addCase(NewAccessToken.fulfilled, (state) => {
             state.Loading = false;
@@ -237,20 +205,55 @@ const AuthSlice = createSlice({
         reducer.addCase(NewAccessToken.pending, (state) => {
             state.Loading = true;
         })
-        reducer.addCase(GetCurrentUser.fulfilled, (state,action) => {
+        reducer.addCase(GetCurrentUser.fulfilled, (state, action) => {
             state.Loading = false;
             state.UserData = action.payload;
             state.Status = true;
         })
-        reducer.addCase(GetCurrentUser.pending, (state,action) => {
+        reducer.addCase(GetCurrentUser.pending, (state, action) => {
             state.Loading = true;
             state.Status = false;
         })
-        reducer.addCase(GetCurrentUser.rejected, (state) => {
+        reducer.addCase(GetCurrentUser.rejected, (state, action) => {
             state.Loading = false;
             state.UserData = null;
             state.Status = false;
+            state.error = action.payload?.message || "An error occured"
         })
+
+        reducer.addCase(UpdateUserDetails.rejected, (state, action) => {
+            state.Loading = false;
+            state.error = action.payload?.message || "An error occured"
+        })
+        reducer.addCase(UpdateUserDetails.fulfilled, (state, action) => {
+            state.Loading = false;
+            state.error = null;
+        })
+        reducer.addCase(ChangePassword.rejected, (state, action) => {
+            state.error = action.payload?.message || "An error occured"
+        })
+        reducer.addCase(ChangePassword.fulfilled, (state, action) => {
+            state.error = null;
+        })
+        reducer.addCase(UpdateAvatar.fulfilled, (state, action) => {
+            state.Loading = false;
+            state.error = null;
+        })
+
+        reducer.addCase(UpdateAvatar.rejected, (state, action) => {
+            state.Loading = false;
+            state.error = action.payload?.message || "An error occured"
+        })
+        reducer.addCase(UpdateCoverImage.fulfilled, (state, action) => {
+            state.Loading = false;
+            state.error = null;
+        })
+
+        reducer.addCase(UpdateCoverImage.rejected, (state, action) => {
+            state.Loading = false;
+            state.error = action.payload?.message || "An error occured"
+        })
+
 
 
 

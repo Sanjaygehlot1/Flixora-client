@@ -13,6 +13,7 @@ const ToggleSubscription = createAsyncThunk("toggle_subs", async (channelId) => 
             autoClose: 3000,
             position: "bottom-right"
         })
+        console.log(Response.data.data)
         return Response.data.data.subscribed
     } catch (error) {
 
@@ -24,7 +25,7 @@ const ToggleSubscription = createAsyncThunk("toggle_subs", async (channelId) => 
 const CheckSubscription = createAsyncThunk("check_sub", async (channelId) => {
     try {
         const response = await AxiosInstance.get(`/subscription/check-sub/${channelId}`)
-
+        console.log(response.data.data)
 
         return response.data.data.status
     } catch (error) {

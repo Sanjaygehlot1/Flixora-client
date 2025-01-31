@@ -3,11 +3,12 @@ import { AxiosInstance } from "../Axios/AxiosInstance";
 import { toast } from "react-toastify";
 
 const initiaState = {
-    Loading : true,
+    Loading : false,
     LikeStatus : false,
     AllLikedVideos : [],
     WatchHistory : [],
-    UserPublishedVideos: []
+    UserPublishedVideos: [],
+    videoData : {}
 }
 
 const GetAllVideos = createAsyncThunk("get_all_videos",async (query)=>{
@@ -41,9 +42,9 @@ const WatchVideo = createAsyncThunk("watch_video", async (videoId)=>{
 const GetUserVideos = createAsyncThunk("get_user_all_videos",async(userId)=>{
     try {
         if(userId){
-
+            console.log(userId)
             const Response = await AxiosInstance.get(`/dashboard/published-videos/${userId}`)
-    
+            console.log(Response.data.data)
             return Response.data.data
         }
     } catch (error) {
@@ -181,18 +182,24 @@ const VideoSlice = createSlice({
         state.Loading = false;
         state.Videos = action.payload;
        })
-       reducer.addCase(WatchVideo.pending,(state)=>{
-        state.Loading = true;
-       })
-       reducer.addCase(WatchVideo.fulfilled,(state,action)=>{
-        state.Loading = true;
-       })
        reducer.addCase(GetUserVideos.pending,(state)=>{
         state.Loading = true;
        })
        reducer.addCase(GetUserVideos.fulfilled,(state,action)=>{
         state.Loading = false;
         state.UserPublishedVideos = action.payload;
+       })
+       reducer.addCase(UpdateVideoDetails.pending,(state)=>{
+        state.Loading = true;
+       })
+       reducer.addCase(UpdateVideoDetails.fulfilled,(state)=>{
+        state.Loading = false;
+       })
+       reducer.addCase(VideoDelete.pending,(state)=>{
+        state.Loading = true;
+       })
+       reducer.addCase(VideoDelete.fulfilled,(state)=>{
+        state.Loading = false;
        })
        reducer.addCase(LikeVideo.fulfilled,(state,action)=>{
         state.LikeStatus = action.payload;
@@ -203,6 +210,10 @@ const VideoSlice = createSlice({
        reducer.addCase(UserHistory.fulfilled,(state,action)=>{
         state.WatchHistory = action.payload;
        })
+       reducer.addCase(WatchVideo.fulfilled,(state,action)=>{
+        state.videoData = action.payload;
+       })
+      
       
     }
 })

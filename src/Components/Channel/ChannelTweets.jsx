@@ -123,7 +123,9 @@ function ChannelTweets() {
 
   return (
     <div className="w-full">
-      <form onSubmit={handleSubmit(PostTweet)}>
+      {
+        User.data._id === ChannelData._id && (
+          <form onSubmit={handleSubmit(PostTweet)}>
         <div className="flex items-start flex-col gap-2">
           <div className='w-full'>
             <label className="block text-xl font-bold my-2 mb-2" htmlFor="description">
@@ -157,23 +159,25 @@ function ChannelTweets() {
           </Button>
         </div>
       </form>
+        )
+      }
 
       {Tweets.length ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid mt-2 grid-cols-1 sm:grid-cols-2 gap-4">
           {Tweets.map((tweet) => (
             <div
               key={tweet._id}
-              className=" bg-gray-900  border border-gray-700 border-b-4  overflow-hidden h-fit text-gray-100 rounded-lg shadow-md p-4"
+              className=" bg-gray-900 mx-2  border border-gray-700 border-b-4  overflow-hidden h-fit text-gray-100 rounded-lg shadow-md p-4"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex flex-col items-start gap-1">
                   <img
                     src={User.data.avatar}
                     alt={User.data.username}
-                    className="w-10 h-10 rounded-full mr-3"
+                    className="w-16 h-10 rounded-full mr-3"
                   />
                   <div>
-                    <h4 className="font-bold  text-sm">{tweet.content}</h4>
+                    <h4 className="font-boldp-4 w-full max-w-md text-wrap break-words  text-sm">{tweet.content}</h4>
                     <p className="text-xs text-gray-400">{timeAgo(tweet.createdAt)}</p>
                   </div>
                 </div>
@@ -263,9 +267,11 @@ function ChannelTweets() {
           ))}
         </div>
       ) : (
-        <div className="h-full bg-gray-800 flex items-center justify-center">
-          <h1 className="text-xl text-gray-500">No Tweets</h1>
-        </div>
+        <div className='flex w-full justify-center p-6 bg-gray-900 '>
+        <h1 className='font-bold text-lg'>
+            No Tweets
+        </h1>
+    </div>
       )
       }
 

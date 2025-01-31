@@ -5,6 +5,7 @@ import { CreatePlaylist, GetChannelPlaylists } from '../../Store/PlaylistSlice.j
 import { useSelector } from 'react-redux'
 import ChannelPlaylistSkeleton from './ChannelPlaylistSkeleton'
 import Button from '../Common/Button.jsx'
+import Loader from '../../Utilities/Loader.jsx'
 import { useForm } from 'react-hook-form'
 
 function ChannelPlaylists() {
@@ -12,6 +13,8 @@ function ChannelPlaylists() {
   const ChannelData = useOutletContext()
   const dispatch = useDispatch()
   const PlaylistsData = useSelector((state) => state.Channel.channelPlaylists)
+  const LoadingStatus = useSelector((state) => state.Playlist.Loading)
+
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setisOpen] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm()
@@ -116,9 +119,11 @@ function ChannelPlaylists() {
             </div>
           ))
         ) : (
-          <div className="h-full flex items-center justify-center">
-            <h1 className="text-xl text-gray-500">No Playlists</h1>
-          </div>
+          <div className='flex w-full justify-center p-6 bg-gray-900'>
+          <h1 className='font-bold text-lg'>
+              No Playlists
+          </h1>
+      </div>
         )}
       </div>
 
@@ -143,6 +148,8 @@ function ChannelPlaylists() {
                   placeholder="Enter playlist name"
                   {...register("name", {
                     required: "Playlist name is required",
+                    maxLength: { value: 30, message: "Title should not exceed 50 characters" },
+                    minLength: { value: 5, message: "Title should be atleast 5 characters" },
                   })}
                 />
                 {errors.name && (
@@ -164,6 +171,8 @@ function ChannelPlaylists() {
                   rows="3"
                   {...register("description", {
                     required: "Description is required",
+                    maxLength: { value: 400, message: "Description should not exceed 500 characters" },
+                    minLength: { value: 10, message: "Description should be atleast 10 characters" }
                   })}
                 ></textarea>
                 {errors.description && (
@@ -183,7 +192,7 @@ function ChannelPlaylists() {
                   type="submit"
                   className="bg-red-500 py-1 text-white px-4  rounded hover:bg-red-600"
                 >
-                  Save
+                  {LoadingStatus ? <Loader/> : "Create"}
                 </Button>
               </div>
             </form>

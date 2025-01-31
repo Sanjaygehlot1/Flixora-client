@@ -24,10 +24,7 @@ const CreatePlaylist = createAsyncThunk("create_playlist", async (data) => {
         const PlaylistResponse = await AxiosInstance.post(`/playlist/create-playlist`, data)
 
         if (PlaylistResponse) {
-            toast.success("Playlist Created Successfully", {
-                autoClose: 3000,
-                position: "bottom-right"
-            })
+        
             return PlaylistResponse.data.data
         }
     } catch (error) {
@@ -143,6 +140,12 @@ const PlaylistSlice = createSlice({
         })
         reducer.addCase(GetPlaylistById.fulfilled, (state, action) => {
             state.PlaylistDetails = action.payload
+        })
+        reducer.addCase(CreatePlaylist.pending, (state, action) => {
+            state.Loading = true
+        })
+        reducer.addCase(CreatePlaylist.fulfilled, (state, action) => {
+            state.Loading = false
         })
     }
 })

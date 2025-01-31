@@ -7,7 +7,8 @@ import LoginPopUp from '../LoginPopUp'
 import { FaCog } from 'react-icons/fa'
 import Button from '../Common/Button'
 import { ToggleSubscription } from '../../Store/SubscriptionSlice'
-
+import { FaBell } from "react-icons/fa";
+import { FaBellSlash } from "react-icons/fa";
 function Dashboard() {
     const dispatch = useDispatch()
     const channel = useParams()
@@ -74,7 +75,7 @@ function Dashboard() {
                     <img
                         src={channelData.avatar}
                         alt="Profile"
-                        className="w-24 h-24 rounded-full border-4 border-gray-900"
+                        className="w-26 h-24 rounded-full border-4 border-gray-900"
                     />
 
                     <div className="ml-4">
@@ -90,8 +91,8 @@ function Dashboard() {
                             <Button
                                 disabled={SubscribeLoading}
                                 onClick={Subscribe}
-                                className={`${channelData.isSubscribed ? "bg-red-500 text-white mt-1 px-3 py-1 rounded hover:bg-red-600" : "bg-gray-400 text-white px-3 mt-1 py-1 rounded hover:bg-gray-500"}`}>
-                                {channelData.isSubscribed ? "Subscribed" : "Subscribe"}
+                                className={`${channelData.isSubscribed ? "bg-red-500 text-white flex gap-1 items-center mt-1 px-3 py-1 rounded hover:bg-red-600" : "bg-gray-400 text-white gap-1 items-center flex px-3 mt-1 py-1 rounded hover:bg-gray-500"}`}>
+                                {channelData.isSubscribed ?  <FaBellSlash/>:<FaBell/> } {channelData.isSubscribed ? "unsusbcribe" : "Subscribe"}
                             </Button>
                         </div>
                     )}

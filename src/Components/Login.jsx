@@ -17,22 +17,27 @@ function Login() {
     const navigate = useNavigate()
     const loading = useSelector((state) => state.Auth.Loading)
     const LoginStatus = useSelector((state) => state.Auth.Status)
+    const error = useSelector((state) => state.Auth.error)
     const [showPass, setshowPass] = useState(false)
 
     const login = async (data) => {
-        if (data) {
-            const updated_data = {
-                password: data.password,
-                username: data.loginmethod,
-                email: data.loginmethod
+        try {
+            if (data) {
+                const updated_data = {
+                    password: data.password,
+                    username: data.loginmethod,
+                    email: data.loginmethod
+                }
+    
+                const loginuser = await dispatch(UserLogin(updated_data)).unwrap()
+    
+                if (loginuser) {
+                    navigate("/")
+                   
+                }
             }
-
-            const loginuser = await dispatch(UserLogin(updated_data)).unwrap()
-
-            if (loginuser) {
-                navigate("/")
-               
-            }
+        } catch (error) {
+            console.error(error)
         }
     }
     useEffect(() => {
@@ -51,7 +56,7 @@ function Login() {
                     <Logo />
                     <div className="logo-container"></div>
                 </div>
-
+                {error && <div className="text-red-500 text-sm">{error}</div>}
                 <form className="space-y-5 p-2" onSubmit={handleSubmit(login)}>
                     <div>
                         <label className="block mb-1">Username / email :</label>
@@ -106,6 +111,7 @@ function Login() {
                         </Link>
                     </p>
                 </form>
+               
             </div>
         </div>
 

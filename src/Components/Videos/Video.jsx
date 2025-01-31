@@ -2,20 +2,20 @@
 import { useSelector, useDispatch } from 'react-redux'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import {  LikeVideo, WatchVideo } from '../../Store/VideoSlice'
+import { LikeVideo, WatchVideo } from '../../Store/VideoSlice'
 import VideoLoading from '../../Utilities/VideoLoading'
 import { CheckSubscription, ToggleSubscription } from '../../Store/SubscriptionSlice'
-import { AddVideoToPlaylist } from '../../Store/PlaylistSlice'
 import { CgPlayListAdd } from 'react-icons/cg'
 import Button from '../Common/Button'
 import PlaylistPopup from '../Playlists/PlaylistPopup'
-
+import { FaBell } from "react-icons/fa";
+import { FaBellSlash } from "react-icons/fa";
 function Video() {
 
     const navigate = useNavigate()
     const isSubscribed = useSelector((state) => state.Subscription.isSubscribed)
     const UserData = useSelector((state) => state.Auth.UserData)
-    const [videoData, setvideoData] = useState(null)
+    const videoData = useSelector((state) => state.Video.videoData)
     const [OpenPlaylistPopup, setOpenPlaylistPopup] = useState(false)
     const videoId = useParams()
     const [SubscribeLoading, setSubscribeLoading] = useState(false)
@@ -24,20 +24,11 @@ function Video() {
 
     const Subscribe = async () => {
         try {
-            const isCurrentlySubscribed = isSubscribed;
+
             setSubscribeLoading(true)
             await dispatch(ToggleSubscription(videoData.owner_details._id)).unwrap();
             setSubscribeLoading(false)
 
-            setvideoData((prev) => ({
-                ...prev,
-                owner_details: {
-                    ...prev.owner_details,
-                    subscribersCount: isCurrentlySubscribed
-                        ? prev.owner_details.subscribersCount - 1
-                        : prev.owner_details.subscribersCount + 1,
-                },
-            }));
 
         } catch (error) {
             setSubscribeLoading(false)
@@ -53,45 +44,39 @@ function Video() {
             throw error
         }
     }
-
     const handleVideoLike = async () => {
         try {
 
             await dispatch(LikeVideo(videoId)).unwrap()
-            const videoResponse = await dispatch(WatchVideo(videoId)).unwrap();
+            await dispatch(WatchVideo(videoId)).unwrap();
 
-            if (videoResponse) {
-                setvideoData(videoResponse);
-            }
 
         } catch (error) {
             console.log(error.message)
             throw error
         }
     }
+    useEffect(() => {
+        CheckSubs()
+    }, [videoData])
 
-   
+
     useEffect(() => {
         const video = async () => {
             try {
-                const videoResponse = await dispatch(WatchVideo(videoId)).unwrap();
-
-                if (videoResponse) {
-                    setvideoData(videoResponse);
-                }
-
+                await dispatch(WatchVideo(videoId)).unwrap();
 
             } catch (error) {
                 console.log(error.message);
                 throw error;
             }
         };
-        CheckSubs()
+
 
         video();
-    }, [videoId]);
+    }, [videoId, isSubscribed]);
 
-    if (!videoData) {
+    if (Object.keys(videoData).length === 0) {
         return (<VideoLoading />)
     }
 
@@ -165,11 +150,8 @@ function Video() {
                         {UserData.data.username !== videoData.owner_details.username && (
                             <Button
                                 onClick={Subscribe}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${isSubscribed ? "bg-red-600" : "bg-gray-400"
-                                    } text-white`}
-                                disabled={SubscribeLoading}
-                            >
-                                {isSubscribed ? "Subscribed" : "Subscribe"}
+                                className={`${isSubscribed ? "bg-red-600 text-white flex gap-1 items-center mt-1 px-1 py-1 text-xs xs:text-base rounded hover:bg-red-700" : "bg-gray-400 text-white gap-1 items-center flex  mt-1 px-1 py-1 text-xs xs:text-base rounded hover:bg-gray-500"}`}>
+                                {isSubscribed ? <FaBellSlash /> : <FaBell />} {isSubscribed ? "Unsusbcribe" : "Subscribe"}
                             </Button>
                         )}
 
@@ -179,22 +161,22 @@ function Video() {
                 <div className="w-full ">
                     <div className="bg-gray-800 gap-2 p-2 w-full mt-2 rounded-md shadow-md flex items-center justify-between">
                         <div>
-                        <p className="text-lg font-bold mb-1 text-gray-300">Description</p>
-                        <p className="text-sm font-normal text-gray-300">
-                            {videoData.description}
-                        </p>
+                            <p className="text-lg font-bold mb-1 text-gray-300">Description</p>
+                            <p className="text-sm font-normal text-gray-300">
+                                {videoData.description}
+                            </p>
                         </div>
                         <Button
-                            onClick={()=>setOpenPlaylistPopup(true)}
+                            onClick={() => setOpenPlaylistPopup(true)}
                             className="flex items-center gap-2 px-4 py-2 rounded-lg transition bg-blue-500 text-white"
                         >
-                             <CgPlayListAdd className="text-xl" />
+                            <CgPlayListAdd className="text-xl" />
                         </Button>
                     </div>
-                   
+
                 </div>
             </div>
-            {<PlaylistPopup isOpen={OpenPlaylistPopup} onClose={()=>setOpenPlaylistPopup(false)} videoId={videoId.videoId} />}
+            {<PlaylistPopup isOpen={OpenPlaylistPopup} onClose={() => setOpenPlaylistPopup(false)} videoId={videoId.videoId} />}
         </div>
     )
 }

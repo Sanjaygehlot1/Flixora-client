@@ -105,64 +105,65 @@ function VideoComments() {
                 </div>
             </form>
 
-            {
-                Comments.length !== 0 ? (
-                    <div className="space-y-4">
-                        {Comments.map((comment) => (
-                            <div
-                                key={comment._id}
-                                className="flex items-start gap-4 p-2 bg-gray-800 rounded-lg shadow-md overflow-hidden relative"
-                            >
-                                <img
-                                    src={comment.comment_owner.avatar}
-                                    alt={`${comment.comment_owner.username}'s avatar`}
-                                    className="w-10 h-10 rounded-full flex-shrink-0 object-cover"
-                                />
-                                <div className="w-full">
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-sm font-medium text-white">
-                                            {comment.comment_owner.username}
-                                        </p>
-                                        <p className="text-xs text-gray-400">
-                                            {comment.updatedAt
-                                                ? timeAgo(comment.updatedAt)
-                                                : timeAgo(comment.createdAt)}
-                                        </p>
-                                    </div>
-                                    <p className="text-gray-300 mt-2 break-words">
-                                        {comment.content}
+            {Comments.length !== 0 ? (
+                <div className="space-y-4">
+                    {Comments.map((comment) => (
+                        <div
+                            key={comment._id}
+                            className="flex flex-col sm:flex-row items-start gap-4 p-3 sm:p-4 bg-gray-800 rounded-lg shadow-md overflow-hidden relative"
+                        >
+                            <img
+                                src={comment.comment_owner.avatar}
+                                alt={`${comment.comment_owner.username}'s avatar`}
+                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex-shrink-0 object-cover"
+                            />
+
+                            <div className="w-full flex flex-col">
+                                <div className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2">
+                                    <p className="text-sm sm:text-base font-medium text-white">
+                                        @{comment.comment_owner.username}
+                                    </p>
+                                    <p className="text-xs sm:text-sm text-gray-400">
+                                        {comment.updatedAt
+                                            ? timeAgo(comment.updatedAt)
+                                            : timeAgo(comment.createdAt)}
                                     </p>
                                 </div>
 
-                                {
-                                    comment.comment_owner.username === CurrentUser.data.username ? (
-                                        <div >
-                                            <Button onClick={() => {
-                                                setOpenDeletePopup(true)
-                                                setcommentId(comment._id)
+                                <p className="text-gray-300 text-sm sm:text-base w-full text-wrap break-words mt-2">
+                                    {comment.content}
+                                </p>
 
+                                {comment.comment_owner.username === CurrentUser.data.username && (
+                                    <div className="flex gap-2 mt-2">
+                                        <Button
+                                            onClick={() => {
+                                                setOpenDeletePopup(true);
+                                                setcommentId(comment._id);
                                             }}
-                                                className='py-1 px-2 text-lg bg-red-600 hover:bg-red-700 rounded-lg'>
-                                                <MdDeleteSweep />
-                                            </Button>
-                                            <Button onClick={() => {
-                                                setOpenEditPopup(true)
-                                                setcommentId(comment._id)
-
+                                            className="py-1 px-2 text-lg bg-red-600 hover:bg-red-700 rounded-lg"
+                                        >
+                                            <MdDeleteSweep />
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                setOpenEditPopup(true);
+                                                setcommentId(comment._id);
                                             }}
-                                                className='py-1 px-2 text-lg bg-blue-600 hover:bg-blue-700 rounded-lg'>
-                                                <TbEdit />
-                                            </Button>
-                                        </div>
-                                    ) : ""
-                                }
+                                            className="py-1 px-2 text-lg bg-blue-600 hover:bg-blue-700 rounded-lg"
+                                        >
+                                            <TbEdit />
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-gray-400 text-center">No Comments</div>
-                )
-            }
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="text-gray-400 text-center">No Comments</div>
+            )}
+
 
             {OpenDeletePopup && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -199,7 +200,7 @@ function VideoComments() {
 
             {OpenEditPopup && (
                 <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-gray-900 p-6 rounded-lg w-1/3">
+                    <div className="bg-gray-900 p-6 rounded-lg w-full">
                         <textarea
                             className="w-full h-24 p-2 bg-gray-800 text-white rounded-lg"
                             value={newContent}

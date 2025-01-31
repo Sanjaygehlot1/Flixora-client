@@ -11,6 +11,7 @@ import GetImagePreview from './Common/GetImagePreview'
 
 function Register() {
     const { control, formState: { errors }, register, handleSubmit } = useForm()
+    const error = useSelector((state) => state.Auth.error)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const loading = useSelector((state) => state.Auth.Loading)
@@ -49,6 +50,7 @@ function Register() {
                     <div className="flex items-center gap-2">
                         <Logo />
                     </div>
+                    {error && <div className="text-red-500">{error.message}</div>}
                     <form
                         onSubmit={handleSubmit(signup)}
                         className="space-y-4 p-2 text-sm sm:w-96 w-full"

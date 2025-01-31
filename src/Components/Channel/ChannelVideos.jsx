@@ -19,15 +19,15 @@ function ChannelVideos() {
     const ChannelData = useOutletContext()
     const channelVideos = useSelector((state) => state.Channel.channelVideos)
     const CurrentUser = useSelector((state) => state.Auth.UserData)
+    const LoadingStatus = useSelector((state) => state.Video.Loading)
     const [VideoId, setVideoId] = useState(null);
-    const [Progress, setProgress] = useState(false);
     const [isEditable, setisEditable] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [OpenPlaylistPopup, setOpenPlaylistPopup] = useState(false)
     const { handleSubmit, register, formState: { errors }, setValue } = useForm()
     const dispatch = useDispatch()
-    console.log(channelVideos)
-    console.log(ChannelData)
+   
+
     const openModal = (video) => {
         setIsOpen(true)
         setVideoId(video._id)
@@ -40,32 +40,26 @@ function ChannelVideos() {
     const DeleteVideo = async (data) => {
         try {
             if (data) {
-                setProgress(true)
                 await dispatch(VideoDelete(VideoId)).unwrap()
                 await dispatch(GetChannelVideos(ChannelData._id)).unwrap()
-                setProgress(false)
+                closeModal()
             }
         } catch (error) {
-            setProgress(false)
             throw error
         }
     }
     const EditVideo = async (data) => {
         try {
             if (data) {
-                setProgress(true)
                 await dispatch(UpdateVideoDetails({ ...data, videoId: VideoId })).unwrap()
                 await dispatch(GetChannelVideos(ChannelData._id)).unwrap()
-                setProgress(false)
                 setisEditable(false)
-
             }
         } catch (error) {
-            setProgress(false)
             throw error
         }
     }
-
+    console.log(LoadingStatus)
     useEffect(() => {
         const response = async () => {
             if (isEditable) {
@@ -154,9 +148,11 @@ function ChannelVideos() {
                         </div>
                     ))
                 ) : (
-                    <div className="h-full flex items-center justify-center">
-                        <h1 className="text-xl text-gray-500">No Videos</h1>
-                    </div>
+                    <div className='flex w-full justify-center p-6 bg-gray-900'>
+                    <h1 className='font-bold text-lg'>
+                        No Videos
+                    </h1>
+                </div>
                 )}
 
             </div>
@@ -187,7 +183,7 @@ function ChannelVideos() {
                                 }}
                                 className="bg-red-600 text-white hover:bg-red-700 rounded-lg px-2 py-1 "
                             >
-                                {!Progress ? "Delete" : <Loader />}
+                                {!LoadingStatus ? "Delete" : <Loader />}
                             </Button>
                         </div>
                     </div>
@@ -251,7 +247,7 @@ function ChannelVideos() {
                                     type="submit"
                                     className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:ring-4 focus:ring-red-500"
                                 >
-                                    {Progress ? <Loader /> : "Update"}
+                                    {LoadingStatus ? <Loader /> : "Update"}
                                 </Button>
                             </div>
                         </form>
