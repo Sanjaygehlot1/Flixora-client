@@ -25,7 +25,6 @@ const GetChannelVideos = createAsyncThunk("channel_videos", async (channelId)=>{
     try {
         const VideoResponse = await AxiosInstance.get(`/dashboard/published-videos/${channelId}`)
         if(VideoResponse){
-            console.log(VideoResponse.data.data)    
             return VideoResponse.data.data
         }
     } catch (error) {

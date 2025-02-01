@@ -15,7 +15,6 @@ const initiaState = {
 
 const GetAllVideos = createAsyncThunk("get_all_videos",async (data)=>{
     try {
-        console.log(data)
         const VideoResponse = await AxiosInstance.get("/video/search/v",
             {
                 params:{
@@ -46,9 +45,7 @@ const WatchVideo = createAsyncThunk("watch_video", async (videoId)=>{
 const GetUserVideos = createAsyncThunk("get_user_all_videos",async(userId)=>{
     try {
         if(userId){
-            console.log(userId)
             const Response = await AxiosInstance.get(`/dashboard/published-videos/${userId}`)
-            console.log(Response.data.data)
             return Response.data.data
         }
     } catch (error) {

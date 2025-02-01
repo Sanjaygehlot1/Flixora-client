@@ -63,6 +63,7 @@ function MySubscriptions() {
             {MySubs.map((subscription) => (
                 <div key={subscription._id} className="bg-gray-800 text-white shadow-md rounded-lg p-2 flex flex-row sm:flex-row items-center justify-between  mx-2 mt-2 gap-4">
                     <div className='flex items-center gap-2'>
+          
                     <div className="flex flex-wrap items-start relative">
                         <img
                             src={subscription.channel_details.avatar}

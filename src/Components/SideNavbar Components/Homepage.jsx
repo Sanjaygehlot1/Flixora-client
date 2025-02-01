@@ -22,7 +22,6 @@ function Homepage() {
 
   }
 
-  console.log(Allvideos)
 
   useEffect(() => {
     videos();

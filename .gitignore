@@ -7,10 +7,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# dotenv environment variables file
+.env
+.env.test
+.env.production
+
 node_modules
 dist
 dist-ssr
 *.local
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
 
 # Editor directories and files
 .vscode/*
@@ -22,3 +30,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env
+.env
+.env

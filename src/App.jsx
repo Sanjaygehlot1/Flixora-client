@@ -24,11 +24,9 @@ function App() {
         if (!UserData) {
             fetchCurrentUser();
         }
-    }, [fetchCurrentUser, UserData]);
+    }, []);
 
-    if (!UserData) {
-        return <HomePageSkeleton/>;
-    }
+    
 
     return (
         <>

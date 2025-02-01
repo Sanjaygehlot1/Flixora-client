@@ -59,7 +59,6 @@ function ChannelVideos() {
             throw error
         }
     }
-    console.log(LoadingStatus)
     useEffect(() => {
         const response = async () => {
             if (isEditable) {

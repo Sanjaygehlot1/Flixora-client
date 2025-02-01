@@ -36,7 +36,6 @@ function Header() {
 
   const search = async () => {
     try {
-      console.log(query); 
       await dispatch(GetAllVideos({query: query , page : 1})).unwrap();
     } catch (error) {
       console.log(error.message);

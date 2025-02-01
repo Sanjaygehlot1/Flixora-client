@@ -15,7 +15,6 @@ function UpdateProfile() {
   const dispatch = useDispatch()
   const Update = async (data) => {
     try {
-      console.log(data)
       if(data.avatar[0] || data.coverImage[0]){
         setLocalerror(null)
         if(data.avatar[0]){

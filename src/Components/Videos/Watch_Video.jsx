@@ -14,7 +14,6 @@ function Watch_Video() {
   const userVideos = useSelector((state) => state.Video.UserPublishedVideos)
   const dispatch = useDispatch()
 
- console.log(videoData)
   if (!LoginStatus) {
     return <LoginPopUp />
   }
