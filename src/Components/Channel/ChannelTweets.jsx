@@ -174,7 +174,7 @@ function ChannelTweets() {
                   <img
                     src={User.data.avatar}
                     alt={User.data.username}
-                    className="w-16 h-10 rounded-full mr-3"
+                    className="w-12 h-12 rounded-full border-2 border-gray-700 hover:border-white transition-all"
                   />
                   <div>
                     <h4 className="font-boldp-4 w-full max-w-md text-wrap break-words  text-sm">{tweet.content}</h4>

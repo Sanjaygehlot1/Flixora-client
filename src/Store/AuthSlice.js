@@ -167,6 +167,7 @@ const AuthSlice = createSlice({
     extraReducers: (reducer) => {
         reducer.addCase(CreateUserAccount.fulfilled, (state) => {
             state.Loading = false;
+            state.error = null;
         })
         reducer.addCase(CreateUserAccount.pending, (state) => {
             state.Loading = true;
@@ -186,6 +187,7 @@ const AuthSlice = createSlice({
             state.Loading = false;
             state.UserData = action.payload;
             state.Status = !state.Status;
+            state.error = null;
         })
         reducer.addCase(UserLogOut.pending, (state) => {
             state.Loading = true;
@@ -194,6 +196,7 @@ const AuthSlice = createSlice({
             state.Loading = false;
             state.Status = false;
             state.UserData = null;
+            state.error = null;
         })
         reducer.addCase(UserLogOut.rejected, (state, action) => {
             state.Loading = false;
@@ -218,7 +221,7 @@ const AuthSlice = createSlice({
             state.Loading = false;
             state.UserData = null;
             state.Status = false;
-            state.error = action.payload?.message || "An error occured"
+            
         })
 
         reducer.addCase(UpdateUserDetails.rejected, (state, action) => {
@@ -229,15 +232,26 @@ const AuthSlice = createSlice({
             state.Loading = false;
             state.error = null;
         })
+        reducer.addCase(UpdateUserDetails.pending, (state, action) => {
+            state.Loading = true;
+        })
         reducer.addCase(ChangePassword.rejected, (state, action) => {
             state.error = action.payload?.message || "An error occured"
+            state.Loading = false;
+        })
+        reducer.addCase(ChangePassword.pending, (state, action) => {
+            state.Loading = true;
         })
         reducer.addCase(ChangePassword.fulfilled, (state, action) => {
             state.error = null;
+            state.Loading = false;
         })
         reducer.addCase(UpdateAvatar.fulfilled, (state, action) => {
             state.Loading = false;
             state.error = null;
+        })
+        reducer.addCase(UpdateAvatar.pending, (state, action) => {
+            state.Loading = true;
         })
 
         reducer.addCase(UpdateAvatar.rejected, (state, action) => {
@@ -247,6 +261,9 @@ const AuthSlice = createSlice({
         reducer.addCase(UpdateCoverImage.fulfilled, (state, action) => {
             state.Loading = false;
             state.error = null;
+        })
+        reducer.addCase(UpdateCoverImage.pending, (state, action) => {
+            state.Loading = true;
         })
 
         reducer.addCase(UpdateCoverImage.rejected, (state, action) => {

@@ -61,19 +61,21 @@ function MySubscriptions() {
     return (
         <div className="space-y-4 w-full">
             {MySubs.map((subscription) => (
-                <div key={subscription._id} className="bg-gray-800 text-white shadow-md rounded-lg p-4 flex flex-row sm:flex-row items-center  mx-2 mt-2 gap-4">
-                    <div>
+                <div key={subscription._id} className="bg-gray-800 text-white shadow-md rounded-lg p-2 flex flex-row sm:flex-row items-center justify-between  mx-2 mt-2 gap-4">
+                    <div className='flex items-center gap-2'>
+                    <div className="flex flex-wrap items-start relative">
                         <img
                             src={subscription.channel_details.avatar}
                             alt={`${subscription.channel_details.username}'s avatar`}
                             onClick={() => { navigate(`/dashboard/${subscription.channel_details.username}/videos`) }}
-                            className="rounded-full cursor-pointer w-16 h-16 object-cover mx-auto" />
+                            className="w-16 h-16 rounded-full border-2 border-gray-700 hover:border-white transition-all" />
                     </div>
                     <div>
                         <h2 className="font-bold text-md sm:text-lg text-center">{subscription.channel_details.username}</h2>
                     </div>
+                    </div>
                     {ChannelData._id === CurrentUser.data._id && (
-                        <div className="flex justify-end  w-full">
+                        <div className="flex justify-end  w-fit">
                         <Button
                             bgColor={'bg-red-600'}
                             className='px-2 py-1 flex items-center gap-1 rounded-lg'

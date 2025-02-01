@@ -9,7 +9,7 @@ function Logo() {
   <polygon points="20,15 35,25 20,35" fill="#FFFFFF" />
 
   <text x="58" y="33" fontFamily="Arial, sans-serif" fontSize="20" fill="#FF0000" fontWeight="bold">
-    PlayTube
+  Flixora
   </text>
 </svg>
 

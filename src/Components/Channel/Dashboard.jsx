@@ -30,7 +30,7 @@ function Dashboard() {
             }
         }
         ChannelDetails()
-    }, [])
+    }, [channel])
 
     const Subscribe = async () => {
         try {
@@ -75,7 +75,7 @@ function Dashboard() {
                     <img
                         src={channelData.avatar}
                         alt="Profile"
-                        className="w-26 h-24 rounded-full border-4 border-gray-900"
+                        className="w-16 h-16 rounded-full border-2 border-gray-700 hover:border-white transition-all"
                     />
 
                     <div className="ml-4">

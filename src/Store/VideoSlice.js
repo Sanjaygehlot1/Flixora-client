@@ -6,21 +6,25 @@ const initiaState = {
     Loading : false,
     LikeStatus : false,
     AllLikedVideos : [],
+    AllVideos:{},
     WatchHistory : [],
     UserPublishedVideos: [],
-    videoData : {}
+    videoData : {},
+    SearchQuery : "",
 }
 
-const GetAllVideos = createAsyncThunk("get_all_videos",async (query)=>{
+const GetAllVideos = createAsyncThunk("get_all_videos",async (data)=>{
     try {
+        console.log(data)
         const VideoResponse = await AxiosInstance.get("/video/search/v",
             {
                 params:{
-                    query : query
+                    query : data.query || "",
+                    page : data.page || 1
                 }
             }
         )
-        return VideoResponse.data
+        return VideoResponse.data.data
     } catch (error) {
         console.log(error.message)
         throw error.message
@@ -173,14 +177,18 @@ const UpdateVideoDetails = createAsyncThunk("update_video",async (data)=>{
 const VideoSlice = createSlice({
     initialState: initiaState,
     name: "Video",
-    reducers: {},
+    reducers: {
+        SetSearchQuery : (state,action)=>{
+            state.SearchQuery = action.payload
+        }
+    },
     extraReducers:(reducer)=>{
        reducer.addCase(GetAllVideos.pending,(state)=>{
         state.Loading = true;
        })
        reducer.addCase(GetAllVideos.fulfilled,(state,action)=>{
         state.Loading = false;
-        state.Videos = action.payload;
+        state.AllVideos = action.payload;
        })
        reducer.addCase(GetUserVideos.pending,(state)=>{
         state.Loading = true;
@@ -228,5 +236,5 @@ export {
     VideoDelete,
     UpdateVideoDetails
 }
-
+export const {SetSearchQuery} = VideoSlice.actions
 export default VideoSlice.reducer

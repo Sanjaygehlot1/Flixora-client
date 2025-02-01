@@ -25,6 +25,7 @@ import UpdateDetails from './Components/SideNavbar Components/UpdateDetails.jsx'
 import UpdatePassword from './Components/SideNavbar Components/UpdatePassword.jsx'
 import UpdateProfile from './Components/SideNavbar Components/UpdateProfile.jsx'
 import HomePage from './Components/Playlists/HomePage.jsx'
+import TermsAndConditions from './Components/Terms&Conditions.jsx'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
     path: "/register"
   },
   {
+    element: <TermsAndConditions/>,
+    path : '/terms&conditions'
+  },
+  {
     element: <App />,
     path: '/',
     children: [
@@ -44,7 +49,7 @@ const router = createBrowserRouter([
         path: "/",
         children: [
           {
-            element: <Homepage />,
+            element: <Homepage  />,
             path: "/"
           },
           {
@@ -113,6 +118,7 @@ const router = createBrowserRouter([
         element: <Watch_Video />,
         path: "/watch/:videoId"
       },
+      
 
     ]
   }

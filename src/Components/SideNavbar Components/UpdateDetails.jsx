@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { UpdateUserDetails } from '../../Store/AuthSlice';
@@ -11,17 +11,14 @@ function UpdateDetails() {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const dispatch = useDispatch()
-  const [Loading, setLoading] = useState(false)
+  const LoadingStatus = useSelector((state) => state.Auth.Loading)
   const error = useSelector((state) => state.Auth.error)
   const ChangeDetails = async (data) => {
     try {
       if (data) {
-        setLoading(true)
         await dispatch(UpdateUserDetails(data)).unwrap()
-        setLoading(false)
       }
     } catch (error) {
-      setLoading(false)
       console.log(error.message)
       throw error
     }
@@ -67,7 +64,7 @@ function UpdateDetails() {
           type="submit"
           className="w-full py-3 bg-red-500 rounded-md text-lg font-bold hover:bg-red-600 transition duration-200"
         >
-          {Loading ? <Loader /> : "Update"}
+          {LoadingStatus ? <Loader /> : "Update"}
 
         </Button>
       </form>

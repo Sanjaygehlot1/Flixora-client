@@ -5,17 +5,16 @@ import Footer from './Components/Common/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCurrentUser } from './Store/AuthSlice';
 import { useEffect, useCallback } from 'react';
-import Loader from './Utilities/Loader';
 import HomePageSkeleton from './HomePageSkeleton';
 
 function App() {
     const dispatch = useDispatch();
 
-    const { UserData, Loading } = useSelector((state) => state.Auth);
+    const { UserData } = useSelector((state) => state.Auth);
 
     const fetchCurrentUser = useCallback(async () => {
         try {
-            const data = await dispatch(GetCurrentUser()).unwrap();
+            await dispatch(GetCurrentUser()).unwrap();
         } catch (error) {
             console.error('Failed to fetch user details:', error);
         }
@@ -27,7 +26,7 @@ function App() {
         }
     }, [fetchCurrentUser, UserData]);
 
-    if (Loading) {
+    if (!UserData) {
         return <HomePageSkeleton/>;
     }
 
