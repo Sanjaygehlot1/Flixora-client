@@ -45,7 +45,7 @@ function Register() {
     }
     return (
         <>
-            <div className="w-full h-full bg-black  text-white p-3 flex justify-center items-center">
+            <div className="w-full min-h-full sm:min-h-full bg-black  text-white p-3 flex justify-center items-center">
                 <div className="flex flex-col space-y-2 bg-gray-950 justify-center items-center border border-slate-600 p-3">
                     <div className="flex items-center gap-2">
                         <Logo />
@@ -129,7 +129,7 @@ function Register() {
                         <Button
                             type="submit"
                             bgColor="bg-red-600"
-                            className="w-full rounded-2xl hover:bg-red-700 text-lg"
+                            className="w-full py-1 rounded-2xl hover:bg-red-700 text-lg"
                         >
                             Signup
                         </Button>

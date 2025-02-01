@@ -6,7 +6,7 @@ function Footer() {
             <div className="container mx-auto border-t-2 border-gray-600 mt-8 py-2 px-4">
                 <div className="flex flex-col   mb-8 sm:flex-row justify-between items-center">
                     <div className="mb-4 sm:mb-0">
-                        <p className="text-lg font-bold">PlayTube</p>
+                        <p className="text-lg font-bold">Flixora</p>
                         <p className="text-sm text-gray-400">© {new Date().getFullYear()} Flixora. All rights reserved.</p>
                     </div>
 
