@@ -2,36 +2,33 @@ import React, {  useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import { timeAgo } from '../../Utilities/TimeConversion'
-import LoginPopUp from '../LoginPopUp'
 import Video from './Video'
 import VideoComments from './VideoComments'
 import { GetUserVideos } from '../../Store/VideoSlice'
 
 function Watch_Video() {
-  const LoginStatus = useSelector((state) => state.Auth.Status)
-  const UserData = useSelector((state) => state.Auth.UserData)
+
   const videoData = useSelector((state) => state.Video.videoData)
   const userVideos = useSelector((state) => state.Video.UserPublishedVideos)
   const dispatch = useDispatch()
 
-  if (!LoginStatus) {
-    return <LoginPopUp />
-  }
+ 
 
   useEffect(()=>{
+    console.log(videoData)
     const fetchUserVideos = async()=>{
       try {
-        if(UserData.data._id){
+        
 
           await dispatch(GetUserVideos(videoData.owner_details._id)).unwrap()
-        }
+        
       } catch (error) {
         console.log(error.message)
         throw error
     }
   }
   fetchUserVideos()
-  },[UserData,videoData])
+  },[videoData])
 
   
 

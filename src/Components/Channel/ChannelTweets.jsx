@@ -45,7 +45,7 @@ function ChannelTweets() {
 
 
 
-  const { register, handleSubmit, formState: { errors } ,reset } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   useEffect(() => {
     const fetchTweets = async () => {
@@ -123,51 +123,49 @@ function ChannelTweets() {
 
   return (
     <div className="w-full">
-      {
-        User.data._id === ChannelData._id && (
-          <form onSubmit={handleSubmit(PostTweet)}>
-        <div className="flex items-start flex-col gap-2">
-          <div className='w-full'>
-            <label className="block text-xl font-bold my-2 mb-2" htmlFor="description">
-              Post Tweet
-            </label>
-            <textarea
-              id="tweet"
-              placeholder="What's on your mind?"
-              rows="4"
-              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-              {...register("content", { required: "Content is missing" })}
-            ></textarea>
-            {errors.content && (
-              <div className="text-red-500">{errors.content.message}</div>
-            )}
-
+      {User.data._id === ChannelData._id && (
+        <form onSubmit={handleSubmit(PostTweet)}>
+          <div className="flex items-start flex-col gap-2">
+            <div className="w-full">
+              <label className="block text-xl font-bold my-2 mb-2" htmlFor="description">
+                Post Tweet
+              </label>
+              <textarea
+                id="tweet"
+                placeholder="What's on your mind?"
+                rows="4"
+                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                {...register("content", { required: "Content is missing" })}
+              ></textarea>
+              {errors.content && (
+                <div className="text-red-500">{errors.content.message}</div>
+              )}
+            </div>
+            <div>
+              <input
+                accept="image/*"
+                type="file"
+                {...register("image")}
+                className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-600 file:text-gray-100 hover:file:bg-gray-500"
+              />
+              {errors.image && (
+                <div className="text-red-500">{errors.image.message}</div>
+              )}
+            </div>
+            <Button type="submit" className="bg-red-500 font-bold text-lg hover:bg-red-600 py-1 px-9 mb-4 rounded-md">
+              {!UploadProgress ? "Post" : <Loader />}
+            </Button>
           </div>
-          <div>
-            <input
-              accept="image/*"
-              type="file"
-              {...register("image")}
-              className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-600 file:text-gray-100 hover:file:bg-gray-500"
-            />
-            {errors.image && (
-              <div className="text-red-500">{errors.image.message}</div>
-            )}
-          </div>
-          <Button type="submit" className="bg-red-500 font-bold text-lg hover:bg-red-600 py-1 px-9 mb-4 rounded-md">
-          {!UploadProgress ? "Post" : <Loader />}
-          </Button>
-        </div>
-      </form>
-        )
-      }
+        </form>
+      )}
 
       {Tweets.length ? (
-        <div className="grid mt-2 grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid mt-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {Tweets.map((tweet) => (
             <div
               key={tweet._id}
-              className=" bg-gray-900 mx-2  border border-gray-700 border-b-4  overflow-hidden h-fit text-gray-100 rounded-lg shadow-md p-4"
+              className={`bg-gray-900 mx-2 border border-gray-700 border-b-4 overflow-hidden h-fit text-gray-100 rounded-lg shadow-md p-4 ${tweet.image?.url ? 'col-span-1' : 'col-span-full'
+                }`}
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex flex-col items-start gap-1">
@@ -177,7 +175,7 @@ function ChannelTweets() {
                     className="w-12 h-12 rounded-full border-2 border-gray-700 hover:border-white transition-all"
                   />
                   <div>
-                    <h4 className="font-boldp-4 w-full max-w-md text-wrap break-words  text-sm">{tweet.content}</h4>
+                    <h4 className="font-bold text-sm max-w-md text-wrap break-words">{tweet.content}</h4>
                     <p className="text-xs text-gray-400">{timeAgo(tweet.createdAt)}</p>
                   </div>
                 </div>
@@ -219,6 +217,7 @@ function ChannelTweets() {
                   />
                 </div>
               )}
+
               <div className="flex gap-4">
                 <Button
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${tweet.Likes_details.some((like) => (
@@ -226,10 +225,9 @@ function ChannelTweets() {
                   )) ? "text-red-600" : ""
                     }`}
                   onClick={() => {
-                    LikeTweet(tweet._id)
+                    LikeTweet(tweet._id);
                   }}
                   disabled={LikeStatus}
-
                 >
                   <svg
                     stroke="currentColor"
@@ -247,7 +245,6 @@ function ChannelTweets() {
                 </Button>
                 <Button
                   className="flex items-center gap-2 px-4 py-2 rounded-lg transition"
-
                 >
                   <svg
                     stroke="currentColor"
@@ -263,72 +260,57 @@ function ChannelTweets() {
                 </Button>
               </div>
             </div>
-
           ))}
         </div>
       ) : (
-        <div className='flex w-full justify-center p-6 bg-gray-900 '>
-        <h1 className='font-bold text-lg'>
-            No Tweets
-        </h1>
-    </div>
-      )
-      }
+        <div className='flex w-full justify-center p-6 bg-gray-900'>
+          <h1 className='font-bold text-lg'>No Tweets</h1>
+        </div>
+      )}
 
-      {
-        editTweetId && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-96">
-              <h2 className="text-lg font-bold text-white mb-4">Edit Tweet</h2>
-              <textarea
-                value={editContent}
-                onChange={(e) => setEditContent(e.target.value)}
-                rows="4"
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-              ></textarea>
-              <div className="flex justify-end gap-2 mt-4">
-                <Button className="bg-gray-700 hover:bg-gray-600 py-1 px-4  rounded-lg" onClick={closeEditModal}>
-                  Cancel
-                </Button>
-                <Button className="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-lg" onClick={handleEditSubmit}>
-                  {!EditProgress ? "Save" : <Loader />}
-                </Button>
-              </div>
+      {editTweetId && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-96">
+            <h2 className="text-lg font-bold text-white mb-4">Edit Tweet</h2>
+            <textarea
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
+              rows="4"
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+            ></textarea>
+            <div className="flex justify-end gap-2 mt-4">
+              <Button className="bg-gray-700 hover:bg-gray-600 py-1 px-4 rounded-lg" onClick={closeEditModal}>
+                Cancel
+              </Button>
+              <Button className="bg-red-500 hover:bg-red-600 px-4 py-1 rounded-lg" onClick={handleEditSubmit}>
+                {!EditProgress ? "Save" : <Loader />}
+              </Button>
             </div>
           </div>
-        )
-      }
+        </div>
+      )}
+
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-gray-900 rounded-2xl shadow-lg w-96 p-6">
-            <h2 className="text-xl font-semibold text-white">
-              Confirm Delete
-            </h2>
+            <h2 className="text-xl font-semibold text-white">Confirm Delete</h2>
             <p className="text-white mt-2">
-              Are you sure you want to delete this tweet? This action cannot be
-              undone.
+              Are you sure you want to delete this tweet? This action cannot be undone.
             </p>
 
             <div className="mt-6 flex justify-end space-x-4">
-              <Button
-                onClick={closeModal}
-                className="bg-gray-600 text-white rounded-lg px-2 py-1  hover:bg-gray-700"
-              >
+              <Button onClick={closeModal} className="bg-gray-600 text-white rounded-lg px-2 py-1 hover:bg-gray-700">
                 Cancel
               </Button>
-              <Button
-                onClick={() => {
-                  DeleteTweet(DeleteTweetId)
-                }}
-                className="bg-red-600 text-white hover:bg-red-700 rounded-lg px-2 py-1 "
-              >
+              <Button onClick={() => { DeleteTweet(DeleteTweetId) }} className="bg-red-600 text-white hover:bg-red-700 rounded-lg px-2 py-1">
                 {!DeleteProgress ? "Delete" : <Loader />}
               </Button>
             </div>
           </div>
         </div>
       )}
-    </div >
+    </div>
+
   );
 }
 

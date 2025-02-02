@@ -52,6 +52,7 @@ function ChannelPlaylists() {
 
   const PlaylistSubmit = async (data) => {
     try {
+      
       await dispatch(CreatePlaylist(data)).unwrap()
       await dispatch(GetChannelPlaylists(ChannelData._id)).unwrap()
       setisOpen(false)
@@ -89,7 +90,7 @@ function ChannelPlaylists() {
               onClick={()=>navigate(`/playlist/${playlist._id}`)}
             >
               <img
-                src="https://gratisography.com/wp-content/uploads/2024/10/gratisography-cool-cat-1035x780.jpg"
+                src="https://images.pexels.com/photos/3721941/pexels-photo-3721941.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                 alt={playlist.name}
                 className="w-full h-40 object-cover"
               />

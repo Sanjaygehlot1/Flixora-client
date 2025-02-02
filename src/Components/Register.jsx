@@ -41,19 +41,21 @@ function Register() {
     }
 
     if (loading) {
-        return (<LoginPending text='Registering...'/>)
+        return (<LoginPending text='Registering...' />)
     }
     return (
         <>
-            <div className="w-full min-h-full sm:min-h-full bg-black  text-white p-3 flex justify-center items-center">
-                <div className="flex flex-col space-y-2 bg-gray-950 justify-center items-center border border-slate-600 p-3">
+            <div className="w-full min-h-screen bg-black text-white p-3 flex justify-center items-center">
+                <div className="flex flex-col space-y-6 bg-gray-950 justify-center items-center border border-slate-600 p-6 rounded-2xl w-full max-w-sm">
                     <div className="flex items-center gap-2">
                         <Logo />
                     </div>
-                    {error && <div className="text-red-500">{error.message}</div>}
+
+                    {error && <div className="text-red-500 text-center">{error.message}</div>}
+
                     <form
                         onSubmit={handleSubmit(signup)}
-                        className="space-y-4 p-2 text-sm sm:w-96 w-full"
+                        className="space-y-6 p-2 text-sm w-full"
                     >
                         <div className="w-full relative h-28 bg-[#222222]">
                             <div className="w-full h-full">
@@ -75,9 +77,10 @@ function Register() {
                                 />
                             </div>
                         </div>
-                        {errors.avatar && (
-                            <div className="text-red-500">{errors.avatar.message}</div>
-                        )}
+
+                        {errors.avatar && <div className="text-red-500">{errors.avatar.message}</div>}
+                        {errors.coverImage && <div className="text-red-500">{errors.coverImage.message}</div>}
+
                         <Input
                             label="Username: "
                             type="text"
@@ -85,11 +88,10 @@ function Register() {
                             {...register("username", {
                                 required: "Username is required",
                             })}
-                            className="h-8"
+                            className="w-full h-12 px-4 bg-gray-800 text-white rounded-xl border-2 border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
-                        {errors.username && (
-                            <span className="text-red-500">{errors.username.message}</span>
-                        )}
+                        {errors.username && <div className="text-red-500">{errors.username.message}</div>}
+
                         <Input
                             label="Email: "
                             type="email"
@@ -97,11 +99,10 @@ function Register() {
                             {...register("email", {
                                 required: "Email is required",
                             })}
-                            className="h-8"
+                            className="w-full h-12 px-4 bg-gray-800 text-white rounded-xl border-2 border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
-                        {errors.email && (
-                            <span className="text-red-500">{errors.email.message}</span>
-                        )}
+                        {errors.email && <div className="text-red-500">{errors.email.message}</div>}
+
                         <Input
                             label="Fullname: "
                             type="text"
@@ -109,11 +110,10 @@ function Register() {
                             {...register("fullName", {
                                 required: "FullName is required",
                             })}
-                            className="h-8"
+                            className="w-full h-12 px-4 bg-gray-800 text-white rounded-xl border-2 border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
-                        {errors.fullName && (
-                            <span className="text-red-500">{errors.fullName.message}</span>
-                        )}
+                        {errors.fullName && <div className="text-red-500">{errors.fullName.message}</div>}
+
                         <Input
                             label="Password: "
                             type="password"
@@ -121,22 +121,22 @@ function Register() {
                             {...register("password", {
                                 required: "Password is required",
                             })}
-                            className="h-8"
+                            className="w-full h-12 px-4 bg-gray-800 text-white rounded-xl border-2 border-gray-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                         />
-                        {errors.password && (
-                            <span className="text-red-500">{errors.password.message}</span>
-                        )}
+                        {errors.password && <div className="text-red-500">{errors.password.message}</div>}
+
                         <Button
                             type="submit"
                             bgColor="bg-red-600"
-                            className="w-full py-1 rounded-2xl hover:bg-red-700 text-lg"
+                            className="w-full py-3 text-white rounded-2xl hover:bg-red-700 transition-colors"
                         >
                             Signup
                         </Button>
+
                         <p className="text-center text-sm">
                             Already have an account?{" "}
                             <Link
-                                to={"/login"}
+                                to="/login"
                                 className="text-red-600 cursor-pointer hover:opacity-70"
                             >
                                 Login
@@ -145,6 +145,7 @@ function Register() {
                     </form>
                 </div>
             </div>
+
 
         </>
     )

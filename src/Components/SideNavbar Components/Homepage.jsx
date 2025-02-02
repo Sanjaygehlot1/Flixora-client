@@ -13,6 +13,7 @@ function Homepage() {
   const navigate = useNavigate();
   const Allvideos = useSelector((state) => state.Video.AllVideos)
   const [CurrentPage, setCurrentPage] = useState(1)
+  
   const videos = async () => {
     try {
       await dispatch(GetAllVideos({ page: CurrentPage })).unwrap();
@@ -22,7 +23,7 @@ function Homepage() {
 
   }
 
-
+console.log(Allvideos)
   useEffect(() => {
     videos();
   }, [CurrentPage]);

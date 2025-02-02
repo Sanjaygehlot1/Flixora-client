@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const AxiosInstance = axios.create({
-    baseURL:"https://youtube-clone-server.up.railway.app/api/v1",
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     withCredentials: true
 })
 

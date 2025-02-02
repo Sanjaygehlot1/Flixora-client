@@ -15,6 +15,7 @@ const initiaState = {
 
 const GetAllVideos = createAsyncThunk("get_all_videos",async (data)=>{
     try {
+        console.log(data)
         const VideoResponse = await AxiosInstance.get("/video/search/v",
             {
                 params:{
@@ -23,6 +24,7 @@ const GetAllVideos = createAsyncThunk("get_all_videos",async (data)=>{
                 }
             }
         )
+        console.log(VideoResponse)
         return VideoResponse.data.data
     } catch (error) {
         console.log(error.message)
@@ -34,6 +36,17 @@ const WatchVideo = createAsyncThunk("watch_video", async (videoId)=>{
     try {
         if(videoId){
             const response = await AxiosInstance.get(`/video/get-video/${videoId.videoId}`)
+            return response.data.data
+        }
+    } catch (error) {
+        console.log(error.message)
+        throw error.message
+    }
+})
+const WatchVideoAuth = createAsyncThunk("get_video_auth", async (videoId)=>{
+    try {
+        if(videoId){
+            const response = await AxiosInstance.get(`/video/get-video-auth/${videoId.videoId}`)
             return response.data.data
         }
     } catch (error) {
@@ -83,6 +96,7 @@ const UserHistory = createAsyncThunk("user_history",async ()=>{
         const HistoryResponse = await AxiosInstance.get("/users/watch-history")
 
         if(HistoryResponse){
+            console.log(HistoryResponse)
             return HistoryResponse.data.data[0].watchHistory
         }
     } catch (error) {
@@ -218,6 +232,9 @@ const VideoSlice = createSlice({
        reducer.addCase(WatchVideo.fulfilled,(state,action)=>{
         state.videoData = action.payload;
        })
+       reducer.addCase(WatchVideoAuth.fulfilled,(state,action)=>{
+        state.videoData = action.payload;
+       })
       
       
     }
@@ -225,6 +242,7 @@ const VideoSlice = createSlice({
 export {
     GetAllVideos,
     WatchVideo,
+    WatchVideoAuth,
     GetUserVideos,
     LikeVideo,
     GetLikedVideos,

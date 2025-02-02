@@ -9,7 +9,10 @@ function PlaylistPopup({ isOpen, onClose, videoId }) {
 
     const GetPlaylists = async () => {
         try {
-            await dispatch(GetChannelPlaylists(ChannelData.data._id)).unwrap()
+            if(ChannelData){
+
+                await dispatch(GetChannelPlaylists(ChannelData.data._id)).unwrap()
+            }
 
         } catch (error) {
             console.log(error.message)

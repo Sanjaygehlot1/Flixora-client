@@ -44,8 +44,11 @@ function VideoComments() {
 
     const Comment = async (data) => {
         try {
-            await dispatch(AddComment({ videoId: videoId.videoId, data: data })).unwrap()
-            AllComments()
+            if(CurrentUser){
+
+                await dispatch(AddComment({ videoId: videoId.videoId, data: data })).unwrap()
+                AllComments()
+            }
 
         } catch (error) {
             console.log(error.message)
@@ -105,8 +108,9 @@ function VideoComments() {
                 </div>
             </form>
 
-            {Comments.length !== 0 ? (
-                <div className="space-y-4">
+            {Comments.length !== 0  ? (
+                CurrentUser ? 
+                (<div className="space-y-4">
                     {Comments.map((comment) => (
                         <div
                             key={comment._id}
@@ -134,7 +138,7 @@ function VideoComments() {
                                     {comment.content}
                                 </p>
 
-                                {comment.comment_owner.username === CurrentUser.data.username && (
+                                {comment.comment_owner.username === CurrentUser?.data.username && (
                                     <div className="flex gap-2 mt-2">
                                         <Button
                                             onClick={() => {
@@ -159,7 +163,7 @@ function VideoComments() {
                             </div>
                         </div>
                     ))}
-                </div>
+                </div>) :  (<div className="text-red-600 text-center">Login to add and see comments</div>)
             ) : (
                 <div className="text-gray-400 text-center">No Comments</div>
             )}
@@ -200,7 +204,7 @@ function VideoComments() {
 
             {OpenEditPopup && (
                 <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-                    <div className="bg-gray-900 p-6 rounded-lg w-full">
+                    <div className="bg-gray-900 p-6 rounded-lg sm:w-1/3 w-full">
                         <textarea
                             className="w-full h-24 p-2 bg-gray-800 text-white rounded-lg"
                             value={newContent}

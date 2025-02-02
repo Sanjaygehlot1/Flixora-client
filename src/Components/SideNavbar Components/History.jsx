@@ -14,7 +14,7 @@ function History() {
     useEffect(() => {
         const History = async () => {
             try {
-                const Response = await dispatch(UserHistory()).unwrap()
+                 await dispatch(UserHistory()).unwrap()
 
             
             } catch (error) {
