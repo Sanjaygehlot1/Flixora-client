@@ -15,7 +15,6 @@ function Watch_Video() {
  
 
   useEffect(()=>{
-    console.log(videoData)
     const fetchUserVideos = async()=>{
       try {
         

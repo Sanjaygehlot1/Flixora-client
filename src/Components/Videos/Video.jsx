@@ -22,7 +22,6 @@ function Video() {
     const [OpenLoginPopup, setOpenLoginPopup] = useState(false)
     const videoId = useParams()
     const dispatch = useDispatch()
-    console.log(isSubscribed)
 
     const Subscribe = async () => {
         try {
@@ -78,10 +77,8 @@ function Video() {
             try {
                 if(UserData){
                     await dispatch(WatchVideoAuth(videoId)).unwrap()
-                    console.log("user")
                 }else{
                     await dispatch(WatchVideo(videoId)).unwrap();
-                    console.log("no user")
                 }
 
             } catch (error) {

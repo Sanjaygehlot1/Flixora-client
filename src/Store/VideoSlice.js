@@ -15,7 +15,6 @@ const initiaState = {
 
 const GetAllVideos = createAsyncThunk("get_all_videos",async (data)=>{
     try {
-        console.log(data)
         const VideoResponse = await AxiosInstance.get("/video/search/v",
             {
                 params:{
@@ -24,7 +23,6 @@ const GetAllVideos = createAsyncThunk("get_all_videos",async (data)=>{
                 }
             }
         )
-        console.log(VideoResponse)
         return VideoResponse.data.data
     } catch (error) {
         console.log(error.message)
@@ -96,7 +94,6 @@ const UserHistory = createAsyncThunk("user_history",async ()=>{
         const HistoryResponse = await AxiosInstance.get("/users/watch-history")
 
         if(HistoryResponse){
-            console.log(HistoryResponse)
             return HistoryResponse.data.data[0].watchHistory
         }
     } catch (error) {
