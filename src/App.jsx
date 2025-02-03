@@ -5,8 +5,7 @@ import Footer from './Components/Common/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCurrentUser } from './Store/AuthSlice';
 import { useEffect, useCallback } from 'react';
-import HomePageSkeleton from './HomePageSkeleton';
-
+import { Analytics } from "@vercel/analytics/react"
 function App() {
     const dispatch = useDispatch();
 
@@ -31,6 +30,7 @@ function App() {
     return (
         <>
             <ToastContainer />
+            <Analytics/>
             <Header />
             <main>
                 <Outlet />
