@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Logo from './Logo'
+import Logo2 from '../Logo2'
 import Input from './Common/Input'
 import Button from './Common/Button'
 import { useForm } from 'react-hook-form'
@@ -53,7 +53,7 @@ function Login() {
         <div className="w-full min-h-screen bg-black text-white p-3 flex justify-center items-center">
         <div className="flex flex-col space-y-6 bg-gray-950 justify-center items-center border border-slate-600 p-6 rounded-2xl w-full max-w-xs">
           <div className="flex items-center gap-2">
-            <Logo />
+            <Logo2 />
           </div>
       
           {error && <div className="text-red-500 text-center">{error}</div>}

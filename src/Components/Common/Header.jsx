@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "../Logo";
+import Logo from "../../Logo";
 import Input from "../Common/Input";
 import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";

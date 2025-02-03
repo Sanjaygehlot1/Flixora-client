@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Logo from './Logo'
+import Logo2 from '../Logo2'
 import { useForm } from 'react-hook-form'
 import Input from './Common/Input'
 import Button from './Common/Button'
@@ -48,7 +48,7 @@ function Register() {
             <div className="w-full min-h-screen bg-black text-white p-3 flex justify-center items-center">
                 <div className="flex flex-col space-y-6 bg-gray-950 justify-center items-center border border-slate-600 p-6 rounded-2xl w-full max-w-sm">
                     <div className="flex items-center gap-2">
-                        <Logo />
+                        <Logo2/>
                     </div>
 
                     {error && <div className="text-red-500 text-center">{error.message}</div>}
