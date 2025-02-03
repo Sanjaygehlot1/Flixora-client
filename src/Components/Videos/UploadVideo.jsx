@@ -1,6 +1,5 @@
 import React,{useState} from "react";
 import { useForm } from "react-hook-form";
-import { FaCloudUploadAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { VideoUpload } from "../../Store/VideoSlice";
 import UploadingPopup from "./UploadingPopup";

@@ -2,21 +2,7 @@ import React,{useEffect} from 'react';
 
 function UploadingPopup({ file }) {
 
-    const simulateUpload = () => {
-        let interval = setInterval(() => {
-            setProgress((prev) => {
-                if (prev >= 100) {
-                    clearInterval(interval);
-                    return 100;
-                }
-                return prev + 5; 
-            });
-        }, 200); 
-    };
-
-    useEffect(() => {
-        simulateUpload();
-    }, []);
+   
 
     const convertToMB = (size) => (size / (1024 * 1024)).toFixed(2);
 
