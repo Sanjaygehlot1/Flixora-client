@@ -109,9 +109,6 @@ Flixora is a **YouTube-like video streaming platform** built using the **MERN st
 ### Contributing
 Contributions are welcome! Please fork the repository, create a feature branch, commit your changes, and submit a pull request.
 
-### License
-This project is licensed under  .
-
 ### Support
 If you find this project helpful, please give it a ⭐ on GitHub!
 
